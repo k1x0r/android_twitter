@@ -7,10 +7,16 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 
 public class MainActivity extends Activity {
 
     private Button tweetListButton;
+	private EditText loginEditText;
+	private EditText passwordEditText;
+	private CheckBox saveDataCheckBox;
+	private Button loginButton;
 
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +42,20 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(MainActivity.this, TweetListActivity.class);
 		        startActivity(intent);
+			}
+		});
+        
+        loginEditText = (EditText) findViewById(R.id.editText_login);
+        passwordEditText = (EditText) findViewById(R.id.editText_password);
+        saveDataCheckBox = (CheckBox) findViewById(R.id.checkBox_saveData);
+        loginButton = (Button) findViewById(R.id.button_login);
+        
+        loginButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				System.out.println(String.format("login: %s password: %s savedataCheckBox: %b", 
+						loginEditText.getText().toString(), passwordEditText.getText().toString(), String.valueOf(saveDataCheckBox.isChecked())));
 			}
 		});
     }

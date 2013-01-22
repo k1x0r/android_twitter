@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
@@ -81,7 +82,6 @@ public class TweetListActivity extends ListActivity {
 		    HttpGet httpget = new HttpGet("https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=true&screen_name=and1_john&count=10");
 		    //get the response entity
 		    HttpEntity entity = httpClient.execute(httpget).getEntity();
-
 		    if (entity != null) {
 		    	
 		    	is = entity.getContent();
