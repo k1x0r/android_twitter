@@ -1,6 +1,5 @@
 package com.k1x.android.twiterlist;
 
-import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
@@ -9,27 +8,23 @@ import java.util.ArrayList;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
-import org.apache.http.util.EntityUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.k1x.android.twiterlist.jsonobj.TweetData;
+import com.korovyansk.android.slideout.SlideoutActivity;
 
-import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -63,6 +58,18 @@ public class TweetListActivity extends ListActivity {
 				finish();
 			}
 		});
+		
+		Button slideButton = (Button)findViewById(R.id.slideButton);
+		slideButton.setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						int width = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics());
+						SlideoutActivity.prepare(TweetListActivity.this, R.id.tweetlist_layout, width);
+						startActivity(new Intent(TweetListActivity.this, MenuActivity.class));
+						overridePendingTransition(0, 0);
+					}
+				});
 		
 	    listAdapter = new TweetListAdapter(this);  
 

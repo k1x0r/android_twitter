@@ -8,5 +8,6 @@
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="save_login_data">Save login data</string>
+    <string name="right_arrow">-></string>
 
 </resources>
