@@ -1,4 +1,4 @@
-package com.k1x.android.twiterlist;
+package com.k1x.android.twitterlist;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;

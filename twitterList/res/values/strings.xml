@@ -9,5 +9,7 @@
     <string name="password">Password</string>
     <string name="save_login_data">Save login data</string>
     <string name="right_arrow">-></string>
-
+    <string name="twitter_oauth_consumer_key">F7s1WbLuCCuRupvmntYrFg</string>
+    <string name="twitter_oauth_consumer_secret">PWPIpLzWHGGI24hsVeLwiThLa4OkpxzAyHcGMhBjVs</string>
+    <string name="twitter_callback_url">twitter-oauth://callback</string>
 </resources>

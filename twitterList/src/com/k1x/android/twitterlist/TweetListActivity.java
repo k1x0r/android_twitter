@@ -1,4 +1,4 @@
-package com.k1x.android.twiterlist;
+package com.k1x.android.twitterlist;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -16,7 +16,8 @@ import org.apache.http.params.HttpParams;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.k1x.android.twiterlist.jsonobj.TweetData;
+import com.k1x.android.twiterlist.R;
+import com.k1x.android.twitterlist.jsonobj.TweetData;
 import com.korovyansk.android.slideout.SlideoutActivity;
 
 import android.app.ListActivity;

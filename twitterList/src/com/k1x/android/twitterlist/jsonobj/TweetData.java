@@ -1,4 +1,4 @@
-package com.k1x.android.twiterlist.jsonobj;
+package com.k1x.android.twitterlist.jsonobj;
 
 import com.google.gson.annotations.SerializedName;
 

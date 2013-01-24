@@ -15,17 +15,17 @@ public final class R {
     }
     public static final class id {
         public static final int button1=0x7f070007;
-        public static final int button_login=0x7f070004;
+        public static final int button_login=0x7f070001;
         public static final int cell_fullname=0x7f07000c;
         public static final int cell_nickname=0x7f07000b;
         public static final int cell_tweet=0x7f07000a;
-        public static final int checkBox_saveData=0x7f070003;
         public static final int close_button=0x7f070006;
-        public static final int editText_login=0x7f070001;
-        public static final int editText_password=0x7f070002;
         public static final int inner_content=0x7f070009;
         public static final int menu_settings=0x7f07000d;
         public static final int slideButton=0x7f070008;
+        public static final int status_view=0x7f070004;
+        public static final int tweetEditText=0x7f070002;
+        public static final int tweet_button=0x7f070003;
         public static final int tweet_list_button=0x7f070000;
         public static final int tweetlist_layout=0x7f070005;
     }
@@ -47,6 +47,9 @@ public final class R {
         public static final int right_arrow=0x7f040007;
         public static final int save_login_data=0x7f040006;
         public static final int tweetlist=0x7f040003;
+        public static final int twitter_callback_url=0x7f04000a;
+        public static final int twitter_oauth_consumer_key=0x7f040008;
+        public static final int twitter_oauth_consumer_secret=0x7f040009;
     }
     public static final class style {
         /** 

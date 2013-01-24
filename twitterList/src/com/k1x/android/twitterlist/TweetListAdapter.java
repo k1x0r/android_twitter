@@ -1,8 +1,9 @@
-package com.k1x.android.twiterlist;
+package com.k1x.android.twitterlist;
 
 import java.util.LinkedList;
 
-import com.k1x.android.twiterlist.jsonobj.TweetData;
+import com.k1x.android.twiterlist.R;
+import com.k1x.android.twitterlist.jsonobj.TweetData;
 
 import android.app.Activity;
 import android.content.Context;
