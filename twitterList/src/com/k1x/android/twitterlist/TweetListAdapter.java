@@ -5,13 +5,10 @@ import java.util.LinkedList;
 import com.k1x.android.twiterlist.R;
 import com.k1x.android.twitterlist.jsonobj.TweetData;
 
-import android.app.Activity;
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 public class TweetListAdapter extends BaseAdapter {
 	
@@ -31,7 +28,6 @@ public class TweetListAdapter extends BaseAdapter {
     
 	@Override
 	public int getCount() {
-		System.out.println("listSize " + list.size());
 		return list.size();
 	}
 
@@ -47,7 +43,6 @@ public class TweetListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		System.out.println("got View!");
 		TweetListItem tweetItem;
 		if(null == convertView)
 		{

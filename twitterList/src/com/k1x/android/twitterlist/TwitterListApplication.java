@@ -1,25 +1,37 @@
 package com.k1x.android.twitterlist;
 
 import android.app.Application;
-import android.util.Log;
-
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
 public class TwitterListApplication extends Application {
 	
+    private static final String SECRET_TOKEN_KEY = "secretToken";
     private String secretToken;
+    private static final String ACCESS_TOKEN_KEY = "accessToken";
     private String accessToken;
+
+	private SharedPreferences prefs;
+	private Editor prefsEditor;
     
 	@Override
 	public void onCreate() {
-		// TODO Auto-generated method stub
 		super.onCreate();
+		loadPrefs();
 	}
 
+	private void loadPrefs()
+	{
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		prefsEditor = prefs.edit();
+		secretToken = prefs.getString(SECRET_TOKEN_KEY, "0");
+		accessToken = prefs.getString(ACCESS_TOKEN_KEY, "0");
+		System.out.println(String.format("Access Token: %s\nSecret Token: %s\n",
+				accessToken, secretToken));
+	}
+	
 	public String getSecretToken() {
 		return secretToken;
-	}
-
-	public void setSecretToken(String secretToken) {
-		this.secretToken = secretToken;
 	}
 
 	public String getAccessToken() {
@@ -28,5 +40,13 @@ public class TwitterListApplication extends Application {
 
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
+		prefsEditor.putString(ACCESS_TOKEN_KEY, accessToken);
+		prefsEditor.commit();
+	}
+
+	public void setSecretToken(String secretToken) {
+		this.secretToken = secretToken;
+		prefsEditor.putString(SECRET_TOKEN_KEY, secretToken);
+		prefsEditor.commit();
 	}
 }
