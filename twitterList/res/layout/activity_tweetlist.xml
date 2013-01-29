@@ -3,25 +3,7 @@
     android:id="@+id/tweetlist_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
-    <Button
-        android:id="@+id/close_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/button1"
-        android:text="Close" />
-
-    <ListView
-        android:id="@android:id/list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/close_button"
-        android:layout_alignParentLeft="true" >
-
-    </ListView>
-
+    
     <Button
         android:id="@+id/slideButton"
         android:layout_width="wrap_content"
@@ -29,5 +11,91 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:text="@string/right_arrow" />
+
+    <Button
+        android:id="@+id/close_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="Close" />
+
+    <RelativeLayout
+        android:id="@+id/tl_userloginDataLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:visibility="visible" >
+
+        <Button
+            android:id="@+id/tl_logoutbutton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="Log Out" />
+
+        <ImageView
+            android:id="@+id/tl_useravatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/tl_username"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/tl_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/tl_logoutbutton"
+            android:text="Large Text"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <Button
+            android:id="@+id/tl_loginbutton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="Log In"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/tl_searchText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/close_button"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/tl_searchButton"
+        android:ems="10"
+        android:hint="Look for tweets" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/tl_searchButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tl_searchText"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/tl_searchText"
+        android:text="->" />
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tl_searchText"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tl_userloginDataLayout" >
+
+    </ListView>
 
 </RelativeLayout>

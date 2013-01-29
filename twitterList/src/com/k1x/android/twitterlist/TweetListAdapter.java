@@ -26,6 +26,11 @@ public class TweetListAdapter extends BaseAdapter {
     	list.add(data);
     }
     
+    public void clear()
+    {
+    	list.clear(); 	
+    }
+    
 	@Override
 	public int getCount() {
 		return list.size();

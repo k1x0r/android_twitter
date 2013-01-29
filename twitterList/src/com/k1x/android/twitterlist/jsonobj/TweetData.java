@@ -1,6 +1,5 @@
 package com.k1x.android.twitterlist.jsonobj;
 
-import com.google.gson.annotations.SerializedName;
 
 public class TweetData {
 
@@ -9,6 +8,8 @@ public class TweetData {
 
 		private String name;
 		private String screen_name;
+		private String profile_image_url;
+	
 		
 		public String getName() {
 			return name;
@@ -27,21 +28,20 @@ public class TweetData {
 		public String toString() {
 			return name;
 		}
+		public String getProfile_image_url() {
+			return profile_image_url;
+		}
+		public void setProfile_image_url(String profile_image_url) {
+			this.profile_image_url = profile_image_url;
+		}
 	}
 	
 	private User user;
-	
-    public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
+	private TweetData retweeted_status;
 
-	@SerializedName("text")
 	private String text;
-    @SerializedName("source")
 	private String source;
+    
 	
 	public String getText() {
 		return text;
@@ -56,6 +56,19 @@ public class TweetData {
 	public void setSource(String source) {
 		this.source = source;
 	}
+    public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public TweetData getRetweeted_status() {
+		return retweeted_status;
+	}
+	public void setRetweeted_status(TweetData retweeted_status) {
+		this.retweeted_status = retweeted_status;
+	}
+
 	
 	@Override
 	public String toString() {
@@ -63,7 +76,5 @@ public class TweetData {
 		sb.append("{").append(user.getName()).append(" ").append(text).append("}");
 		return sb.toString();
 	}
-	
-	
 	
 }

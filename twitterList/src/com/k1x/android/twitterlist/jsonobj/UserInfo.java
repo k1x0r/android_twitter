@@ -5,7 +5,6 @@ public class UserInfo {
 	private String id;
 	private String name;
 	private String profile_image_url;
-	private String url;
 	
 	public String getId() {
 		return id;
@@ -25,16 +24,11 @@ public class UserInfo {
 	public void setProfile_image_url(String profile_image_url) {
 		this.profile_image_url = profile_image_url;
 	}
-	public String getUrl() {
-		return url;
-	}
-	public void setUrl(String url) {
-		this.url = url;
-	}
+
 	
 	@Override
 	public String toString() {
-		return String.format("id: %s\nname: %s\nprofile_image_url: %s\nurl: %s", id, name, url, profile_image_url);
+		return String.format("id: %s\nname: %s\nprofile_image_url: %s", id, name,  profile_image_url);
 	}
 
 }
