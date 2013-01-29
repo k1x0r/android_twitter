@@ -2,7 +2,7 @@ package com.k1x.android.twitterlist;
 
 import java.io.IOException;
 
-import com.k1x.android.twiterlist.R;
+import com.k1x.android.twitterlist.R;
 import com.k1x.android.twitterlist.httputil.HTTPUtil;
 import com.k1x.android.twitterlist.jsonobj.TweetData;
 
@@ -53,7 +53,6 @@ public class TweetListItem extends LinearLayout {
 		tweetNick.setText(tweet.getUser().getScreen_name());
 		
 		activity = (TweetListActivity) context;
-		
 		
 		Thread T = new Thread(setTweetImage);
 		T.start();

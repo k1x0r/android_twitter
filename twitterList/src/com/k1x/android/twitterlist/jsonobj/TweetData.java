@@ -38,7 +38,6 @@ public class TweetData {
 	
 	private User user;
 	private TweetData retweeted_status;
-
 	private String text;
 	private String source;
     

@@ -2,7 +2,7 @@ package com.k1x.android.twitterlist;
 
 import java.util.LinkedList;
 
-import com.k1x.android.twiterlist.R;
+import com.k1x.android.twitterlist.R;
 import com.k1x.android.twitterlist.jsonobj.TweetData;
 
 import android.content.Context;

@@ -24,7 +24,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.k1x.android.twiterlist.R;
+import com.k1x.android.twitterlist.R;
 import com.k1x.android.twitterlist.jsonobj.UserInfo;
 
 

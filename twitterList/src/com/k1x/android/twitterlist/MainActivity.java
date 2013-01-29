@@ -1,6 +1,6 @@
 package com.k1x.android.twitterlist;
 
-import com.k1x.android.twiterlist.R;
+import com.k1x.android.twitterlist.R;
 import com.k1x.android.twitterlist.twitter.DialogError;
 import com.k1x.android.twitterlist.twitter.TwDialog;
 import com.k1x.android.twitterlist.twitter.Twitter;
