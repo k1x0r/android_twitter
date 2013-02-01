@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import com.k1x.android.twitterlist.R;
 import com.k1x.android.twitterlist.jsonobj.TweetData;
+import com.k1x.android.twitterlist.layouts.TweetListItem;
 
 import android.content.Context;
 import android.view.View;

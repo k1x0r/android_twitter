@@ -15,7 +15,6 @@ public class HTTPUtil {
 		System.out.println("'"+imageURL+"'");
 		URL url = new URL(imageURL);
 		HttpURLConnection connection  = (HttpURLConnection) url.openConnection();
-
 		InputStream is = connection.getInputStream();
 		return BitmapFactory.decodeStream(is); 
 	}

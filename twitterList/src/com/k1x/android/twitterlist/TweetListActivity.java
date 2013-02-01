@@ -1,13 +1,10 @@
 package com.k1x.android.twitterlist;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
-import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.HttpClient;
@@ -22,32 +19,22 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.k1x.android.twitterlist.R;
-import com.k1x.android.twitterlist.httputil.HTTPUtil;
 import com.k1x.android.twitterlist.jsonobj.TweetData;
-import com.k1x.android.twitterlist.jsonobj.UserInfo;
-import com.k1x.android.twitterlist.twitter.DialogError;
-import com.k1x.android.twitterlist.twitter.TwDialog;
-import com.k1x.android.twitterlist.twitter.Twitter;
-import com.k1x.android.twitterlist.twitter.TwitterError;
-import com.k1x.android.twitterlist.twitterutil.Tweeter;
+import com.k1x.android.twitterlist.layouts.AnimationLayout;
 
-import android.app.ListActivity;
-import android.content.Intent;
-import android.graphics.Bitmap;
+
+
 import android.os.Bundle;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-public class TweetListActivity extends BaseActivity {
+public class TweetListActivity extends BaseActivity implements AnimationLayout.Listener {
 	
 
 	private InputStream is;
@@ -59,13 +46,14 @@ public class TweetListActivity extends BaseActivity {
 	private EditText searchTweetsEditText;
 	private Button searchTweetsButton;
 	private TwitterListApplication app;
-	private RelativeLayout userInfoLayout;
 	private Button closeButton;
+	private AnimationLayout mLayout;
+	private Button slideButton;
+	private ListView mList;
 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState, R.layout.activity_tweetlist);
         app = (TwitterListApplication) getApplication();
 		setUpViews();
@@ -76,6 +64,9 @@ public class TweetListActivity extends BaseActivity {
 	
 	private void setUpViews() {
 
+        mLayout = (AnimationLayout) findViewById(R.id.animation_layout);
+        mLayout.setListener(this);	
+        
 		closeButton = (Button)findViewById(R.id.close_button);
 		closeButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -87,10 +78,24 @@ public class TweetListActivity extends BaseActivity {
 	    listAdapter = new TweetListAdapter(this);  
 		listView = (ListView) findViewById(android.R.id.list);
 		listView.setAdapter(listAdapter);
-		
-		
+			
+        slideButton = (Button) findViewById(R.id.slideButton);
+        slideButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+		        mLayout.toggleSidebar();			
+			}
+		});
 
-
+        String[] mStrings = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
+        mList   = (ListView) findViewById(R.id.sidebar_list);
+        mList.setAdapter(
+                new ArrayAdapter<String>(
+                    this, android.R.layout.simple_list_item_multiple_choice
+                    , mStrings));
+        mList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        
 		searchTweetsEditText = (EditText) findViewById(R.id.tl_searchText);
 		searchTweetsButton = (Button) findViewById(R.id.tl_searchButton);
 		searchTweetsButton.setOnClickListener(new OnClickListener() {		
@@ -168,6 +173,34 @@ public class TweetListActivity extends BaseActivity {
 		}
 	}
 	
+	   @Override
+	    public void onBackPressed() {
+	        if (mLayout.isOpening()) {
+	            mLayout.closeSidebar();
+	        } else {
+	            finish();
+	        }
+	    }
 
+	    /* Callback of AnimationLayout.Listener to monitor status of Sidebar */
+	    @Override
+	    public void onSidebarOpened() {
+	        Log.d(TAG, "opened");
+	    }
+
+	    /* Callback of AnimationLayout.Listener to monitor status of Sidebar */
+	    @Override
+	    public void onSidebarClosed() {
+	        Log.d(TAG, "opened");
+	    }
+
+	    /* Callback of AnimationLayout.Listener to monitor status of Sidebar */
+	    @Override
+	    public boolean onContentTouchedWhenOpening() {
+	        // the content area is touched when sidebar opening, close sidebar
+	        Log.d(TAG, "going to close sidebar");
+	        mLayout.closeSidebar();
+	        return true;
+	    }
 
 }

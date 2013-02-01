@@ -11,15 +11,6 @@
         android:layout_alignParentTop="true"
         android:visibility="visible" >
 
-        <Button
-            android:id="@+id/tl_logoutbutton"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:text="Log Out" />
-
         <ImageView
             android:id="@+id/tl_useravatar"
             android:layout_width="wrap_content"
@@ -46,6 +37,16 @@
             android:layout_alignParentTop="true"
             android:text="Log In"
             android:visibility="gone" />
+
+        <Button
+            android:id="@+id/tl_logoutbutton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="Log Out" />
+
     </RelativeLayout>
 
 </LinearLayout>
