@@ -130,7 +130,6 @@ public class MainActivity extends Activity {
 			@Override
 			public void run() {
 	            result = tweeter.tweet(tweetEditText.getText().toString());
-	            tweeter.getUserInfo();
 	            runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
@@ -140,7 +139,6 @@ public class MainActivity extends Activity {
 			
 		});
 		T.start();
-
     }
     
     private void setUpOAuth() {

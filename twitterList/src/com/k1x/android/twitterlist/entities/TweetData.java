@@ -1,4 +1,4 @@
-package com.k1x.android.twitterlist.jsonobj;
+package com.k1x.android.twitterlist.entities;
 
 
 public class TweetData {
@@ -9,7 +9,6 @@ public class TweetData {
 		private String name;
 		private String screen_name;
 		private String profile_image_url;
-	
 		
 		public String getName() {
 			return name;

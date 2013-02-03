@@ -1,9 +1,10 @@
-package com.k1x.android.twitterlist;
+package com.k1x.android.twitterlist.listviews;
 
 import java.util.LinkedList;
 
 import com.k1x.android.twitterlist.R;
-import com.k1x.android.twitterlist.jsonobj.TweetData;
+import com.k1x.android.twitterlist.R.layout;
+import com.k1x.android.twitterlist.entities.TweetData;
 import com.k1x.android.twitterlist.layouts.TweetListItem;
 
 import android.content.Context;
@@ -52,7 +53,7 @@ public class TweetListAdapter extends BaseAdapter {
 		TweetListItem tweetItem;
 		if(null == convertView)
 		{
-			tweetItem = (TweetListItem)View.inflate(context, R.layout.tweetrow, null);
+			tweetItem = (TweetListItem)View.inflate(context, R.layout.listview_tweetrow, null);
 		}
 		else 
 		{

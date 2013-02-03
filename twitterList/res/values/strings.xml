@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">twitterList</string>
+    <string name="app_name">AndTwitter</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="tweetlist">TweetList</string>
@@ -12,4 +12,6 @@
     <string name="twitter_oauth_consumer_key">F7s1WbLuCCuRupvmntYrFg</string>
     <string name="twitter_oauth_consumer_secret">PWPIpLzWHGGI24hsVeLwiThLa4OkpxzAyHcGMhBjVs</string>
     <string name="twitter_callback_url">twitter-oauth://callback</string>
+    <string name="folowers">Folowers</string>
+    <string name="folowings">Folowings</string>
 </resources>

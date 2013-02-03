@@ -10,7 +10,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:visibility="visible" >
-
         <ImageView
             android:id="@+id/tl_useravatar"
             android:layout_width="wrap_content"
@@ -46,6 +45,14 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:text="Log Out" />
+
+        <Button
+            android:id="@+id/slideButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/right_arrow" />
 
     </RelativeLayout>
 

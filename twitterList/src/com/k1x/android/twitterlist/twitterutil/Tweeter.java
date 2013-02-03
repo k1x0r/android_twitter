@@ -25,12 +25,16 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.k1x.android.twitterlist.R;
-import com.k1x.android.twitterlist.jsonobj.UserInfo;
+import com.k1x.android.twitterlist.entities.UserInfo;
+import com.k1x.android.twitterlist.entities.UserList;
 
 
 public class Tweeter {
-    public static final String TAG = "Trololo";
 
+	public static int FOLOWINGS = 0;
+	public static int FOLOWERS = 1;
+	
+	public static final String TAG = "Trololo";
 	public static final Pattern ID_PATTERN = Pattern.compile(".*?\"id_str\":\"(\\d*)\".*");
 	public static final Pattern SCREEN_NAME_PATTERN = Pattern.compile(".*?\"screen_name\":\"([^\"]*).*");
 	private InputStream is;
@@ -75,6 +79,50 @@ public class Tweeter {
 
     }
     
+    public UserList getFolowingsFolowers(int mode)
+    {
+		try {
+			UserList info; 
+			
+		    HttpParams params = new BasicHttpParams();
+		    HttpConnectionParams.setSoTimeout(params, 0);
+		    HttpClient httpClient = new DefaultHttpClient(params);
+            Uri.Builder builder = new Uri.Builder();
+
+            if(mode == FOLOWERS) {
+            builder.appendPath("followers");
+            } else {
+            builder.appendPath("friends");
+            }
+            
+            builder
+            .appendPath("list.json")
+            .appendQueryParameter("cursor", "-1");
+            
+            Uri man = builder.build();
+		    //prepare the HTTP GET call 
+            System.out.println(man);
+            
+		    HttpGet httpget = new HttpGet("https://api.twitter.com/1.1" + man.toString());
+            oAuthConsumer.sign(httpget);
+
+		    HttpEntity entity = httpClient.execute(httpget).getEntity();
+		    if (entity != null) {
+		    	is = entity.getContent();
+		    	InputStreamReader reader = new InputStreamReader(is);	    	
+		        Gson gson = new GsonBuilder().create();
+		        info = gson.fromJson(reader, UserList.class);
+//	            String jsonResponseStr = convertStreamToString(entity.getContent());
+//		        System.out.println(jsonResponseStr);
+		        httpClient.getConnectionManager().shutdown();
+		        return info;
+		    }
+		}catch (Exception e) {
+		    e.printStackTrace();
+	        return null;
+		}
+        return null;
+    }
     public UserInfo getUserInfo()
     {
 		try {

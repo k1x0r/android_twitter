@@ -10,10 +10,7 @@
  	
  	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
-
-
- 	
-    <application
+ 	<application
         android:allowBackup="true"
         android:name="com.k1x.android.twitterlist.TwitterListApplication"
         android:icon="@drawable/ic_launcher"
@@ -34,7 +31,19 @@
         <activity
             android:name="com.k1x.android.twitterlist.TweetListActivity"
             android:label="Tweets" >
-        </activity>        
+        </activity>       
+        <activity
+            android:name="com.k1x.android.twitterlist.TweetActivity"
+            android:label="Add Tweet" >
+        </activity>     
+        <activity
+            android:name="com.k1x.android.twitterlist.UsersListActivity"
+            android:label="Add Tweet" >
+        </activity>     
+        <activity
+            android:name="com.k1x.android.twitterlist.UserProfileActivity"
+            android:label="Add Tweet" >
+        </activity>     
     </application>
  	
     

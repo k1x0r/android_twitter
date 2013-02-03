@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import com.k1x.android.twitterlist.R;
 import com.k1x.android.twitterlist.TweetListActivity;
+import com.k1x.android.twitterlist.entities.TweetData;
 import com.k1x.android.twitterlist.httputil.HTTPUtil;
-import com.k1x.android.twitterlist.jsonobj.TweetData;
 
 import android.app.Activity;
 import android.content.Context;

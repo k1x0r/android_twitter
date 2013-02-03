@@ -5,23 +5,33 @@ import java.io.IOException;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.k1x.android.twitterlist.entities.UserInfo;
 import com.k1x.android.twitterlist.httputil.HTTPUtil;
-import com.k1x.android.twitterlist.jsonobj.UserInfo;
+import com.k1x.android.twitterlist.layouts.MenuListItem;
+import com.k1x.android.twitterlist.listviews.MenuListAdapter;
 import com.k1x.android.twitterlist.twitter.DialogError;
 import com.k1x.android.twitterlist.twitter.TwDialog;
 import com.k1x.android.twitterlist.twitter.Twitter;
 import com.k1x.android.twitterlist.twitter.TwitterError;
 import com.k1x.android.twitterlist.twitterutil.Tweeter;
+import com.slidingmenu.lib.SlidingMenu;
 
 public abstract class BaseActivity extends Activity {
 
@@ -31,6 +41,7 @@ public abstract class BaseActivity extends Activity {
     public static final String TWITTER_OAUTH_AUTHORIZE_ENDPOINT = "http://twitter.com/oauth/authorize";
     
 	private Tweeter tweeter;
+
 	private Button loginButton;
 	private Button logoutButton;
 	private TextView userNameTextField;
@@ -40,6 +51,16 @@ public abstract class BaseActivity extends Activity {
 	private CommonsHttpOAuthConsumer commonsHttpOAuthConsumer;
 	private RelativeLayout userInfoLayout;
 	private int resLayout;
+
+	private ListView mList;
+	private LayoutInflater mInflater;
+	private LinearLayout activityContentLayout;
+	private SlidingMenu menu;
+	private Button slideButton;
+
+
+
+
 
 	protected void onCreate(Bundle savedInstanceState, int resLayout) {
 		super.onCreate(savedInstanceState);
@@ -54,9 +75,37 @@ public abstract class BaseActivity extends Activity {
 	
 
 	private void setUpViews() {
-		setContentView(resLayout);
+		setContentView(R.layout.activity_base_assembly);
 		
+		activityContentLayout = (LinearLayout) findViewById(R.id.activity_content);
+        
 		userInfoLayout = (RelativeLayout) findViewById(R.id.tl_userloginDataLayout);
+		
+        menu = new SlidingMenu(this);
+        menu.setMode(SlidingMenu.LEFT);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        menu.setShadowWidthRes(R.dimen.shadow_width);
+        menu.setShadowDrawable(R.drawable.shadow);
+        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        menu.setFadeDegree(0.35f);
+        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        menu.setMenu(R.layout.slidebar);
+		
+		mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mInflater.inflate(resLayout, activityContentLayout);
+		
+        mList   = (ListView) findViewById(R.id.sidebar_list);
+        mList.setAdapter(new MenuListAdapter(this));
+        mList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				MenuListItem item = (MenuListItem) arg1;
+				item.getItem().getAction().run();
+				System.out.println(item.getItem().getName());
+			}
+		});
 
 		loginButton = (Button) findViewById(R.id.tl_loginbutton);
 		loginButton.setOnClickListener(new OnClickListener() {		
@@ -71,6 +120,15 @@ public abstract class BaseActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				logOut();
+			}
+		});
+		
+        slideButton = (Button) findViewById(R.id.slideButton);
+        slideButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				getMenu().toggle();
 			}
 		});
 		
@@ -96,7 +154,6 @@ public abstract class BaseActivity extends Activity {
 					int destSize = userInfoLayout.getHeight(); 
 					Bitmap avatarFromTwitter =  HTTPUtil.getImage(uinfo.getProfile_image_url());			
 					userAvatarImage = Bitmap.createScaledBitmap(avatarFromTwitter, destSize, destSize, true);
-					
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -106,6 +163,7 @@ public abstract class BaseActivity extends Activity {
 						userNameTextField.setText(uinfo.getName());
 						userAvatar.setImageBitmap(userAvatarImage);
 						setLoggedIn(true);
+						onGettingUserInfo(uinfo, userAvatarImage);
 					}});
 				} else 
 					runOnUiThread(new Runnable() {
@@ -118,6 +176,8 @@ public abstract class BaseActivity extends Activity {
 		T.start();
     }
 	
+    protected void onGettingUserInfo(UserInfo userInfo, Bitmap bitmap) {}  	
+    
 	private void setLoggedIn(boolean loggedIn)
 	{
 		if(loggedIn)
@@ -190,4 +250,13 @@ public abstract class BaseActivity extends Activity {
 	public TwitterListApplication getApp() {
 		return app;
 	}
+	
+	public SlidingMenu getMenu() {
+		return menu;
+	}
+	
+	public Tweeter getTweeter() {
+		return tweeter;
+	}
+
 }
