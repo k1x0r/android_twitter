@@ -3,61 +3,22 @@ package com.k1x.android.twitterlist.entities;
 
 public class TweetData {
 
-	public class User
-	{
-
-		private String name;
-		private String screen_name;
-		private String profile_image_url;
-		
-		public String getName() {
-			return name;
-		}
-		public void setName(String name) {
-			this.name = name;
-		}
-		public String getScreen_name() {
-			return screen_name;
-		}
-		public void setScreen_name(String screen_name) {
-			this.screen_name = screen_name;
-		}
-		
-		@Override
-		public String toString() {
-			return name;
-		}
-		public String getProfile_image_url() {
-			return profile_image_url;
-		}
-		public void setProfile_image_url(String profile_image_url) {
-			this.profile_image_url = profile_image_url;
-		}
-	}
-	
-	private User user;
+	private UserInfo user;
 	private TweetData retweeted_status;
 	private String text;
 	private String source;
-    
-	
-	public String getText() {
+    private String created_at;
+
+    public String getText() {
 		return text;
 	}
 	public void setText(String text) {
 		this.text = text;
 	}
-
-	public String getSource() {
-		return source;
-	}
-	public void setSource(String source) {
-		this.source = source;
-	}
-    public User getUser() {
+    public UserInfo getUser() {
 		return user;
 	}
-	public void setUser(User user) {
+	public void setUser(UserInfo user) {
 		this.user = user;
 	}
 	public TweetData getRetweeted_status() {
@@ -66,7 +27,18 @@ public class TweetData {
 	public void setRetweeted_status(TweetData retweeted_status) {
 		this.retweeted_status = retweeted_status;
 	}
-
+	public String getCreatedAt() {
+		return created_at;
+	}
+	public void setCreatedAt(String created_at) {
+		this.created_at = created_at;
+	}
+	public String getSource() {
+		return source;
+	}
+	public void setSource(String source) {
+		this.source = source;
+	}
 	
 	@Override
 	public String toString() {
@@ -74,5 +46,6 @@ public class TweetData {
 		sb.append("{").append(user.getName()).append(" ").append(text).append("}");
 		return sb.toString();
 	}
+
 	
 }
