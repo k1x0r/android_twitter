@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.k1x.android.twitterlist.entities.TweetData;
 import com.k1x.android.twitterlist.entities.UserInfo;
 import com.k1x.android.twitterlist.listviews.UserListAdapter;
 import com.k1x.android.twitterlist.twitterutil.Tweeter;
@@ -23,12 +24,17 @@ public class UserProfileActivity extends BaseActivity {
 	private Button userFolowersButton;
 	private Button userTweetButton;
 	private Button userPinToSlideBarButton;
+	private boolean userInfoSet;
+	private UserInfo userInfo;
+	private Bitmap userBitmap;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState, R.layout.activity_base_userprofile);
+		userInfo = (UserInfo) getIntent().getSerializableExtra(UsersListActivity.USER_INFO);
+		userBitmap = (Bitmap) getIntent().getParcelableExtra(UsersListActivity.USER_BITMAP);
+		userInfoSet = userInfo!=null;
 		setUpViews();
-//		mode = getIntent().getIntExtra("mode", Tweeter.FOLOWERS);
 	}
 
 	private void setUpViews()
@@ -42,10 +48,21 @@ public class UserProfileActivity extends BaseActivity {
 		userFolowersButton = (Button) findViewById(R.id.userProfile_folowersBtn);
 		userTweetButton = (Button) findViewById(R.id.userProfile_tweetsBtn);
 		userPinToSlideBarButton = (Button) findViewById(R.id.userProfile_pinToSlideMenuBtn);
+		
+		if(userInfoSet) {
+			userName.setText(userInfo.getName());
+			userAvatar.setImageBitmap(userBitmap);
+			userScreenName.setText(userInfo.getScreen_name());
+			userCreatedAt.setText(userInfo.getCreated_at());
+			userDesctiption.setText(userInfo.getDescription());
+			userFolowersButton.setText("Folowers "+ userInfo.getFollowers_count());
+			userFolowingsButton.setText("Folowings " + userInfo.getFriends_count());
+		}
 	}
 
 	@Override
 	protected void onGettingUserInfo(UserInfo userInfo, Bitmap userImage) {
+		if(!userInfoSet) {
 		userName.setText(userInfo.getName());
 		userAvatar.setImageBitmap(userImage);
 		userScreenName.setText(userInfo.getScreen_name());
@@ -53,6 +70,7 @@ public class UserProfileActivity extends BaseActivity {
 		userDesctiption.setText(userInfo.getDescription());
 		userFolowersButton.setText("Folowers "+ userInfo.getFollowers_count());
 		userFolowingsButton.setText("Folowings " + userInfo.getFriends_count());
+		}
 	}
 	
 	

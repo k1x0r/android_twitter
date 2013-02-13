@@ -68,4 +68,12 @@
         android:text="Source:"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
+    <Button
+        android:id="@+id/tweetI_userProfileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tweetI_source"
+        android:text="User Profile" />
+
 </RelativeLayout>

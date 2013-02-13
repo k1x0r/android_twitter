@@ -56,8 +56,10 @@ public class UserListItem extends LinearLayout {
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
 	}
-
-
+	public Bitmap getBitmap() {
+		return bitmap;
+	}
+	
 	Runnable setUserAvatar = new Runnable() {
 
 		@Override
