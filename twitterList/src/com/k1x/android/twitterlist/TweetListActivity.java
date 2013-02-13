@@ -20,19 +20,27 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.k1x.android.twitterlist.R;
 import com.k1x.android.twitterlist.entities.TweetData;
+import com.k1x.android.twitterlist.layouts.MenuListItem;
+import com.k1x.android.twitterlist.layouts.TweetListItem;
 import com.k1x.android.twitterlist.listviews.TweetListAdapter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class TweetListActivity extends BaseActivity  {
 	
 
+	public static final String TWEET_BITMAP = "tweetBitmap";
+	public static final String TWEET_DATA = "tweetData";
+	
 	private InputStream is;
 	private ArrayList<TweetData> tweetData;
 	private TweetListAdapter listAdapter;
@@ -58,7 +66,20 @@ public class TweetListActivity extends BaseActivity  {
 	    listAdapter = new TweetListAdapter(this);  
 		listView = (ListView) findViewById(android.R.id.list);
 		listView.setAdapter(listAdapter);
+        listView.setOnItemClickListener(new OnItemClickListener() {
 
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				TweetListItem item = (TweetListItem) arg1;
+				Intent I = new Intent(TweetListActivity.this, TweetInfoActivity.class);
+				I.putExtra(TWEET_DATA, item.getTweetData());
+				I.putExtra(TWEET_BITMAP, item.getBitmap());
+				startActivity(I);
+			}
+		});
+		
+		
 		searchTweetsEditText = (EditText) findViewById(R.id.tl_searchText);
 		searchTweetsButton = (Button) findViewById(R.id.tl_searchButton);
 		searchTweetsButton.setOnClickListener(new OnClickListener() {		

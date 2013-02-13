@@ -1,7 +1,13 @@
 package com.k1x.android.twitterlist.entities;
 
+import java.io.Serializable;
 
-public class TweetData {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class TweetData implements Serializable {
+
+	private static final long serialVersionUID = 6129274701693473510L;
 
 	private UserInfo user;
 	private TweetData retweeted_status;
@@ -46,6 +52,7 @@ public class TweetData {
 		sb.append("{").append(user.getName()).append(" ").append(text).append("}");
 		return sb.toString();
 	}
+
 
 	
 }

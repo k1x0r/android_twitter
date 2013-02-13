@@ -25,6 +25,8 @@ public class TweetListItem extends LinearLayout {
 	private ImageView tweetIcon;
 	private Context context;
 	private Bitmap bitmap;
+
+
 	String url;
 	
 	public TweetListItem(Context context, AttributeSet attrs) {
@@ -77,6 +79,14 @@ public class TweetListItem extends LinearLayout {
 				}});
 		}};
 	
+	public Bitmap getBitmap() {
+			return bitmap;
+		}
+
+	public void setBitmap(Bitmap bitmap) {
+			this.bitmap = bitmap;
+		}
+		
 	public TweetData getTweetData() {
 		return tweetData;
 	}

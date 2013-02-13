@@ -30,6 +30,10 @@
             android:label="Tweets" >
         </activity>       
         <activity
+            android:name="com.k1x.android.twitterlist.TweetInfoActivity"
+            android:label="Tweets" >
+        </activity>   
+        <activity
             android:name="com.k1x.android.twitterlist.TweetActivity"
             android:label="Add Tweet" >
         </activity>     
