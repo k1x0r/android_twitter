@@ -8,6 +8,7 @@ import com.k1x.android.twitterlist.listviews.UserListAdapter;
 import com.k1x.android.twitterlist.twitterutil.Tweeter;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,14 +24,24 @@ public class UsersListActivity extends BaseActivity {
 
 	public static final String USER_BITMAP = "UserBitmap";
 	public static final String USER_INFO = "UserInfo";
+
+	public static final String KEY_MODE = "mode";
+	public static final String KEY_USER_INFO = "userInfo";
+	
+	public static int MODE_FOLOWINGS = 0;
+	public static int MODE_FOLOWERS = 1;
 	
 	private ListView userListView;
 	private UserListAdapter userListAdapter;
 	private int mode;
+	private UserInfo userInfo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState, R.layout.activity_base_userlist);
+		userInfo = (UserInfo) getIntent().getSerializableExtra(UsersListActivity.KEY_USER_INFO);
+		mode =  getIntent().getIntExtra(KEY_MODE, 0);
+		System.out.println(userInfo + "");
 		setUpViews();
 		mode = getIntent().getIntExtra("mode", Tweeter.FOLOWERS);
 	}

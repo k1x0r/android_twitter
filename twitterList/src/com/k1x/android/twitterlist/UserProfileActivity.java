@@ -1,7 +1,10 @@
 package com.k1x.android.twitterlist;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -49,6 +52,37 @@ public class UserProfileActivity extends BaseActivity {
 		userTweetButton = (Button) findViewById(R.id.userProfile_tweetsBtn);
 		userPinToSlideBarButton = (Button) findViewById(R.id.userProfile_pinToSlideMenuBtn);
 		
+		userFolowersButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				Intent I = new Intent(UserProfileActivity.this, UsersListActivity.class);
+				I.putExtra(UsersListActivity.KEY_MODE, UsersListActivity.MODE_FOLOWERS);
+				I.putExtra(UsersListActivity.KEY_USER_INFO, userInfo);
+				startActivity(I);
+			}
+		});
+		
+		userFolowingsButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent I = new Intent(UserProfileActivity.this, UsersListActivity.class);
+				I.putExtra(UsersListActivity.KEY_MODE, UsersListActivity.MODE_FOLOWINGS);
+				I.putExtra(UsersListActivity.KEY_USER_INFO, userInfo);
+				startActivity(I);
+			}
+		});
+		
+		userTweetButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		if(userInfoSet) {
 			userName.setText(userInfo.getName());
 			userAvatar.setImageBitmap(userBitmap);
@@ -63,13 +97,14 @@ public class UserProfileActivity extends BaseActivity {
 	@Override
 	protected void onGettingUserInfo(UserInfo userInfo, Bitmap userImage) {
 		if(!userInfoSet) {
-		userName.setText(userInfo.getName());
-		userAvatar.setImageBitmap(userImage);
-		userScreenName.setText(userInfo.getScreen_name());
-		userCreatedAt.setText(userInfo.getCreated_at());
-		userDesctiption.setText(userInfo.getDescription());
-		userFolowersButton.setText("Folowers "+ userInfo.getFollowers_count());
-		userFolowingsButton.setText("Folowings " + userInfo.getFriends_count());
+			this.userInfo = userInfo;
+			userName.setText(userInfo.getName());
+			userAvatar.setImageBitmap(userImage);
+			userScreenName.setText(userInfo.getScreen_name());
+			userCreatedAt.setText(userInfo.getCreated_at());
+			userDesctiption.setText(userInfo.getDescription());
+			userFolowersButton.setText("Folowers "+ userInfo.getFollowers_count());
+			userFolowingsButton.setText("Folowings " + userInfo.getFriends_count());
 		}
 	}
 	
