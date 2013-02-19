@@ -5,7 +5,7 @@ import java.io.Serializable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class TweetData implements Serializable {
+public class TweetData implements Parcelable {
 
 	private static final long serialVersionUID = 6129274701693473510L;
 
@@ -15,7 +15,15 @@ public class TweetData implements Serializable {
 	private String source;
     private String created_at;
 
-    public String getText() {
+    public TweetData(Parcel in) {
+    	user = in.readParcelable(UserInfo.class.getClassLoader());
+    	retweeted_status = in.readParcelable(TweetData.class.getClassLoader());
+		text = in.readString();
+		source = in.readString();
+	    created_at = in.readString();	
+	}
+    
+	public String getText() {
 		return text;
 	}
 	public void setText(String text) {
@@ -47,12 +55,36 @@ public class TweetData implements Serializable {
 	}
 	
 	@Override
+	public int describeContents() {
+		return 0;
+	}
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeParcelable(user, flags);
+		dest.writeParcelable(retweeted_status, flags);
+		dest.writeString(text);
+		dest.writeString(source);
+	    dest.writeString(created_at);		
+	}
+
+	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("{").append(user.getName()).append(" ").append(text).append("}");
 		return sb.toString();
 	}
-
+	
+	public static final Parcelable.Creator<TweetData> CREATOR = new Parcelable.Creator<TweetData>() {  
+	    
+        public TweetData createFromParcel(Parcel in) {  
+            return new TweetData(in);  
+        }  
+   
+        public TweetData[] newArray(int size) {  
+            return new TweetData[size];  
+        }  
+          
+    }; 
 
 	
 }

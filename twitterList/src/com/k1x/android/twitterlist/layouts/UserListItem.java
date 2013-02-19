@@ -4,20 +4,17 @@ import java.io.IOException;
 
 import com.k1x.android.twitterlist.BaseActivity;
 import com.k1x.android.twitterlist.R;
-import com.k1x.android.twitterlist.TweetListActivity;
-import com.k1x.android.twitterlist.R.id;
-import com.k1x.android.twitterlist.entities.SlideMenuItem;
-import com.k1x.android.twitterlist.entities.TweetData;
+
+import com.k1x.android.twitterlist.constants.Constants;
+
 import com.k1x.android.twitterlist.entities.UserInfo;
 import com.k1x.android.twitterlist.httputil.HTTPUtil;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class UserListItem extends LinearLayout {
@@ -27,7 +24,6 @@ public class UserListItem extends LinearLayout {
 	private TextView userName;
 	private ImageView userImage;
 	private BaseActivity baseActivity;
-	private Bitmap bitmap;
 
 	public UserListItem(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -56,27 +52,25 @@ public class UserListItem extends LinearLayout {
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
 	}
-	public Bitmap getBitmap() {
-		return bitmap;
-	}
+
 	
 	Runnable setUserAvatar = new Runnable() {
 
 		@Override
 		public void run() {
 			try {
-				int preferredSize = 75;
+				int preferredSize = Constants.PREFFED_USER_AVATAR_SIZE;
 				String url = userInfo.getProfile_image_url();
 				Bitmap receivedBitmap = HTTPUtil.getImage(url);
-				bitmap = Bitmap.createScaledBitmap(receivedBitmap, preferredSize, preferredSize, true);
+				userInfo.setUserBitmap(Bitmap.createScaledBitmap(receivedBitmap, preferredSize, preferredSize, true));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}		
-			if(bitmap!=null) {
+			if(userInfo.getUserBitmap()!=null) {
 			baseActivity.runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					userImage.setImageBitmap(bitmap);
+					userImage.setImageBitmap(userInfo.getUserBitmap());
 				}});
 			}}};
 	

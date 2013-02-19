@@ -7,13 +7,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.k1x.android.twitterlist.entities.TweetData;
+import com.k1x.android.twitterlist.constants.Constants;
 import com.k1x.android.twitterlist.entities.UserInfo;
-import com.k1x.android.twitterlist.listviews.UserListAdapter;
-import com.k1x.android.twitterlist.twitterutil.Tweeter;
 
 public class UserProfileActivity extends BaseActivity {
 
@@ -34,8 +31,8 @@ public class UserProfileActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState, R.layout.activity_base_userprofile);
-		userInfo = (UserInfo) getIntent().getSerializableExtra(UsersListActivity.USER_INFO);
-		userBitmap = (Bitmap) getIntent().getParcelableExtra(UsersListActivity.USER_BITMAP);
+		userInfo = (UserInfo) getIntent().getParcelableExtra(Constants.USER_INFO);
+		userBitmap = (Bitmap) getIntent().getParcelableExtra(Constants.USER_BITMAP);
 		userInfoSet = userInfo!=null;
 		setUpViews();
 	}
@@ -57,8 +54,8 @@ public class UserProfileActivity extends BaseActivity {
 			@Override
 			public void onClick(View arg0) {
 				Intent I = new Intent(UserProfileActivity.this, UsersListActivity.class);
-				I.putExtra(UsersListActivity.KEY_MODE, UsersListActivity.MODE_FOLOWERS);
-				I.putExtra(UsersListActivity.KEY_USER_INFO, userInfo);
+				I.putExtra(Constants.KEY_MODE, Constants.MODE_FOLOWERS);
+				I.putExtra(Constants.KEY_USER_LOGIN, userInfo.getScreen_name());
 				startActivity(I);
 			}
 		});
@@ -68,8 +65,8 @@ public class UserProfileActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				Intent I = new Intent(UserProfileActivity.this, UsersListActivity.class);
-				I.putExtra(UsersListActivity.KEY_MODE, UsersListActivity.MODE_FOLOWINGS);
-				I.putExtra(UsersListActivity.KEY_USER_INFO, userInfo);
+				I.putExtra(Constants.KEY_MODE, Constants.MODE_FOLOWINGS);
+				I.putExtra(Constants.KEY_USER_LOGIN, userInfo.getScreen_name());
 				startActivity(I);
 			}
 		});
@@ -78,8 +75,9 @@ public class UserProfileActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+				Intent I = new Intent(UserProfileActivity.this, TweetListActivity.class);
+				I.putExtra(Constants.KEY_USER_LOGIN, userInfo.getScreen_name());
+				startActivity(I);				
 			}
 		});
 		

@@ -79,7 +79,8 @@ public class Tweeter {
 
     }
     
-    public UserList getFolowingsFolowers(int mode)
+    
+    public UserList getFolowingsFolowers(int mode, String username)
     {
 		try {
 			UserList info; 
@@ -95,9 +96,13 @@ public class Tweeter {
             builder.appendPath("friends");
             }
             
-            builder
-            .appendPath("list.json")
-            .appendQueryParameter("cursor", "-1");
+            builder.appendPath("list.json");
+
+            if(username!=null) {
+            	builder.appendQueryParameter("screen_name", username);
+            }
+            
+            builder.appendQueryParameter("cursor", "-1");
             
             Uri man = builder.build();
 		    //prepare the HTTP GET call 

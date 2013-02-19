@@ -3,7 +3,6 @@ package com.k1x.android.twitterlist.listviews;
 import java.util.LinkedList;
 
 import com.k1x.android.twitterlist.R;
-import com.k1x.android.twitterlist.R.layout;
 import com.k1x.android.twitterlist.entities.TweetData;
 import com.k1x.android.twitterlist.layouts.TweetListItem;
 

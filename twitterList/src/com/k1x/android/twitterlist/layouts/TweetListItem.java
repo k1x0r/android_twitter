@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.k1x.android.twitterlist.R;
 import com.k1x.android.twitterlist.TweetListActivity;
+import com.k1x.android.twitterlist.constants.Constants;
 import com.k1x.android.twitterlist.entities.TweetData;
 import com.k1x.android.twitterlist.httputil.HTTPUtil;
 
@@ -24,8 +25,6 @@ public class TweetListItem extends LinearLayout {
 	private TextView tweetNick;
 	private ImageView tweetIcon;
 	private Context context;
-	private Bitmap bitmap;
-
 
 	String url;
 	
@@ -63,29 +62,24 @@ public class TweetListItem extends LinearLayout {
 	}
 	
 	Runnable setTweetImage = new Runnable() {
+
 		@Override
 		public void run() {
 			try {
-				int preferredSize = 64;
+				int preferredSize = Constants.PREFFED_USER_AVATAR_SIZE;
 				Bitmap receivedBitmap = HTTPUtil.getImage(url);
-				bitmap = Bitmap.createScaledBitmap(receivedBitmap, preferredSize, preferredSize, true);
+				tweetData.getUser().setUserBitmap(Bitmap.createScaledBitmap(receivedBitmap, preferredSize, preferredSize, true));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}		
 			activity.runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					tweetIcon.setImageBitmap(bitmap);
+					tweetIcon.setImageBitmap(tweetData.getUser().getUserBitmap());
 				}});
 		}};
 	
-	public Bitmap getBitmap() {
-			return bitmap;
-		}
 
-	public void setBitmap(Bitmap bitmap) {
-			this.bitmap = bitmap;
-		}
 		
 	public TweetData getTweetData() {
 		return tweetData;

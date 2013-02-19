@@ -19,12 +19,14 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.k1x.android.twitterlist.R;
+import com.k1x.android.twitterlist.constants.Constants;
 import com.k1x.android.twitterlist.entities.TweetData;
-import com.k1x.android.twitterlist.layouts.MenuListItem;
+import com.k1x.android.twitterlist.entities.UserInfo;
 import com.k1x.android.twitterlist.layouts.TweetListItem;
 import com.k1x.android.twitterlist.listviews.TweetListAdapter;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,6 +52,7 @@ public class TweetListActivity extends BaseActivity  {
 	private EditText searchTweetsEditText;
 	private Button searchTweetsButton;
 	private TwitterListApplication app;
+	private String userLogin;
 
 
 	
@@ -57,10 +60,19 @@ public class TweetListActivity extends BaseActivity  {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState, R.layout.activity_base_tweetlist);
         app = (TwitterListApplication) getApplication();
+		userLogin = (String) getIntent().getStringExtra(Constants.KEY_USER_LOGIN);
 		setUpViews();
-		loadTweetsAction("and1_john");
 	}
 	
+	@Override
+	protected void onGettingUserInfo(UserInfo userInfo, Bitmap bitmap) {
+		super.onGettingUserInfo(userInfo, bitmap);
+		if(userLogin!=null)
+			loadTweetsAction(userLogin);
+		else 
+			loadTweetsAction(userInfo.getScreen_name());
+	}
+
 	private void setUpViews() {
 		
 	    listAdapter = new TweetListAdapter(this);  
@@ -74,7 +86,7 @@ public class TweetListActivity extends BaseActivity  {
 				TweetListItem item = (TweetListItem) arg1;
 				Intent I = new Intent(TweetListActivity.this, TweetInfoActivity.class);
 				I.putExtra(TWEET_DATA, item.getTweetData());
-				I.putExtra(TWEET_BITMAP, item.getBitmap());
+				I.putExtra(TWEET_BITMAP, item.getTweetData().getUser().getUserBitmap());
 				startActivity(I);
 			}
 		});

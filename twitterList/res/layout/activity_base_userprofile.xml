@@ -57,14 +57,6 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
-        android:id="@+id/userProfile_tweetsBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/userProfile_pinToSlideMenuBtn"
-        android:text="Tweets" />
-
-    <Button
         android:id="@+id/userProfile_folowingsBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -81,11 +73,19 @@
         android:text="@string/folowers" />
 
     <Button
-        android:id="@+id/userProfile_pinToSlideMenuBtn"
+        android:id="@+id/userProfile_tweetsBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/userProfile_folowersBtn"
+        android:text="Tweets" />
+
+    <Button
+        android:id="@+id/userProfile_pinToSlideMenuBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/userProfile_tweetsBtn"
         android:text="Pin to slidebar" />
 
 </RelativeLayout>

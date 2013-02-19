@@ -176,11 +176,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int tweet_list_button=0x7f040026;
         public static final int userProfile_createdAt=0x7f040021;
         public static final int userProfile_description=0x7f040020;
-        public static final int userProfile_folowersBtn=0x7f040025;
-        public static final int userProfile_folowingsBtn=0x7f040024;
-        public static final int userProfile_pinToSlideMenuBtn=0x7f040023;
+        public static final int userProfile_folowersBtn=0x7f040023;
+        public static final int userProfile_folowingsBtn=0x7f040022;
+        public static final int userProfile_pinToSlideMenuBtn=0x7f040025;
         public static final int userProfile_screenName=0x7f04001e;
-        public static final int userProfile_tweetsBtn=0x7f040022;
+        public static final int userProfile_tweetsBtn=0x7f040024;
         public static final int userProfile_userAvatar=0x7f04001d;
         public static final int userProfile_userName=0x7f04001f;
         public static final int userinfo_fullname=0x7f040032;
