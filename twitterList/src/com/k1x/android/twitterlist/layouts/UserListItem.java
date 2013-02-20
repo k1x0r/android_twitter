@@ -41,9 +41,10 @@ public class UserListItem extends LinearLayout {
 	{
 		this.userInfo = userInfo;
 		userName.setText(userInfo.getName());
-		if(userInfo.getScreen_name()!=null)
 		userScreenName.setText(userInfo.getScreen_name());
-		new Thread(setUserAvatar).start();
+		if (userInfo.getUserBitmap() != null) {
+			userImage.setImageBitmap(userInfo.getUserBitmap());
+		}
 	}
 	
 	public UserInfo getUserInfo() {
@@ -54,24 +55,5 @@ public class UserListItem extends LinearLayout {
 	}
 
 	
-	Runnable setUserAvatar = new Runnable() {
 
-		@Override
-		public void run() {
-			try {
-				int preferredSize = Constants.PREFFED_USER_AVATAR_SIZE;
-				String url = userInfo.getProfile_image_url();
-				Bitmap receivedBitmap = HTTPUtil.getImage(url);
-				userInfo.setUserBitmap(Bitmap.createScaledBitmap(receivedBitmap, preferredSize, preferredSize, true));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}		
-			if(userInfo.getUserBitmap()!=null) {
-			baseActivity.runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					userImage.setImageBitmap(userInfo.getUserBitmap());
-				}});
-			}}};
-	
 }

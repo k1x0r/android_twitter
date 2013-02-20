@@ -54,30 +54,21 @@ public class TweetListItem extends LinearLayout {
 		tweetAuthor.setText(tweet.getUser().getName());
 		tweetNick.setText(tweet.getUser().getScreen_name());
 		
-		activity = (TweetListActivity) context;
-		
-		Thread T = new Thread(setTweetImage);
-		T.start();
+		if (tweetData.getRetweeted_status() != null) {
+			TweetData retweetedData = tweetData.getRetweeted_status();
+			if (retweetedData.getUser().getUserBitmap() != null) {
+				tweetIcon.setImageBitmap(retweetedData.getUser()
+						.getUserBitmap());
+			}
+		} else {
+			if (tweetData.getUser().getUserBitmap() != null) {
+				tweetIcon.setImageBitmap(tweetData.getUser().getUserBitmap());
+			}
+		}
 
 	}
 	
-	Runnable setTweetImage = new Runnable() {
 
-		@Override
-		public void run() {
-			try {
-				int preferredSize = Constants.PREFFED_USER_AVATAR_SIZE;
-				Bitmap receivedBitmap = HTTPUtil.getImage(url);
-				tweetData.getUser().setUserBitmap(Bitmap.createScaledBitmap(receivedBitmap, preferredSize, preferredSize, true));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}		
-			activity.runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					tweetIcon.setImageBitmap(tweetData.getUser().getUserBitmap());
-				}});
-		}};
 	
 
 		

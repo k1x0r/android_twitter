@@ -55,11 +55,6 @@ public abstract class BaseActivity extends Activity {
 	private LayoutInflater mInflater;
 	private LinearLayout activityContentLayout;
 	private SlidingMenu menu;
-	private Button slideButton;
-
-
-
-
 
 	protected void onCreate(Bundle savedInstanceState, int resLayout) {
 		super.onCreate(savedInstanceState);
@@ -122,14 +117,6 @@ public abstract class BaseActivity extends Activity {
 			}
 		});
 		
-        slideButton = (Button) findViewById(R.id.slideButton);
-        slideButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				getMenu().toggle();
-			}
-		});
 		
 		userNameTextField = (TextView) findViewById(R.id.tl_username);
 		userAvatar = (ImageView) findViewById(R.id.tl_useravatar);		

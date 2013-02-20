@@ -4,12 +4,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 public class HTTPUtil {
 
+	private static HashMap<String, Bitmap> cacheMap;
+	
+	static {
+		cacheMap = new HashMap<String, Bitmap>();
+	}
+	
 	public static Bitmap getImage(String imageURL) throws IOException
 	{
 		System.out.println("'"+imageURL+"'");

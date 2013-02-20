@@ -5,13 +5,14 @@ import java.util.LinkedList;
 import com.k1x.android.twitterlist.BaseActivity;
 import com.k1x.android.twitterlist.R;
 import com.k1x.android.twitterlist.entities.UserInfo;
+import com.k1x.android.twitterlist.httputil.UserImageDownloader;
 import com.k1x.android.twitterlist.layouts.UserListItem;
 
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-public class UserListAdapter extends BaseAdapter {
+public class UserListAdapter extends BaseAdapter implements IPostDataChange {
 	
     private LinkedList<UserInfo> list;
 	private BaseActivity activity;
@@ -26,12 +27,14 @@ public class UserListAdapter extends BaseAdapter {
 	public void add(UserInfo data)
     {
     	list.add(data);
+    	UserImageDownloader downloader = new UserImageDownloader(data, this);
+    	downloader.start();
     }
 	
 	public void addArray(UserInfo[] array)
 	{
 		for(UserInfo userInfo: array) {
-			list.add(userInfo);
+			add(userInfo);
 		}
 	}
     
@@ -54,6 +57,16 @@ public class UserListAdapter extends BaseAdapter {
 	public long getItemId(int pos) {
 		return pos;
 	}
+	
+	@Override
+    public void postNotifyDataSetChanged() {
+    	activity.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				notifyDataSetChanged();
+			}
+		});
+    }
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
