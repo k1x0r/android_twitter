@@ -26,7 +26,7 @@ public class HTTPUtil {
 			HttpURLConnection connection  = (HttpURLConnection) url.openConnection();
 			InputStream is = connection.getInputStream();
 			Bitmap outBitmap = BitmapFactory.decodeStream(is);
-			cacheMap.put(imageURL, outBitmap);
+			cacheMap.put(imageURL, outBitmap); 
 			return outBitmap; 
 		}
 	}
