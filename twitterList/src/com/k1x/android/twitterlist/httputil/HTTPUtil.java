@@ -19,12 +19,15 @@ public class HTTPUtil {
 	
 	public static Bitmap getImage(String imageURL) throws IOException
 	{
-		if(cacheMap.get(key))
-		URL url = new URL(imageURL);
-		HttpURLConnection connection  = (HttpURLConnection) url.openConnection();
-		InputStream is = connection.getInputStream();
-		Bitmap outBitmap = BitmapFactory.decodeStream(is);
-		cacheMap.put(imageURL, outBitmap);
-		return outBitmap; 
+		if(cacheMap.containsKey(imageURL)) {
+			return cacheMap.get(imageURL);
+		} else {
+			URL url = new URL(imageURL);
+			HttpURLConnection connection  = (HttpURLConnection) url.openConnection();
+			InputStream is = connection.getInputStream();
+			Bitmap outBitmap = BitmapFactory.decodeStream(is);
+			cacheMap.put(imageURL, outBitmap);
+			return outBitmap; 
+		}
 	}
 }
