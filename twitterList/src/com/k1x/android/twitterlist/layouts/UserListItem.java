@@ -1,17 +1,10 @@
 package com.k1x.android.twitterlist.layouts;
 
-import java.io.IOException;
 
-import com.k1x.android.twitterlist.BaseActivity;
 import com.k1x.android.twitterlist.R;
-
-import com.k1x.android.twitterlist.constants.Constants;
-
 import com.k1x.android.twitterlist.entities.UserInfo;
-import com.k1x.android.twitterlist.httputil.HTTPUtil;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,12 +16,11 @@ public class UserListItem extends LinearLayout {
 	private TextView userScreenName;
 	private TextView userName;
 	private ImageView userImage;
-	private BaseActivity baseActivity;
 
 	public UserListItem(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		this.baseActivity = (BaseActivity) context;
 	}
+	
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();

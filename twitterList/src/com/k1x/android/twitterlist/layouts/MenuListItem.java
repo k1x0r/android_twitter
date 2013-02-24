@@ -1,21 +1,14 @@
 package com.k1x.android.twitterlist.layouts;
 
-import java.io.IOException;
 
 import com.k1x.android.twitterlist.R;
-import com.k1x.android.twitterlist.TweetListActivity;
-import com.k1x.android.twitterlist.R.id;
 import com.k1x.android.twitterlist.entities.SlideMenuItem;
-import com.k1x.android.twitterlist.entities.TweetData;
-import com.k1x.android.twitterlist.httputil.HTTPUtil;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class MenuListItem extends LinearLayout {

@@ -5,10 +5,8 @@ import java.io.IOException;
 import android.graphics.Bitmap;
 
 import com.k1x.android.twitterlist.constants.Constants;
-import com.k1x.android.twitterlist.entities.TweetData;
 import com.k1x.android.twitterlist.entities.UserInfo;
 import com.k1x.android.twitterlist.listviews.IPostDataChange;
-import com.k1x.android.twitterlist.listviews.TweetListAdapter;
 
 public class UserImageDownloader extends Thread {
 

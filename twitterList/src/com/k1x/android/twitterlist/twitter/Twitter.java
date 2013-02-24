@@ -25,7 +25,7 @@ public class Twitter {
 	public static final String REQUEST = "request";
 	public static final String AUTHORIZE = "authorize";
 
-	protected static String REQUEST_ENDPOINT = "https://api.twitter.com/1";
+	protected static String REQUEST_ENDPOINT = "https://api.twitter.com/1/";
 	
 	protected static String OAUTH_REQUEST_TOKEN = "https://api.twitter.com/oauth/request_token";
 	protected static String OAUTH_ACCESS_TOKEN = "https://api.twitter.com/oauth/access_token";

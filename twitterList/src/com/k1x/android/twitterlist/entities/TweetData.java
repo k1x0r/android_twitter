@@ -1,13 +1,11 @@
 package com.k1x.android.twitterlist.entities;
 
-import java.io.Serializable;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class TweetData implements Parcelable {
 
-	private static final long serialVersionUID = 6129274701693473510L;
 
 	private UserInfo user;
 	private TweetData retweeted_status;

@@ -1,7 +1,5 @@
 package com.k1x.android.twitterlist.entities;
 
-import java.io.Serializable;
-
 import com.google.gson.annotations.Expose;
 
 import android.graphics.Bitmap;
@@ -10,9 +8,6 @@ import android.os.Parcelable;
 
 public class UserInfo implements Parcelable {
 
-
-	private static final long serialVersionUID = -4960712174937206448L;
-	
 	private boolean following;
 	private int id;
 	private int friends_count;

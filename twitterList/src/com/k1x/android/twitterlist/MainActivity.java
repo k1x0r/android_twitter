@@ -26,11 +26,11 @@ public class MainActivity extends Activity {
     private Button tweetListButton;
 	private Button loginButton;
    
-    public static final String TAG = "Trololo";
+    public static final String TAG = "AndrTwitter";
 
-    public static final String TWITTER_OAUTH_REQUEST_TOKEN_ENDPOINT = "http://twitter.com/oauth/request_token";
-    public static final String TWITTER_OAUTH_ACCESS_TOKEN_ENDPOINT = "http://twitter.com/oauth/access_token";
-    public static final String TWITTER_OAUTH_AUTHORIZE_ENDPOINT = "http://twitter.com/oauth/authorize";
+    public static final String TWITTER_OAUTH_REQUEST_TOKEN_ENDPOINT = "https://api.twitter.com/oauth/request_token";
+    public static final String TWITTER_OAUTH_ACCESS_TOKEN_ENDPOINT = "https://api.twitter.com/oauth/access_token";
+    public static final String TWITTER_OAUTH_AUTHORIZE_ENDPOINT = "https://api.twitter.com/oauth/authorize";
     private CommonsHttpOAuthProvider commonsHttpOAuthProvider;
     private CommonsHttpOAuthConsumer commonsHttpOAuthConsumer;
 	private TwitterListApplication app;
@@ -147,6 +147,9 @@ public class MainActivity extends Activity {
         commonsHttpOAuthConsumer = new CommonsHttpOAuthConsumer(getString(R.string.twitter_oauth_consumer_key),
                 getString(R.string.twitter_oauth_consumer_secret));
         commonsHttpOAuthProvider.setOAuth10a(true);
+        Log.d("ConsumerKey", getString(R.string.twitter_oauth_consumer_key));
+        Log.d("ConsumerSecret", getString(R.string.twitter_oauth_consumer_secret));
+
         TwDialog dialog = new TwDialog(this, commonsHttpOAuthProvider, commonsHttpOAuthConsumer,
                 dialogListener, R.drawable.ic_launcher);
         dialog.show();		

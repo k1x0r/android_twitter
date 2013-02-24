@@ -1,16 +1,10 @@
 package com.k1x.android.twitterlist.layouts;
 
-import java.io.IOException;
 
 import com.k1x.android.twitterlist.R;
-import com.k1x.android.twitterlist.TweetListActivity;
-import com.k1x.android.twitterlist.constants.Constants;
 import com.k1x.android.twitterlist.entities.TweetData;
-import com.k1x.android.twitterlist.httputil.HTTPUtil;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,19 +12,16 @@ import android.widget.TextView;
 
 public class TweetListItem extends LinearLayout {
 
-	private Activity activity;
 	private TweetData tweetData;
 	private TextView tweetText;
 	private TextView tweetAuthor;
 	private TextView tweetNick;
 	private ImageView tweetIcon;
-	private Context context;
 
 	String url;
 	
 	public TweetListItem(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		this.context = context;
 	}
 
 	@Override

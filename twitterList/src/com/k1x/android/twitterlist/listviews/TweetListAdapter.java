@@ -1,18 +1,13 @@
 package com.k1x.android.twitterlist.listviews;
 
-import java.io.IOException;
 import java.util.LinkedList;
 
 import com.k1x.android.twitterlist.BaseActivity;
 import com.k1x.android.twitterlist.R;
-import com.k1x.android.twitterlist.constants.Constants;
 import com.k1x.android.twitterlist.entities.TweetData;
-import com.k1x.android.twitterlist.httputil.HTTPUtil;
 import com.k1x.android.twitterlist.httputil.UserImageDownloader;
 import com.k1x.android.twitterlist.layouts.TweetListItem;
 
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
