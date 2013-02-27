@@ -12,13 +12,17 @@ public class TweetData implements Parcelable {
 	private String text;
 	private String source;
     private String created_at;
+    private String id_str;
+    
 
-    public TweetData(Parcel in) {
+
+	public TweetData(Parcel in) {
     	user = in.readParcelable(UserInfo.class.getClassLoader());
     	retweeted_status = in.readParcelable(TweetData.class.getClassLoader());
 		text = in.readString();
 		source = in.readString();
 	    created_at = in.readString();	
+	    id_str = in.readString();
 	}
     
 	public String getText() {
@@ -51,6 +55,12 @@ public class TweetData implements Parcelable {
 	public void setSource(String source) {
 		this.source = source;
 	}
+    public String getId_str() {
+		return id_str;
+	}
+	public void setId_str(String id_str) {
+		this.id_str = id_str;
+	}
 	
 	@Override
 	public int describeContents() {
@@ -62,7 +72,8 @@ public class TweetData implements Parcelable {
 		dest.writeParcelable(retweeted_status, flags);
 		dest.writeString(text);
 		dest.writeString(source);
-	    dest.writeString(created_at);		
+	    dest.writeString(created_at);	
+	    dest.writeString(id_str);
 	}
 
 	@Override

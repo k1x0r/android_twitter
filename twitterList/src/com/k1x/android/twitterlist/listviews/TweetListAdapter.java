@@ -16,7 +16,7 @@ public class TweetListAdapter extends BaseAdapter implements IPostDataChange {
 	
     private LinkedList<TweetData> list;
 	private BaseActivity activity;
-
+	private String maxId;
 
     public TweetListAdapter(BaseActivity activity)
     {
@@ -33,11 +33,15 @@ public class TweetListAdapter extends BaseAdapter implements IPostDataChange {
         	UserImageDownloader downloaderRT = new UserImageDownloader(data.getRetweeted_status().getUser(), this);
         	downloaderRT.start();
     	}
+    	
+    	long tweetId = Long.valueOf(data.getId_str()) - 1;
+    	maxId =  String.valueOf(tweetId);
     		
     }
         
     public void clear()
     {
+    	maxId = null;
     	list.clear(); 	
     }
     
@@ -79,6 +83,14 @@ public class TweetListAdapter extends BaseAdapter implements IPostDataChange {
 		}
 		tweetItem.setTweet(list.get(position));
 		return tweetItem;
+	}
+
+	public String getMaxId() {
+		return maxId;
+	}
+
+	public void setMaxId(String maxId) {
+		this.maxId = maxId;
 	}
 	
 	

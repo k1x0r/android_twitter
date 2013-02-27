@@ -5,7 +5,7 @@ import com.k1x.android.twitterlist.twitter.DialogError;
 import com.k1x.android.twitterlist.twitter.TwDialog;
 import com.k1x.android.twitterlist.twitter.Twitter;
 import com.k1x.android.twitterlist.twitter.TwitterError;
-import com.k1x.android.twitterlist.twitterutil.Tweeter;
+import com.k1x.android.twitterlist.twitterutil.TweeterAPI;
 
 
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
 	private EditText tweetEditText;
 	private Button tweetButton;
 	private TextView statusTextView;
-	private Tweeter tweeter;
+	private TweeterAPI tweeter;
 	
  //   public final static String consumerKey = "rLgj2ZPStx0cFoFv5vM3A";
  //   public final static String consumerSecret = "1SZJt4hzWqggIzG6CD7is3wHE5vmrrxg2ijDJMpeQ40";
@@ -75,7 +75,7 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(MainActivity.this, TweetListActivity.class);
+				Intent intent = new Intent(MainActivity.this, UserHomeTimelineActivity.class);
 		        startActivity(intent);
 			}
 		});
@@ -100,7 +100,7 @@ public class MainActivity extends Activity {
         statusTextView = (TextView) findViewById(R.id.status_view);
     }
 	private void setUpData() {
-		tweeter = new Tweeter(app.getAccessToken(), app.getSecretToken(), MainActivity.this);
+		tweeter = new TweeterAPI(app.getAccessToken(), app.getSecretToken(), MainActivity.this);
 	}
 
     private void getUserInfo()

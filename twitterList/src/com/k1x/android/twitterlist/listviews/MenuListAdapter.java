@@ -5,12 +5,13 @@ import java.util.LinkedList;
 import com.k1x.android.twitterlist.BaseActivity;
 import com.k1x.android.twitterlist.R;
 import com.k1x.android.twitterlist.TweetActivity;
-import com.k1x.android.twitterlist.TweetListActivity;
+import com.k1x.android.twitterlist.UserHomeTimelineActivity;
 import com.k1x.android.twitterlist.UserProfileActivity;
 import com.k1x.android.twitterlist.UsersListActivity;
+import com.k1x.android.twitterlist.constants.Constants;
 import com.k1x.android.twitterlist.entities.SlideMenuItem;
 import com.k1x.android.twitterlist.layouts.MenuListItem;
-import com.k1x.android.twitterlist.twitterutil.Tweeter;
+import com.k1x.android.twitterlist.twitterutil.TweeterAPI;
 
 
 import android.content.Intent;
@@ -58,7 +59,7 @@ public class MenuListAdapter extends BaseAdapter {
 			public void run() {
 				getActivity().getMenu().toggle();
 				Intent I = new Intent(getActivity(), UsersListActivity.class);
-				I.putExtra("mode", Tweeter.FOLOWINGS);
+				I.putExtra("mode", TweeterAPI.FOLOWINGS);
 				getActivity().startActivity(I);		
 				getActivity().finish();
 			}}));
@@ -69,7 +70,7 @@ public class MenuListAdapter extends BaseAdapter {
 			public void run() {
 				getActivity().getMenu().toggle();
 				Intent I = new Intent(getActivity(), UsersListActivity.class);
-				I.putExtra("mode", Tweeter.FOLOWERS);
+				I.putExtra("mode", TweeterAPI.FOLOWERS);
 				getActivity().startActivity(I);	
 				getActivity().finish();
 			}}));
@@ -79,10 +80,23 @@ public class MenuListAdapter extends BaseAdapter {
 			@Override
 			public void run() {
 				getActivity().getMenu().toggle();
-				Intent I = new Intent(getActivity(), TweetListActivity.class);
+				Intent I = new Intent(getActivity(), UserHomeTimelineActivity.class);
+				I.putExtra(Constants.KEY_USER_HOME_TIMELINE, false);
+
 				getActivity().startActivity(I);
 				getActivity().finish();
 			}}));		
+    	
+    	list.add(new SlideMenuItem("Timeline", null, new Runnable() {
+
+			@Override
+			public void run() {
+				getActivity().getMenu().toggle();
+				Intent I = new Intent(getActivity(), UserHomeTimelineActivity.class);
+				I.putExtra(Constants.KEY_USER_HOME_TIMELINE, true);
+				getActivity().startActivity(I);
+				getActivity().finish();
+			}}));	
 	}
 
 	public void add(SlideMenuItem data)

@@ -75,7 +75,7 @@ public class UserProfileActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent I = new Intent(UserProfileActivity.this, TweetListActivity.class);
+				Intent I = new Intent(UserProfileActivity.this, UserHomeTimelineActivity.class);
 				I.putExtra(Constants.KEY_USER_LOGIN, userInfo.getScreen_name());
 				startActivity(I);				
 			}

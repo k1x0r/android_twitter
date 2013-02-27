@@ -1,15 +1,22 @@
 package com.k1x.android.twitterlist.twitterutil;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
+import oauth.signpost.exception.OAuthCommunicationException;
+import oauth.signpost.exception.OAuthExpectationFailedException;
+import oauth.signpost.exception.OAuthMessageSignerException;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -17,6 +24,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.apache.http.util.EntityUtils;
 
 import android.content.Context;
 import android.net.Uri;
@@ -24,16 +32,19 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import com.k1x.android.twitterlist.R;
+import com.k1x.android.twitterlist.entities.TweetData;
 import com.k1x.android.twitterlist.entities.UserInfo;
 import com.k1x.android.twitterlist.entities.UserList;
 
 
-public class Tweeter {
+public class TweeterAPI {
 
 	public static int FOLOWINGS = 0;
 	public static int FOLOWERS = 1;
-	
+	public static final String TWEETS_COUNT = "20";
 	public static final String TAG = "Trololo";
 	public static final Pattern ID_PATTERN = Pattern.compile(".*?\"id_str\":\"(\\d*)\".*");
 	public static final Pattern SCREEN_NAME_PATTERN = Pattern.compile(".*?\"screen_name\":\"([^\"]*).*");
@@ -41,12 +52,13 @@ public class Tweeter {
 
     protected CommonsHttpOAuthConsumer oAuthConsumer;
 
-    public Tweeter(String accessToken, String secretToken, Context context) {
+    public TweeterAPI(String accessToken, String secretToken, Context context) {
         oAuthConsumer = new CommonsHttpOAuthConsumer(context.getString(R.string.twitter_oauth_consumer_key),
         		context.getString(R.string.twitter_oauth_consumer_secret));
         oAuthConsumer.setTokenWithSecret(accessToken, secretToken);
     }
 
+    
     public String tweet(String message) {
         try {
             HttpClient httpClient = new DefaultHttpClient();
@@ -158,6 +170,88 @@ public class Tweeter {
         return null;
 
     }
+    
+    
+	public ArrayList<TweetData> getUserTimeline(String userLogin, String maxTweetID) throws IllegalStateException, IOException, JsonSyntaxException, OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException {
+	    HttpParams params = new BasicHttpParams();
+	    HttpConnectionParams.setSoTimeout(params, 0);
+	    HttpClient httpClient = new DefaultHttpClient(params);
+
+        Uri.Builder builder = new Uri.Builder();
+        builder.appendPath("statuses").appendPath("user_timeline.json")
+                .appendQueryParameter("include_rts", "true")
+                .appendQueryParameter("include_entities", "true")
+                .appendQueryParameter("count", "7");
+
+        if(userLogin!=null ) {
+               	builder.appendQueryParameter("screen_name", userLogin);
+        }
+        if(maxTweetID!=null ) {
+           	builder.appendQueryParameter("max_id", maxTweetID);
+        }
+        
+        Uri man = builder.build();
+        System.out.println("https://api.twitter.com/1.1" + man.toString());
+        
+        ArrayList<TweetData> tweetData = getArrayTweets(httpClient, man);
+	    httpClient.getConnectionManager().shutdown();
+		
+	    return tweetData;
+	}
+	
+	public ArrayList<TweetData> getHomeTimeline(String maxTweetID) throws IllegalStateException, IOException, JsonSyntaxException, OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException {
+	    HttpParams params = new BasicHttpParams();
+	    HttpConnectionParams.setSoTimeout(params, 0);
+	    HttpClient httpClient = new DefaultHttpClient(params);
+
+        Uri.Builder builder = new Uri.Builder();
+        builder.appendPath("statuses").appendPath("home_timeline.json")
+                .appendQueryParameter("include_rts", "true")
+                .appendQueryParameter("include_entities", "true")
+                .appendQueryParameter("count", "7");
+
+        if(maxTweetID!=null ) {
+           	builder.appendQueryParameter("max_id", maxTweetID);
+        }
+        
+        Uri man = builder.build();
+        System.out.println("https://api.twitter.com/1.1" + man.toString());
+        
+		HttpGet httpget = new HttpGet("https://api.twitter.com/1.1" + man.toString());
+        oAuthConsumer.sign(httpget);
+
+//	    HttpEntity entity = httpClient.execute(httpget).getEntity();
+//	    System.out.println(EntityUtils.toString(entity));
+        
+        ArrayList<TweetData> tweetData = getArrayTweets(httpClient, man);
+ 	    httpClient.getConnectionManager().shutdown();
+		
+	    return tweetData;
+	}
+
+
+	private ArrayList<TweetData> getArrayTweets(HttpClient httpClient, Uri man)
+			throws OAuthMessageSignerException,
+			OAuthExpectationFailedException, OAuthCommunicationException,
+			IOException, ClientProtocolException {
+		HttpGet httpget = new HttpGet("https://api.twitter.com/1.1" + man.toString());
+        oAuthConsumer.sign(httpget);
+
+	    HttpEntity entity = httpClient.execute(httpget).getEntity();
+	    if (entity != null) {
+	    	
+	    	InputStream is = entity.getContent();
+	    	InputStreamReader reader = new InputStreamReader(is);
+	        
+	        Gson gson = new GsonBuilder().create();
+	        Type collectionType = new TypeToken<ArrayList<TweetData>>(){}.getType();
+	        ArrayList<TweetData> tweetData = gson.fromJson(reader, collectionType);
+	        
+	        
+	        return tweetData;
+	    }
+		return null;
+	}
     
     public static String convertStreamToString(java.io.InputStream is) {
         try {

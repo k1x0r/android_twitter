@@ -29,17 +29,17 @@ import com.k1x.android.twitterlist.twitter.DialogError;
 import com.k1x.android.twitterlist.twitter.TwDialog;
 import com.k1x.android.twitterlist.twitter.Twitter;
 import com.k1x.android.twitterlist.twitter.TwitterError;
-import com.k1x.android.twitterlist.twitterutil.Tweeter;
+import com.k1x.android.twitterlist.twitterutil.TweeterAPI;
 import com.slidingmenu.lib.SlidingMenu;
 
 public abstract class BaseActivity extends Activity {
 
     public static final String TAG = "Trololo";   
-    public static final String TWITTER_OAUTH_REQUEST_TOKEN_ENDPOINT = "http://twitter.com/oauth/request_token";
-    public static final String TWITTER_OAUTH_ACCESS_TOKEN_ENDPOINT = "http://twitter.com/oauth/access_token";
-    public static final String TWITTER_OAUTH_AUTHORIZE_ENDPOINT = "http://twitter.com/oauth/authorize";
+    public static final String TWITTER_OAUTH_REQUEST_TOKEN_ENDPOINT = "https://api.twitter.com/oauth/request_token";
+    public static final String TWITTER_OAUTH_ACCESS_TOKEN_ENDPOINT = "https://api.twitter.com/oauth/access_token";
+    public static final String TWITTER_OAUTH_AUTHORIZE_ENDPOINT = "https://api.twitter.com/oauth/authorize";
     
-	private Tweeter tweeter;
+	private TweeterAPI tweeter;
 
 	private Button loginButton;
 	private Button logoutButton;
@@ -123,7 +123,7 @@ public abstract class BaseActivity extends Activity {
 	}
 
 	private void setUpData() {
-		tweeter = new Tweeter(app.getAccessToken(), app.getSecretToken(), BaseActivity.this);
+		tweeter = new TweeterAPI(app.getAccessToken(), app.getSecretToken(), BaseActivity.this);
 	}
 
     private void getUserInfo()
@@ -241,7 +241,7 @@ public abstract class BaseActivity extends Activity {
 		return menu;
 	}
 	
-	public Tweeter getTweeter() {
+	public TweeterAPI getTweeter() {
 		return tweeter;
 	}
 

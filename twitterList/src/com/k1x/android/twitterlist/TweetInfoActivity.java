@@ -28,7 +28,7 @@ public class TweetInfoActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState, R.layout.activity_base_tweetinfo);
-		tweetData = (TweetData) getIntent().getParcelableExtra(TweetListActivity.TWEET_DATA);
+		tweetData = (TweetData) getIntent().getParcelableExtra(UserHomeTimelineActivity.TWEET_DATA);
 		userBitmap = tweetData.getUser().getUserBitmap();
 		setUpViews();
 

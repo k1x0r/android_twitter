@@ -220,6 +220,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int save_login_data=0x7f070006;
         public static final int tweetlist=0x7f070003;
         public static final int twitter_callback_url=0x7f07000a;
+        /**  
+    <string name="twitter_oauth_consumer_key">rLgj2ZPStx0cFoFv5vM3A</string>
+    <string name="twitter_oauth_consumer_secret">1SZJt4hzWqggIzG6CD7is3wHE5vmrrxg2ijDJMpeQ40</string>
+    
+         */
         public static final int twitter_oauth_consumer_key=0x7f070008;
         public static final int twitter_oauth_consumer_secret=0x7f070009;
     }

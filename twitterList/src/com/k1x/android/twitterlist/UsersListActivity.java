@@ -5,7 +5,7 @@ import com.k1x.android.twitterlist.entities.UserInfo;
 import com.k1x.android.twitterlist.entities.UserList;
 import com.k1x.android.twitterlist.layouts.UserListItem;
 import com.k1x.android.twitterlist.listviews.UserListAdapter;
-import com.k1x.android.twitterlist.twitterutil.Tweeter;
+import com.k1x.android.twitterlist.twitterutil.TweeterAPI;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,9 +30,9 @@ public class UsersListActivity extends BaseActivity {
 		super.onCreate(savedInstanceState, R.layout.activity_base_userlist);
 		userLogin = (String) getIntent().getStringExtra(Constants.KEY_USER_LOGIN);
 		mode =  getIntent().getIntExtra(Constants.KEY_MODE, 0);
-		System.out.println(userInfo + "");
+		System.out.println(userInfo);
 		setUpViews();
-		mode = getIntent().getIntExtra("mode", Tweeter.FOLOWERS);
+		mode = getIntent().getIntExtra("mode", TweeterAPI.FOLOWERS);
 	}
 
 	private void setUpViews()
