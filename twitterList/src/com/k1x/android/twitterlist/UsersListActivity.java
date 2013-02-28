@@ -8,31 +8,34 @@ import com.k1x.android.twitterlist.listviews.UserListAdapter;
 import com.k1x.android.twitterlist.twitterutil.TweeterAPI;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 public class UsersListActivity extends BaseActivity {
 	
 
-	
+	private static final String START_CURSOR_VALUE = "-1";
 	private ListView userListView;
 	private UserListAdapter userListAdapter;
 	private int mode;
 	private String userLogin;
+	private boolean isLoading = false;
+	private String cursor = START_CURSOR_VALUE;
 
 	private UserInfo userInfo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState, R.layout.activity_base_userlist);
-		userLogin = (String) getIntent().getStringExtra(Constants.KEY_USER_LOGIN);
-		mode =  getIntent().getIntExtra(Constants.KEY_MODE, 0);
+		mode =  getIntent().getIntExtra(Constants.KEY_MODE, TweeterAPI.FOLOWERS);
 		System.out.println(userInfo);
 		setUpViews();
-		mode = getIntent().getIntExtra("mode", TweeterAPI.FOLOWERS);
 	}
 
 	private void setUpViews()
@@ -53,17 +56,45 @@ public class UsersListActivity extends BaseActivity {
 				
 			}
 		});
-		getList();
+		
+        userListView.setOnScrollListener(new OnScrollListener() {
+
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+			}
+			
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) {
+				int loadedItems = firstVisibleItem + visibleItemCount;
+				if((loadedItems == totalItemCount ) && !isLoading && !cursor.equals(START_CURSOR_VALUE)) {
+					getList();
+				}
+			}
+		});
+		
 	}
 
-    private void getList() 
+    @Override
+	protected void onGettingUserInfo(UserInfo userInfo, Bitmap bitmap) {
+    	userLogin = (String) getIntent().getStringExtra(Constants.KEY_USER_LOGIN);
+		if(userLogin == null) {
+			userLogin = userInfo.getScreen_name();
+		}
+    	getList();
+	}
+
+	private void getList() 
     {
 		Thread T = new Thread(new Runnable() {
 			private UserList result ;
 						
 			@Override
 			public void run() {
-	            result = getTweeter().getFolowingsFolowers(mode, userLogin);
+				isLoading = true;
+	            result = getTweeter().getFolowingsFolowers(mode, userLogin, cursor);
+	            System.out.println(result);
+	            
 	            if(result.getUsers()!=null) {
 	            for(UserInfo info: result.getUsers()) {
 	            	System.out.println(info);
@@ -75,6 +106,11 @@ public class UsersListActivity extends BaseActivity {
 						userListAdapter.notifyDataSetChanged();
 					}});
 	            }
+				if (result.getNextCursorStr() != null) {
+					cursor = result.getNextCursorStr();
+				}
+	            System.out.println("cursor = " + cursor);
+	            isLoading = false;
 			}		
 		});
 		T.start();

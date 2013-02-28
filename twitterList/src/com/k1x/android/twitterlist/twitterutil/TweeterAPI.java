@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -92,7 +93,7 @@ public class TweeterAPI {
     }
     
     
-    public UserList getFolowingsFolowers(int mode, String username)
+    public UserList getFolowingsFolowers(int mode, String username, String cursor)
     {
 		try {
 			UserList info; 
@@ -102,24 +103,25 @@ public class TweeterAPI {
 		    HttpClient httpClient = new DefaultHttpClient(params);
             Uri.Builder builder = new Uri.Builder();
 
-            if(mode == FOLOWERS) {
-            builder.appendPath("followers");
-            } else {
-            builder.appendPath("friends");
-            }
+			if (mode == FOLOWERS) {
+				builder.appendPath("followers");
+			} else {
+				builder.appendPath("friends");
+			}
             
             builder.appendPath("list.json");
 
+            if(cursor!=null) {
+            	builder.appendQueryParameter("cursor", cursor);
+            }
             if(username!=null) {
             	builder.appendQueryParameter("screen_name", username);
             }
             
-            builder.appendQueryParameter("cursor", "-1");
-            
             Uri man = builder.build();
 		    //prepare the HTTP GET call 
-            System.out.println(man);
             
+            System.out.println("https://api.twitter.com/1.1" + man.toString());
 		    HttpGet httpget = new HttpGet("https://api.twitter.com/1.1" + man.toString());
             oAuthConsumer.sign(httpget);
 
@@ -172,7 +174,7 @@ public class TweeterAPI {
     }
     
     
-	public ArrayList<TweetData> getUserTimeline(String userLogin, String maxTweetID) throws IllegalStateException, IOException, JsonSyntaxException, OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException {
+	public LinkedList<TweetData> getUserTimeline(String userLogin, String maxTweetID) throws IllegalStateException, IOException, JsonSyntaxException, OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException {
 	    HttpParams params = new BasicHttpParams();
 	    HttpConnectionParams.setSoTimeout(params, 0);
 	    HttpClient httpClient = new DefaultHttpClient(params);
@@ -193,13 +195,13 @@ public class TweeterAPI {
         Uri man = builder.build();
         System.out.println("https://api.twitter.com/1.1" + man.toString());
         
-        ArrayList<TweetData> tweetData = getArrayTweets(httpClient, man);
+        LinkedList<TweetData> tweetData = getArrayTweets(httpClient, man);
 	    httpClient.getConnectionManager().shutdown();
 		
 	    return tweetData;
 	}
 	
-	public ArrayList<TweetData> getHomeTimeline(String maxTweetID) throws IllegalStateException, IOException, JsonSyntaxException, OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException {
+	public LinkedList<TweetData> getHomeTimeline(String maxTweetID) throws IllegalStateException, IOException, JsonSyntaxException, OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException {
 	    HttpParams params = new BasicHttpParams();
 	    HttpConnectionParams.setSoTimeout(params, 0);
 	    HttpClient httpClient = new DefaultHttpClient(params);
@@ -223,14 +225,14 @@ public class TweeterAPI {
 //	    HttpEntity entity = httpClient.execute(httpget).getEntity();
 //	    System.out.println(EntityUtils.toString(entity));
         
-        ArrayList<TweetData> tweetData = getArrayTweets(httpClient, man);
+        LinkedList<TweetData> tweetData = getArrayTweets(httpClient, man);
  	    httpClient.getConnectionManager().shutdown();
 		
 	    return tweetData;
 	}
 
 
-	private ArrayList<TweetData> getArrayTweets(HttpClient httpClient, Uri man)
+	private LinkedList<TweetData> getArrayTweets(HttpClient httpClient, Uri man)
 			throws OAuthMessageSignerException,
 			OAuthExpectationFailedException, OAuthCommunicationException,
 			IOException, ClientProtocolException {
@@ -244,8 +246,8 @@ public class TweeterAPI {
 	    	InputStreamReader reader = new InputStreamReader(is);
 	        
 	        Gson gson = new GsonBuilder().create();
-	        Type collectionType = new TypeToken<ArrayList<TweetData>>(){}.getType();
-	        ArrayList<TweetData> tweetData = gson.fromJson(reader, collectionType);
+	        Type collectionType = new TypeToken<LinkedList<TweetData>>(){}.getType();
+	        LinkedList<TweetData> tweetData = gson.fromJson(reader, collectionType);
 	        
 	        
 	        return tweetData;

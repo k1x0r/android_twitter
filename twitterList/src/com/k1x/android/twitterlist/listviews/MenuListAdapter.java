@@ -59,7 +59,7 @@ public class MenuListAdapter extends BaseAdapter {
 			public void run() {
 				getActivity().getMenu().toggle();
 				Intent I = new Intent(getActivity(), UsersListActivity.class);
-				I.putExtra("mode", TweeterAPI.FOLOWINGS);
+				I.putExtra(Constants.KEY_MODE, TweeterAPI.FOLOWINGS);
 				getActivity().startActivity(I);		
 				getActivity().finish();
 			}}));
@@ -70,7 +70,7 @@ public class MenuListAdapter extends BaseAdapter {
 			public void run() {
 				getActivity().getMenu().toggle();
 				Intent I = new Intent(getActivity(), UsersListActivity.class);
-				I.putExtra("mode", TweeterAPI.FOLOWERS);
+				I.putExtra(Constants.KEY_MODE, TweeterAPI.FOLOWERS);
 				getActivity().startActivity(I);	
 				getActivity().finish();
 			}}));

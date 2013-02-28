@@ -1,8 +1,6 @@
 package com.k1x.android.twitterlist;
 
-import java.util.ArrayList;
-
-
+import java.util.LinkedList;
 
 import com.google.gson.JsonSyntaxException;
 import com.k1x.android.twitterlist.R;
@@ -31,13 +29,14 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 	public static final String TWEET_BITMAP = "tweetBitmap";
 	public static final String TWEET_DATA = "tweetData";
 	
-	private ArrayList<TweetData> tweetData;
+	private LinkedList<TweetData> tweetData;
 	private TweetListAdapter listAdapter;
 	private ListView listView;
 	private EditText searchTweetsEditText;
 	private Button searchTweetsButton;
 	private String targetUser;
 	private TwitterListApplication app;
+	private String maxId;
 	private String userLogin;
 	private boolean isLoading = false;
 	private boolean isHomeTimeline;
@@ -91,7 +90,7 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 			public void onScroll(AbsListView view, int firstVisibleItem,
 					int visibleItemCount, int totalItemCount) {
 				int loadedItems = firstVisibleItem + visibleItemCount;
-				if((loadedItems == totalItemCount ) && !isLoading) {
+				if((loadedItems == totalItemCount ) && !isLoading && maxId != null) {
 					loadTweetsTask(targetUser);
  				}
 			}
@@ -130,6 +129,8 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 		        	listAdapter.add(data);
   		        	listAdapter.notifyDataSetChanged();
 			}});
+    	long tweetId = Long.valueOf(tweetData.getLast().getId_str()) - 1;
+    	maxId =  String.valueOf(tweetId);
 	}
 	
 	private void loadTweets(String username)
@@ -137,9 +138,9 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 		try {
 			isLoading = true;
 			if(isHomeTimeline) {
-				tweetData = getTweeter().getHomeTimeline(listAdapter.getMaxId());
+				tweetData = getTweeter().getHomeTimeline(maxId);
 			} else {
-				tweetData = getTweeter().getUserTimeline(username, listAdapter.getMaxId());
+				tweetData = getTweeter().getUserTimeline(username, maxId);
 			}
 			addDataToAdapter();
 			isLoading = false;
