@@ -59,12 +59,13 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 		} else { 
 			targetUser = userInfo.getScreen_name();
 		}
+		listAdapter.clear();
 		loadTweetsTask(targetUser);
 	}
 
 	private void setUpViews() {
 		
-	    listAdapter = new TweetListAdapter(this);  
+	    listAdapter = new TweetListAdapter(this, app.getTweetList());  
 		listView = (ListView) findViewById(android.R.id.list);
 		listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(new OnItemClickListener() {
@@ -125,9 +126,12 @@ public class UserHomeTimelineActivity extends BaseActivity  {
         runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-  		        for(TweetData data: tweetData)
+  		        for(TweetData data: tweetData) {
 		        	listAdapter.add(data);
+  		        }
   		        	listAdapter.notifyDataSetChanged();
+					app.setDataList(listAdapter.getList());
+
 			}});
     	long tweetId = Long.valueOf(tweetData.getLast().getId_str()) - 1;
     	maxId =  String.valueOf(tweetId);

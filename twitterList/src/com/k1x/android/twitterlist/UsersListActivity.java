@@ -10,6 +10,7 @@ import com.k1x.android.twitterlist.twitterutil.TweeterAPI;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -29,10 +30,12 @@ public class UsersListActivity extends BaseActivity {
 	private String cursor = START_CURSOR_VALUE;
 
 	private UserInfo userInfo;
+	private TwitterListApplication app;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState, R.layout.activity_base_userlist);
+        app = (TwitterListApplication) getApplication();
 		mode =  getIntent().getIntExtra(Constants.KEY_MODE, TweeterAPI.FOLOWERS);
 		System.out.println(userInfo);
 		setUpViews();
@@ -40,7 +43,7 @@ public class UsersListActivity extends BaseActivity {
 
 	private void setUpViews()
 	{
-		userListAdapter = new UserListAdapter(this);
+		userListAdapter = new UserListAdapter(this, app.getUserList());
 		userListView = (ListView) findViewById(R.id.userlist_listview);
 		userListView.setAdapter(userListAdapter);
 		userListView.setOnItemClickListener(new OnItemClickListener() {
@@ -50,7 +53,7 @@ public class UsersListActivity extends BaseActivity {
 					long arg3) {
 				UserListItem item = (UserListItem) arg1;
 				Intent I = new Intent(UsersListActivity.this, UserProfileActivity.class);
-				I.putExtra(Constants.USER_INFO, item.getUserInfo());
+				I.putExtra(Constants.USER_INFO, (Parcelable)item.getUserInfo());
 				I.putExtra(Constants.USER_BITMAP, item.getUserInfo().getUserBitmap());
 				startActivity(I);
 				
@@ -81,6 +84,7 @@ public class UsersListActivity extends BaseActivity {
 		if(userLogin == null) {
 			userLogin = userInfo.getScreen_name();
 		}
+		userListAdapter.clear();
     	getList();
 	}
 
@@ -104,6 +108,7 @@ public class UsersListActivity extends BaseActivity {
 					public void run() {
 						userListAdapter.addArray(result.getUsers());
 						userListAdapter.notifyDataSetChanged();
+						app.setUserList(userListAdapter.getList());
 					}});
 	            }
 				if (result.getNextCursorStr() != null) {

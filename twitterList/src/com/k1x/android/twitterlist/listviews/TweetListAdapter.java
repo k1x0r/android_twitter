@@ -15,12 +15,19 @@ import android.widget.BaseAdapter;
 public class TweetListAdapter extends BaseAdapter implements IPostDataChange {
 	
     private LinkedList<TweetData> list;
+
+
 	private BaseActivity activity;
 
-    public TweetListAdapter(BaseActivity activity)
+    public TweetListAdapter(BaseActivity activity, LinkedList<TweetData> list)
     {
 		this.activity = (BaseActivity)activity;
-    	list = new LinkedList<TweetData>();   	
+		if(list!=null) {
+			System.out.println("List!=null");
+			this.list = list;
+		} else {
+	    	this.list = new LinkedList<TweetData>();   	
+		}
     }
     
     public void add(TweetData data)
@@ -79,8 +86,9 @@ public class TweetListAdapter extends BaseAdapter implements IPostDataChange {
 		return tweetItem;
 	}
 
-
-	
+	public LinkedList<TweetData> getList() {
+		return list;
+	}
 	
 }
 

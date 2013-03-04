@@ -15,13 +15,18 @@ import android.widget.BaseAdapter;
 public class UserListAdapter extends BaseAdapter implements IPostDataChange {
 	
     private LinkedList<UserInfo> list;
+
+
 	private BaseActivity activity;
 
-	public UserListAdapter(BaseActivity activity)
+	public UserListAdapter(BaseActivity activity, LinkedList<UserInfo> list)
     {
 		this.activity = activity;
-    	list = new LinkedList<UserInfo>();      	
-   	
+		if(list!=null) {
+			this.list = list;
+		} else {
+			this.list = new LinkedList<UserInfo>();      	
+		}
     }
     
 	public void add(UserInfo data)
@@ -91,6 +96,8 @@ public class UserListAdapter extends BaseAdapter implements IPostDataChange {
 		this.activity = activity;
 	}
 
-	
+	public LinkedList<UserInfo> getList() {
+		return list;
+	}
 }
 

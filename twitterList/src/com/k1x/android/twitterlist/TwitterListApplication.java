@@ -1,5 +1,10 @@
 package com.k1x.android.twitterlist;
 
+import java.util.LinkedList;
+
+import com.k1x.android.twitterlist.entities.TweetData;
+import com.k1x.android.twitterlist.entities.UserInfo;
+
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -11,6 +16,10 @@ public class TwitterListApplication extends Application {
     private static final String ACCESS_TOKEN_KEY = "accessToken";
     private String accessToken;
 
+    private LinkedList<UserInfo> userList = null;
+    private LinkedList<TweetData> tweetList = null;
+
+    
 	private SharedPreferences prefs;
 	private Editor prefsEditor;
     
@@ -49,4 +58,21 @@ public class TwitterListApplication extends Application {
 		prefsEditor.putString(SECRET_TOKEN_KEY, secretToken);
 		prefsEditor.commit();
 	}
+
+	public LinkedList<UserInfo> getUserList() {
+		return userList;
+	}
+
+	public void setUserList(LinkedList<UserInfo> userList) {
+		this.userList = userList;
+	}
+
+	public LinkedList<TweetData> getTweetList() {
+		return tweetList;
+	}
+
+	public void setDataList(LinkedList<TweetData> dataList) {
+		this.tweetList = dataList;
+	}
+	
 }
