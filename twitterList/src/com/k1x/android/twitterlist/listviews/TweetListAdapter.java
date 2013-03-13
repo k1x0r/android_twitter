@@ -41,6 +41,11 @@ public class TweetListAdapter extends BaseAdapter implements IPostDataChange {
     	downloader.start();
     }
         
+    public TweetData getLast()
+    {
+    	return list.getLast(); 	
+    }
+    
     public void clear()
     {
     	list.clear(); 	

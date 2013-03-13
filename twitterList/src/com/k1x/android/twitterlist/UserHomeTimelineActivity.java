@@ -5,15 +5,20 @@ import java.util.LinkedList;
 import com.google.gson.JsonSyntaxException;
 import com.k1x.android.twitterlist.R;
 import com.k1x.android.twitterlist.constants.Constants;
+import com.k1x.android.twitterlist.entities.SearchData;
 import com.k1x.android.twitterlist.entities.TweetData;
 import com.k1x.android.twitterlist.entities.UserInfo;
 import com.k1x.android.twitterlist.layouts.TweetListItem;
 import com.k1x.android.twitterlist.listviews.TweetListAdapter;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -25,22 +30,24 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class UserHomeTimelineActivity extends BaseActivity  {
 	
-
-	public static final String TWEET_BITMAP = "tweetBitmap";
-	public static final String TWEET_DATA = "tweetData";
-	
 	private LinkedList<TweetData> tweetData;
 	private TweetListAdapter listAdapter;
 	private ListView listView;
 	private EditText searchTweetsEditText;
 	private Button searchTweetsButton;
-	private String targetUser;
+	private String text;
 	private TwitterListApplication app;
 	private String maxId;
+	private String maxSearchId;
+
 	private String userLogin;
 	private boolean isLoading = false;
 	private boolean isHomeTimeline;
 
+	private CharSequence[] items = { Constants.MODE_TEXT_TWEETS,
+			Constants.MODE_USERS_TWEETS };
+	private int item = 0;
+	private String mode = Constants.MODE_USERS_TWEETS;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +62,12 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 	protected void onGettingUserInfo(UserInfo userInfo, Bitmap bitmap) {
 		super.onGettingUserInfo(userInfo, bitmap);
 		if(userLogin!=null) {
-			targetUser = userLogin;
+			text = userLogin;
 		} else { 
-			targetUser = userInfo.getScreen_name();
+			text = userInfo.getScreen_name();
 		}
 		listAdapter.clear();
-		loadTweetsTask(targetUser);
+		loadTweetsTask(text);
 	}
 
 	private void setUpViews() {
@@ -75,8 +82,8 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 					long arg3) {
 				TweetListItem item = (TweetListItem) arg1;
 				Intent I = new Intent(UserHomeTimelineActivity.this, TweetInfoActivity.class);
-				I.putExtra(TWEET_DATA, item.getTweetData());
-				I.putExtra(TWEET_BITMAP, item.getTweetData().getUser().getUserBitmap());
+				I.putExtra(Constants.TWEET_DATA, item.getTweetData());
+				I.putExtra(Constants.TWEET_BITMAP, item.getTweetData().getUser().getUserBitmap());
 				startActivity(I);
 			}
 		});
@@ -92,20 +99,29 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 					int visibleItemCount, int totalItemCount) {
 				int loadedItems = firstVisibleItem + visibleItemCount;
 				if((loadedItems == totalItemCount ) && !isLoading && maxId != null) {
-					loadTweetsTask(targetUser);
+					loadTweetsTask(text);
  				}
 			}
 		});
 		
 		
 		searchTweetsEditText = (EditText) findViewById(R.id.tl_searchText);
+		searchTweetsEditText.setOnLongClickListener(new OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				alertDialogChooseSearchMode();
+				return false;
+			}
+		});
 		searchTweetsButton = (Button) findViewById(R.id.tl_searchButton);
 		searchTweetsButton.setOnClickListener(new OnClickListener() {		
 			@Override
 			public void onClick(View v) {
 				listAdapter.clear();
-				targetUser = searchTweetsEditText.getText().toString();
-				loadTweetsTask(targetUser);
+				text = searchTweetsEditText.getText().toString();
+				
+				loadTweetsTask(text);
 			}
 
 
@@ -129,24 +145,42 @@ public class UserHomeTimelineActivity extends BaseActivity  {
   		        for(TweetData data: tweetData) {
 		        	listAdapter.add(data);
   		        }
-  		        	listAdapter.notifyDataSetChanged();
-					app.setDataList(listAdapter.getList());
-
+  		        listAdapter.notifyDataSetChanged();
+				app.setDataList(listAdapter.getList());
 			}});
     	long tweetId = Long.valueOf(tweetData.getLast().getId_str()) - 1;
     	maxId =  String.valueOf(tweetId);
 	}
 	
-	private void loadTweets(String username)
+	private void addSearchDataToAdapter(final SearchData searchData) {
+        runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+  		        for(TweetData data: searchData.getTweets()) {
+		        	listAdapter.add(data);
+  		        }
+  		        listAdapter.notifyDataSetChanged();
+				app.setDataList(listAdapter.getList());
+			}});
+    	long tweetId = Long.valueOf(listAdapter.getLast().getId_str()) - 1;
+    	maxSearchId = String.valueOf(tweetId);
+	}
+	
+	private void loadTweets(String tweetParam)
 	{
 		try {
 			isLoading = true;
-			if(isHomeTimeline) {
-				tweetData = getTweeter().getHomeTimeline(maxId);
+			if(mode.equals(Constants.MODE_TEXT_TWEETS)) {
+				SearchData searchData = getTweeter().searchTweets(tweetParam, maxSearchId);
+				addSearchDataToAdapter(searchData);
 			} else {
-				tweetData = getTweeter().getUserTimeline(username, maxId);
+				if (isHomeTimeline) {
+					tweetData = getTweeter().getHomeTimeline(maxId);
+				} else {
+					tweetData = getTweeter().getUserTimeline(tweetParam, maxId);
+				}
+				addDataToAdapter();
 			}
-			addDataToAdapter();
 			isLoading = false;
 		}
 		catch (JsonSyntaxException e)
@@ -166,5 +200,35 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 	}
 	
 
+	
+	private void alertDialogChooseSearchMode() {
+
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		alert.setTitle("Choose search mode:");
+
+		alert.setSingleChoiceItems(items, item,	new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int item) {
+						UserHomeTimelineActivity.this.item = item;
+					}
+				});
+		
+		alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+			public void onClick(DialogInterface dialog, int id) {
+				mode = (String) items[item];
+			}
+		});
+
+		alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		});
+
+		AlertDialog ad = alert.create();
+		ad.show();
+
+	}
 
 }

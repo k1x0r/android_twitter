@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.net.URLEncoder;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,7 +25,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
-import org.apache.http.util.EntityUtils;
 
 import android.content.Context;
 import android.net.Uri;
@@ -36,6 +35,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.k1x.android.twitterlist.R;
+import com.k1x.android.twitterlist.entities.SearchData;
 import com.k1x.android.twitterlist.entities.TweetData;
 import com.k1x.android.twitterlist.entities.UserInfo;
 import com.k1x.android.twitterlist.entities.UserList;
@@ -201,6 +201,45 @@ public class TweeterAPI {
 	    return tweetData;
 	}
 	
+	public SearchData searchTweets(String searchText, String maxTweetID) throws IllegalStateException, IOException, JsonSyntaxException, OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException {
+	    HttpParams params = new BasicHttpParams();
+	    HttpConnectionParams.setSoTimeout(params, 0);
+	    HttpClient httpClient = new DefaultHttpClient(params);
+
+        Uri.Builder builder = new Uri.Builder();
+        builder.appendPath("search").appendPath("tweets.json");
+
+        if(searchText!=null ) {
+             builder.appendQueryParameter("q",'"'+searchText+'"');
+        }
+        if(maxTweetID!=null ) {
+           	builder.appendQueryParameter("max_id", maxTweetID);
+        }
+        builder.appendQueryParameter("count", "7");
+        
+        Uri man = builder.build();
+        
+		HttpGet httpget = new HttpGet("https://api.twitter.com/1.1" + man.toString());
+        oAuthConsumer.sign(httpget);
+
+	    HttpEntity entity = httpClient.execute(httpget).getEntity();
+	    if (entity != null) {
+	    	
+	    	InputStream is = entity.getContent();
+	    	InputStreamReader reader = new InputStreamReader(is);
+	        
+	        Gson gson = new GsonBuilder().create();
+	        SearchData data = gson.fromJson(reader, SearchData.class);
+	        
+			httpClient.getConnectionManager().shutdown();
+
+			return data;
+		} else {
+			httpClient.getConnectionManager().shutdown();
+			return null;
+		}
+	}
+	
 	public LinkedList<TweetData> getHomeTimeline(String maxTweetID) throws IllegalStateException, IOException, JsonSyntaxException, OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException {
 	    HttpParams params = new BasicHttpParams();
 	    HttpConnectionParams.setSoTimeout(params, 0);
@@ -221,9 +260,6 @@ public class TweeterAPI {
         
 		HttpGet httpget = new HttpGet("https://api.twitter.com/1.1" + man.toString());
         oAuthConsumer.sign(httpget);
-
-//	    HttpEntity entity = httpClient.execute(httpget).getEntity();
-//	    System.out.println(EntityUtils.toString(entity));
         
         LinkedList<TweetData> tweetData = getArrayTweets(httpClient, man);
  	    httpClient.getConnectionManager().shutdown();
@@ -233,9 +269,9 @@ public class TweeterAPI {
 
 
 	private LinkedList<TweetData> getArrayTweets(HttpClient httpClient, Uri man)
-			throws OAuthMessageSignerException,
-			OAuthExpectationFailedException, OAuthCommunicationException,
+			throws OAuthMessageSignerException,	OAuthExpectationFailedException, OAuthCommunicationException,
 			IOException, ClientProtocolException {
+		
 		HttpGet httpget = new HttpGet("https://api.twitter.com/1.1" + man.toString());
         oAuthConsumer.sign(httpget);
 

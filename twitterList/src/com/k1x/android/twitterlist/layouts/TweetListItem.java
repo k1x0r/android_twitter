@@ -58,11 +58,7 @@ public class TweetListItem extends LinearLayout {
 		}
 
 	}
-	
 
-	
-
-		
 	public TweetData getTweetData() {
 		return tweetData;
 	}
