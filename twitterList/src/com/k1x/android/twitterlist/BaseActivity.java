@@ -63,7 +63,9 @@ public abstract class BaseActivity extends Activity {
         app = (TwitterListApplication) getApplication();
 		setUpViews();
 		setUpData();
-		getUserInfo();
+		if(!app.getAccessToken().equals("0")) {
+			getUserInfo();
+		}
 	}
 	
 	

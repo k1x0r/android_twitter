@@ -47,7 +47,7 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 	private CharSequence[] items = { Constants.MODE_TEXT_TWEETS,
 			Constants.MODE_USERS_TWEETS };
 	private int item = 0;
-	private String mode = Constants.MODE_USERS_TWEETS;
+	private String mode = Constants.MODE_TEXT_TWEETS;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -120,11 +120,8 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 			public void onClick(View v) {
 				listAdapter.clear();
 				text = searchTweetsEditText.getText().toString();
-				
 				loadTweetsTask(text);
 			}
-
-
 		});	
 	}
 	
