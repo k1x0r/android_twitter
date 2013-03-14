@@ -201,7 +201,7 @@ public class TweeterAPI {
 	    return tweetData;
 	}
 	
-	public SearchData searchTweets(String searchText, String maxTweetID) throws IllegalStateException, IOException, JsonSyntaxException, OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException {
+	public SearchData searchTweets(String searchText, String sinceID) throws IllegalStateException, IOException, JsonSyntaxException, OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException {
 	    HttpParams params = new BasicHttpParams();
 	    HttpConnectionParams.setSoTimeout(params, 0);
 	    HttpClient httpClient = new DefaultHttpClient(params);
@@ -212,8 +212,8 @@ public class TweeterAPI {
         if(searchText!=null ) {
              builder.appendQueryParameter("q",'"'+searchText+'"');
         }
-        if(maxTweetID!=null ) {
-           	builder.appendQueryParameter("max_id", maxTweetID);
+        if(sinceID!=null ) {
+           	builder.appendQueryParameter("since_id", sinceID);
         }
         builder.appendQueryParameter("count", "7");
         

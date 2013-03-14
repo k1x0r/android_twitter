@@ -38,7 +38,7 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 	private String text;
 	private TwitterListApplication app;
 	private String maxId;
-	private String maxSearchId;
+	private String searchSinceId;
 
 	private String userLogin;
 	private boolean isLoading = false;
@@ -48,7 +48,9 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 			Constants.MODE_USERS_TWEETS };
 	private int item = 0;
 	private String mode = Constants.MODE_TEXT_TWEETS;
-	
+	private boolean searchMode = false;
+	private UserInfo userInfo;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState, R.layout.activity_base_tweetlist);
@@ -60,14 +62,19 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 	
 	@Override
 	protected void onGettingUserInfo(UserInfo userInfo, Bitmap bitmap) {
-		super.onGettingUserInfo(userInfo, bitmap);
-		if(userLogin!=null) {
-			text = userLogin;
-		} else { 
-			text = userInfo.getScreen_name();
-		}
+		this.userInfo = userInfo;
 		listAdapter.clear();
-		loadTweetsTask(text);
+		loadTweetsTask(getUserLogin());
+	}
+
+	private String getUserLogin() {
+		String userName;
+		if(userLogin!=null) {
+			userName = userLogin;
+		} else { 
+			userName = userInfo.getScreen_name();
+		}
+		return userName;
 	}
 
 	private void setUpViews() {
@@ -88,22 +95,21 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 			}
 		});
         
-        listView.setOnScrollListener(new OnScrollListener() {
-			
+		listView.setOnScrollListener(new OnScrollListener() {
+
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 			}
-			
+
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem,
 					int visibleItemCount, int totalItemCount) {
 				int loadedItems = firstVisibleItem + visibleItemCount;
-				if((loadedItems == totalItemCount ) && !isLoading && maxId != null) {
+				if ((loadedItems == totalItemCount) && !isLoading && maxId != null) {
 					loadTweetsTask(text);
- 				}
+				}
 			}
 		});
-		
 		
 		searchTweetsEditText = (EditText) findViewById(R.id.tl_searchText);
 		searchTweetsEditText.setOnLongClickListener(new OnLongClickListener() {
@@ -118,13 +124,34 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 		searchTweetsButton.setOnClickListener(new OnClickListener() {		
 			@Override
 			public void onClick(View v) {
+				searchMode = true;
+				clearIDs();
 				listAdapter.clear();
+				tweetData.clear();
 				text = searchTweetsEditText.getText().toString();
 				loadTweetsTask(text);
 			}
 		});	
+		
+		searchTweetsButton.setOnLongClickListener(new View.OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				searchMode = false;
+				clearIDs();
+				listAdapter.clear();
+				text = getUserLogin();
+
+				loadTweetsTask(text);
+				return false;
+			}
+		});
 	}
 	
+	private void clearIDs() {
+		maxId = null;
+		searchSinceId = null;
+	}
 	private void loadTweetsTask(final String name) {
 		Thread T = new Thread(new Runnable() {
 			@Override
@@ -159,36 +186,37 @@ public class UserHomeTimelineActivity extends BaseActivity  {
   		        listAdapter.notifyDataSetChanged();
 				app.setDataList(listAdapter.getList());
 			}});
-    	long tweetId = Long.valueOf(listAdapter.getLast().getId_str()) - 1;
-    	maxSearchId = String.valueOf(tweetId);
+    	searchSinceId = String.valueOf(searchData.getSearchData().getSinceId() + 1);
 	}
 	
 	private void loadTweets(String tweetParam)
 	{
 		try {
 			isLoading = true;
-			if(mode.equals(Constants.MODE_TEXT_TWEETS)) {
-				SearchData searchData = getTweeter().searchTweets(tweetParam, maxSearchId);
+			if (mode.equals(Constants.MODE_TEXT_TWEETS) && searchMode) {
+				SearchData searchData = getTweeter().searchTweets(tweetParam, searchSinceId);
 				addSearchDataToAdapter(searchData);
+			} else if (mode.equals(Constants.MODE_USERS_TWEETS) && searchMode) {
+				tweetData = getTweeter().getUserTimeline(tweetParam, maxId);
+				addDataToAdapter();
+			} else if (isHomeTimeline) {
+				tweetData = getTweeter().getHomeTimeline(maxId);
+				addDataToAdapter();
 			} else {
-				if (isHomeTimeline) {
-					tweetData = getTweeter().getHomeTimeline(maxId);
-				} else {
-					tweetData = getTweeter().getUserTimeline(tweetParam, maxId);
-				}
+				tweetData = getTweeter().getUserTimeline(tweetParam, maxId);
 				addDataToAdapter();
 			}
+			
 			isLoading = false;
 		}
 		catch (JsonSyntaxException e)
 		{
+			isLoading = false;
 			System.out.println(e.getMessage());
 	        runOnUiThread(new Runnable() {       
 			@Override
 			public void run() {
-				Toast toast = Toast.makeText(getApplicationContext(), 
-						   "Page does not exist!", Toast.LENGTH_SHORT);			
-				toast.show();  
+				Toast.makeText(getApplicationContext(), "Page does not exist!", Toast.LENGTH_SHORT).show();			
 	        }});        
 		}
 		catch (Exception e) {
@@ -202,7 +230,7 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setTitle("Choose search mode:");
-
+		
 		alert.setSingleChoiceItems(items, item,	new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int item) {
 						UserHomeTimelineActivity.this.item = item;
