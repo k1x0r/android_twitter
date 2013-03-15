@@ -1,27 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/animation_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <Button
-        android:id="@+id/tl_searchButton"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/tl_searchText"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/tl_searchText"
-        android:text="->" />
+    android:layout_height="match_parent" >
 
     <EditText
         android:id="@+id/tl_searchText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/tl_searchButton"
+        android:layout_toLeftOf="@+id/searchButton"
+        android:layout_toRightOf="@+id/backButton"
         android:ems="10"
         android:hint="Look for user&apos;s tweets" />
 
@@ -29,10 +18,30 @@
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/tl_searchButton"
+        android:layout_above="@+id/tl_searchText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" >
 
     </ListView>
+
+    <Button
+        android:id="@+id/backButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/tl_searchText"
+        android:text="←" />
+
+    <Button
+        android:id="@+id/searchButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/tl_searchText"
+        android:text="→" />
 
 </RelativeLayout>
