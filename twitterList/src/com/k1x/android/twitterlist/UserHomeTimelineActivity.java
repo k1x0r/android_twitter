@@ -12,12 +12,16 @@ import com.k1x.android.twitterlist.layouts.TweetListItem;
 import com.k1x.android.twitterlist.listviews.TweetListAdapter;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -27,8 +31,11 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.PopupMenu;
+import android.widget.PopupWindow;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
+import android.widget.ShareActionProvider;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -56,6 +63,9 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 	private UserInfo userInfo;
 	private Button backButton;
 
+	private ShareActionProvider shareActionProvider;
+
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState, R.layout.activity_base_tweetlist);
@@ -68,6 +78,7 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    getMenuInflater().inflate(R.menu.options, menu);
+
 	    final SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
 	    searchView.setOnQueryTextListener(new OnQueryTextListener() {
 			
@@ -86,6 +97,51 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 
 	    return super.onCreateOptionsMenu(menu);
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case R.id.menu_share:
+	            View menuItemView = findViewById(R.id.menu_share); // SAME ID AS MENU ID
+	            PopupMenu popupMenu = new PopupMenu(this, menuItemView); 
+	            popupMenu.inflate(R.menu.test_menu);
+	            popupMenu.show();	            
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}	
+	
+	private void alertDialogChooseSearchMode() {
+
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		alert.setTitle("Choose search mode:");
+		
+		alert.setSingleChoiceItems(items, item,	new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int item) {
+						UserHomeTimelineActivity.this.item = item;
+					}
+				});
+		
+		alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+			public void onClick(DialogInterface dialog, int id) {
+				mode = (String) items[item];
+			}
+		});
+
+		alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		});
+
+		AlertDialog ad = alert.create();
+		ad.show();
+
+	}
+
 	
 	@Override
 	protected void onGettingUserInfo(UserInfo userInfo, Bitmap bitmap) {
@@ -260,34 +316,5 @@ public class UserHomeTimelineActivity extends BaseActivity  {
     	searchSinceId = String.valueOf(searchData.getSearchData().getSinceId() + 1);
 	}
 	
-	private void alertDialogChooseSearchMode() {
-
-		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		alert.setTitle("Choose search mode:");
-		
-		alert.setSingleChoiceItems(items, item,	new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int item) {
-						UserHomeTimelineActivity.this.item = item;
-					}
-				});
-		
-		alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
-			public void onClick(DialogInterface dialog, int id) {
-				mode = (String) items[item];
-			}
-		});
-
-		alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.cancel();
-			}
-		});
-
-		AlertDialog ad = alert.create();
-		ad.show();
-
-	}
 
 }

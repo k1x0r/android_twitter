@@ -127,8 +127,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int slidingmenu_offset=0x7f050000;
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
-        public static final int shadow=0x7f020001;
+        public static final int configuration=0x7f020000;
+        public static final int ic_launcher=0x7f020001;
+        public static final int search=0x7f020002;
+        public static final int shadow=0x7f020003;
     }
     public static final class id {
         public static final int activity_content=0x7f04000c;
@@ -144,9 +146,12 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int fullscreen=0x7f040003;
         public static final int left=0x7f040000;
         public static final int margin=0x7f040002;
-        public static final int menu_save=0x7f04003c;
+        public static final int menu_overflow=0x7f04003d;
+        public static final int menu_overflow1=0x7f04003e;
+        public static final int menu_overflow2=0x7f04003f;
         public static final int menu_search=0x7f04003b;
         public static final int menu_settings=0x7f04003a;
+        public static final int menu_share=0x7f04003c;
         public static final int relativeLayout1=0x7f040010;
         public static final int right=0x7f040001;
         public static final int searchButton=0x7f04001a;
@@ -215,6 +220,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     public static final class menu {
         public static final int activity_main=0x7f090000;
         public static final int options=0x7f090001;
+        public static final int test_menu=0x7f090002;
     }
     public static final class string {
         public static final int app_name=0x7f070000;
