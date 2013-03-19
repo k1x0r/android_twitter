@@ -3,21 +3,21 @@
 
     <group android:checkableBehavior="single" >
         <item
-            android:id="@+id/menu_overflow"
+            android:id="@+id/menu_search_tweet_text"
             android:icon="@drawable/ic_launcher"
             android:showAsAction="ifRoom"
-            android:title="MenuItem"/>
+            android:title="Search by tweet text"/>
         <item
-            android:id="@+id/menu_overflow1"
+            android:id="@+id/menu_search_username"
             android:icon="@drawable/ic_launcher"
             android:showAsAction="ifRoom"
-            android:title="MenuItem"/>
+            android:title="Search by username"/>
     </group>
 
     <item
-        android:id="@+id/menu_overflow2"
+        android:id="@+id/menu_reload_form"
         android:icon="@drawable/ic_launcher"
         android:showAsAction="ifRoom"
-        android:title="MenuItem"/>
+        android:title="Reload Form"/>
 
 </menu>

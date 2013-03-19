@@ -1,7 +1,6 @@
 package com.k1x.android.twitterlist.tabfragments;
 
 import com.k1x.android.twitterlist.BaseActivity;
-import com.k1x.android.twitterlist.R;
 
 import android.app.ActionBar.Tab;
 import android.app.Fragment;

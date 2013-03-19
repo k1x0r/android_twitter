@@ -11,41 +11,28 @@ import com.k1x.android.twitterlist.entities.UserInfo;
 import com.k1x.android.twitterlist.layouts.TweetListItem;
 import com.k1x.android.twitterlist.listviews.TweetListAdapter;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupMenu;
-import android.widget.PopupWindow;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
-import android.widget.ShareActionProvider;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class UserHomeTimelineActivity extends BaseActivity  {
+public class UserHomeTimelineActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener {
 	
 	private LinkedList<TweetData> tweetData;
 	private TweetListAdapter listAdapter;
 	private ListView listView;
-	private EditText searchTweetsEditText;
-	private Button searchTweetsButton;
 	private String text;
 	private TwitterListApplication app;
 	private String maxId;
@@ -57,15 +44,11 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 
 	private CharSequence[] items = { Constants.MODE_TEXT_TWEETS,
 			Constants.MODE_USERS_TWEETS };
-	private int item = 0;
+	private int itemId = 0;
 	private String mode = Constants.MODE_TEXT_TWEETS;
 	private boolean searchMode = false;
 	private UserInfo userInfo;
-	private Button backButton;
 
-	private ShareActionProvider shareActionProvider;
-
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState, R.layout.activity_base_tweetlist);
@@ -100,47 +83,61 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	        case R.id.menu_share:
-	            View menuItemView = findViewById(R.id.menu_share); // SAME ID AS MENU ID
-	            PopupMenu popupMenu = new PopupMenu(this, menuItemView); 
-	            popupMenu.inflate(R.menu.test_menu);
-	            popupMenu.show();	            
-	            return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
-	}	
-	
-	private void alertDialogChooseSearchMode() {
+		switch (item.getItemId()) {
+		case R.id.menu_search_tweet_text:
+			System.out.println("Searching by Tweet Text");
+			itemId = 0;
+			mode = (String) items[itemId];
+			item.setChecked(true);
+			return true;
+		case R.id.menu_search_username:
+			System.out.println("Searching by userName");
+			itemId = 1;
+			mode = (String) items[itemId];
+			item.setChecked(true);
+			return true;
+		case R.id.menu_reload_form:
+			System.out.println("Reloading Form");
+			reloadActivity();
+			return true;
+		case R.id.menu_share:
+			View menuItemView = findViewById(R.id.menu_share); // SAME ID AS
+																// MENU ID
+			PopupMenu popupMenu = new PopupMenu(this, menuItemView);
+			popupMenu.inflate(R.menu.options_menu);
+			popupMenu.getMenu().getItem(itemId).setChecked(true);
+			popupMenu.setOnMenuItemClickListener(this);
+			popupMenu.show();
+			return true;
 
-		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		alert.setTitle("Choose search mode:");
-		
-		alert.setSingleChoiceItems(items, item,	new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int item) {
-						UserHomeTimelineActivity.this.item = item;
-					}
-				});
-		
-		alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
-			public void onClick(DialogInterface dialog, int id) {
-				mode = (String) items[item];
-			}
-		});
-
-		alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.cancel();
-			}
-		});
-
-		AlertDialog ad = alert.create();
-		ad.show();
-
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
+	
+	@Override
+	public boolean onMenuItemClick(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.menu_search_tweet_text:
+				itemId = 0;
+				mode = (String) items[itemId];
+	            if (item.isChecked()) item.setChecked(false);
+	            else item.setChecked(true);
+	            return true;
+			case R.id.menu_search_username:
+				itemId = 1;
+				mode = (String) items[itemId];
+	            if (item.isChecked()) item.setChecked(false);
+	            else item.setChecked(true);
+	            return true;
+			case R.id.menu_reload_form:
+				reloadActivity();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+			}
+	}
+	
 
 	
 	@Override
@@ -190,7 +187,7 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 					int visibleItemCount, int totalItemCount) {
 				int loadedItems = firstVisibleItem + visibleItemCount;
 				boolean isAtTheEnd = loadedItems == totalItemCount;
-				boolean allowed = !searchMode && (maxId != null) || searchMode && (searchSinceId != null);
+				boolean allowed =   (maxId != null) && (itemId==1 || !searchMode)  || searchMode && (searchSinceId != null);
 							
 				if (isAtTheEnd && !isLoading && allowed) {
 					loadTweetsTask(text);
@@ -198,37 +195,15 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 			}
 		});
 		
-		searchTweetsEditText = (EditText) findViewById(R.id.tl_searchText);
-		searchTweetsEditText.setOnLongClickListener(new OnLongClickListener() {
-			
-			@Override
-			public boolean onLongClick(View v) {
-				alertDialogChooseSearchMode();
-				return false;
-			}
-		});
-		searchTweetsButton = (Button) findViewById(R.id.searchButton);
-		searchTweetsButton.setOnClickListener(new OnClickListener() {		
-			@Override
-			public void onClick(View v) {
-				searchTweets(searchTweetsEditText.getText().toString());
-			}
-
-		});	
-		
-		backButton = (Button) findViewById(R.id.backButton);
-
-		backButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				searchMode = false;
-				clearIDs();
-				listAdapter.clear();
-				text = getUserLogin();
-				loadTweetsTask(text);
-			}
-		});
+	
+	}
+	
+	private void reloadActivity() {
+		searchMode = false;
+		clearIDs();
+		listAdapter.clear();
+		text = getUserLogin();
+		loadTweetsTask(text);
 	}
 	
 	private void searchTweets(String text) {
@@ -236,6 +211,7 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 		clearIDs();
 		listAdapter.clear();
 		tweetData.clear();
+		this.text = text;
 		loadTweetsTask(text);
 	}
 	
@@ -315,6 +291,37 @@ public class UserHomeTimelineActivity extends BaseActivity  {
 			}});
     	searchSinceId = String.valueOf(searchData.getSearchData().getSinceId() + 1);
 	}
-	
+
+	/*	
+	private void alertDialogChooseSearchMode() {
+
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		alert.setTitle("Choose search mode:");
+		
+		alert.setSingleChoiceItems(items, itemId,	new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int item) {
+						UserHomeTimelineActivity.this.itemId = item;
+					}
+				});
+		
+		alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+			public void onClick(DialogInterface dialog, int id) {
+				mode = (String) items[itemId];
+			}
+		});
+
+		alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		});
+
+		AlertDialog ad = alert.create();
+		ad.show();
+
+	}
+*/
 
 }
