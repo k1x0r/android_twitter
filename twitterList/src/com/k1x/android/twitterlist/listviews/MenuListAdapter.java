@@ -81,7 +81,7 @@ public class MenuListAdapter extends BaseAdapter {
 			public void run() {
 				getActivity().getMenu().toggle();
 				Intent I = new Intent(getActivity(), UserHomeTimelineActivity.class);
-				I.putExtra(Constants.KEY_USER_HOME_TIMELINE, false);
+				I.putExtra(Constants.TWEETLIST_MODE, Constants.MODE_USERTIMELINE);
 
 				getActivity().startActivity(I);
 				getActivity().finish();
@@ -93,10 +93,32 @@ public class MenuListAdapter extends BaseAdapter {
 			public void run() {
 				getActivity().getMenu().toggle();
 				Intent I = new Intent(getActivity(), UserHomeTimelineActivity.class);
-				I.putExtra(Constants.KEY_USER_HOME_TIMELINE, true);
+				I.putExtra(Constants.TWEETLIST_MODE, Constants.MODE_HOMETIMELINE);
 				getActivity().startActivity(I);
 				getActivity().finish();
 			}}));	
+    	
+    	list.add(new SlideMenuItem("Favourites", null, new Runnable() {
+
+			@Override
+			public void run() {
+				getActivity().getMenu().toggle();
+				Intent I = new Intent(getActivity(), UserHomeTimelineActivity.class);
+				I.putExtra(Constants.TWEETLIST_MODE, Constants.MODE_FAVOURITES);
+				getActivity().startActivity(I);
+				getActivity().finish();
+			}}));
+    	
+    	list.add(new SlideMenuItem("Mentions", null, new Runnable() {
+
+			@Override
+			public void run() {
+				getActivity().getMenu().toggle();
+				Intent I = new Intent(getActivity(), UserHomeTimelineActivity.class);
+				I.putExtra(Constants.TWEETLIST_MODE, Constants.MODE_MENTIONS);
+				getActivity().startActivity(I);
+				getActivity().finish();
+			}}));
 	}
 
 	public void add(SlideMenuItem data)

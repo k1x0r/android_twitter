@@ -40,12 +40,12 @@ public class UserHomeTimelineActivity extends BaseActivity implements PopupMenu.
 
 	private String userLogin;
 	private boolean isLoading = false;
-	private boolean isHomeTimeline;
+	private int activityMode = 0;
 
-	private CharSequence[] items = { Constants.MODE_TEXT_TWEETS,
-			Constants.MODE_USERS_TWEETS };
+	private CharSequence[] items = { Constants.SEARCH_MODE_TEXT_TWEETS,
+			Constants.SEARCH_MODE_USERS_TWEETS };
 	private int itemId = 0;
-	private String mode = Constants.MODE_TEXT_TWEETS;
+	private String mode = Constants.SEARCH_MODE_TEXT_TWEETS;
 	private boolean searchMode = false;
 	private UserInfo userInfo;
 
@@ -54,7 +54,8 @@ public class UserHomeTimelineActivity extends BaseActivity implements PopupMenu.
 		super.onCreate(savedInstanceState, R.layout.activity_base_tweetlist);
         app = (TwitterListApplication) getApplication();
 		userLogin = (String) getIntent().getStringExtra(Constants.KEY_USER_LOGIN);
-		isHomeTimeline = getIntent().getBooleanExtra(Constants.KEY_USER_HOME_TIMELINE, false);
+		activityMode = getIntent().getIntExtra(Constants.TWEETLIST_MODE, 0);
+		
 		setUpViews();
 	}
 	
@@ -190,6 +191,7 @@ public class UserHomeTimelineActivity extends BaseActivity implements PopupMenu.
 				boolean allowed =   (maxId != null) && (itemId==1 || !searchMode)  || searchMode && (searchSinceId != null);
 							
 				if (isAtTheEnd && !isLoading && allowed) {
+					System.out.println("Loading tweets...");
 					loadTweetsTask(text);
 				}
 			}
@@ -234,17 +236,23 @@ public class UserHomeTimelineActivity extends BaseActivity implements PopupMenu.
 	{
 		try {
 			isLoading = true;
-			if (mode.equals(Constants.MODE_TEXT_TWEETS) && searchMode) {
+			if (mode.equals(Constants.SEARCH_MODE_TEXT_TWEETS) && searchMode) {
 				SearchData searchData = getTweeter().searchTweets(tweetParam, searchSinceId);
 				addSearchDataToAdapter(searchData);
-			} else if (mode.equals(Constants.MODE_USERS_TWEETS) && searchMode) {
+			} else if (mode.equals(Constants.SEARCH_MODE_USERS_TWEETS) && searchMode) {
 				tweetData = getTweeter().getUserTimeline(tweetParam, maxId);
 				addDataToAdapter();
-			} else if (isHomeTimeline) {
+			} else if (activityMode == Constants.MODE_HOMETIMELINE) {
 				tweetData = getTweeter().getHomeTimeline(maxId);
 				addDataToAdapter();
-			} else {
+			} else if (activityMode == Constants.MODE_USERTIMELINE) {
 				tweetData = getTweeter().getUserTimeline(getUserLogin(), maxId);
+				addDataToAdapter();
+			} else if (activityMode == Constants.MODE_FAVOURITES) {
+				tweetData = getTweeter().getUserFavourites(getUserLogin(), maxId);
+				addDataToAdapter();
+			} else if (activityMode == Constants.MODE_MENTIONS) {
+				tweetData = getTweeter().getUserMentions(getUserLogin(), maxId);
 				addDataToAdapter();
 			}
 			
@@ -257,7 +265,7 @@ public class UserHomeTimelineActivity extends BaseActivity implements PopupMenu.
 	        runOnUiThread(new Runnable() {       
 			@Override
 			public void run() {
-				Toast.makeText(getApplicationContext(), "Page does not exist!", Toast.LENGTH_SHORT).show();			
+				Toast.makeText(getApplicationContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();			
 	        }});        
 		}
 		catch (Exception e) {

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.net.URLEncoder;
 import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
@@ -182,6 +181,59 @@ public class TweeterAPI {
         Uri.Builder builder = new Uri.Builder();
         builder.appendPath("statuses").appendPath("user_timeline.json")
                 .appendQueryParameter("include_rts", "true")
+                .appendQueryParameter("include_entities", "true")
+                .appendQueryParameter("count", "7");
+
+        if(userLogin!=null ) {
+               	builder.appendQueryParameter("screen_name", userLogin);
+        }
+        if(maxTweetID!=null ) {
+           	builder.appendQueryParameter("max_id", maxTweetID);
+        }
+        
+        Uri man = builder.build();
+        System.out.println("https://api.twitter.com/1.1" + man.toString());
+        
+        LinkedList<TweetData> tweetData = getArrayTweets(httpClient, man);
+	    httpClient.getConnectionManager().shutdown();
+		
+	    return tweetData;
+	}
+	
+	public LinkedList<TweetData> getUserFavourites(String userLogin, String maxTweetID) throws IllegalStateException, IOException, JsonSyntaxException, OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException {
+	    HttpParams params = new BasicHttpParams();
+	    HttpConnectionParams.setSoTimeout(params, 0);
+	    HttpClient httpClient = new DefaultHttpClient(params);
+
+        Uri.Builder builder = new Uri.Builder();
+        builder.appendPath("favorites").appendPath("list.json")
+                .appendQueryParameter("include_rts", "true")
+                .appendQueryParameter("include_entities", "true")
+                .appendQueryParameter("count", "7");
+
+        if(userLogin!=null ) {
+               	builder.appendQueryParameter("screen_name", userLogin);
+        }
+        if(maxTweetID!=null ) {
+           	builder.appendQueryParameter("max_id", maxTweetID);
+        }
+        
+        Uri man = builder.build();
+        System.out.println("https://api.twitter.com/1.1" + man.toString());
+        
+        LinkedList<TweetData> tweetData = getArrayTweets(httpClient, man);
+	    httpClient.getConnectionManager().shutdown();
+		
+	    return tweetData;
+	}
+	
+	public LinkedList<TweetData> getUserMentions(String userLogin, String maxTweetID) throws IllegalStateException, IOException, JsonSyntaxException, OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException {
+	    HttpParams params = new BasicHttpParams();
+	    HttpConnectionParams.setSoTimeout(params, 0);
+	    HttpClient httpClient = new DefaultHttpClient(params);
+
+        Uri.Builder builder = new Uri.Builder();
+        builder.appendPath("statuses").appendPath("mentions_timeline.json")
                 .appendQueryParameter("include_entities", "true")
                 .appendQueryParameter("count", "7");
 

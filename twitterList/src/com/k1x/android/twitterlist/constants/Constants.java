@@ -8,13 +8,13 @@ public class Constants {
 	public static final String KEY_MODE = "mode";
 	public static final String KEY_USER_INFO = "userInfo";
 	public static final String KEY_USER_LOGIN = "userLogin";
-	public static final String KEY_USER_HOME_TIMELINE = "userHomeTimeLine";
+	public static final String TWEETLIST_MODE = "userHomeTimeLine";
 
 	public static final String TWEET_BITMAP = "tweetBitmap";
 	public static final String TWEET_DATA = "tweetData";
 	
-	public static final String MODE_USERS_TWEETS = "Search by username";
-	public static final String MODE_TEXT_TWEETS = "Search by tweet text";
+	public static final String SEARCH_MODE_USERS_TWEETS = "Search by username";
+	public static final String SEARCH_MODE_TEXT_TWEETS = "Search by tweet text";
 	public static final String MODE_TWEETS = "Tweets";
 	public static final String MODE_TIMELINE = "Timeline";
 
@@ -23,4 +23,9 @@ public class Constants {
 	public static final int MODE_FOLOWERS = 1;
 	
 	public static final int PREFFED_USER_AVATAR_SIZE = 75;
+	public static final int MODE_USERTIMELINE = 0;
+	public static final int MODE_HOMETIMELINE = 1;
+	public static final int MODE_FAVOURITES = 2;
+	public static final int MODE_MENTIONS = 3;
+	
 }
