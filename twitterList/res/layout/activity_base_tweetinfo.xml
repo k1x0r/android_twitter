@@ -74,6 +74,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/tweetI_source"
-        android:text="User Profile" />
+        android:text="@string/user_profile" />
 
 </RelativeLayout>

@@ -87,8 +87,8 @@ public class UserProfileActivity extends BaseActivity {
 			userScreenName.setText(userInfo.getScreen_name());
 			userCreatedAt.setText(userInfo.getCreated_at());
 			userDesctiption.setText(userInfo.getDescription());
-			userFolowersButton.setText("Folowers "+ userInfo.getFollowers_count());
-			userFolowingsButton.setText("Folowings " + userInfo.getFriends_count());
+			userFolowersButton.setText(getString(R.string.folowers) + " " + userInfo.getFollowers_count());
+			userFolowingsButton.setText(getString(R.string.folowings) + " " + userInfo.getFriends_count());
 		}
 	}
 
@@ -101,8 +101,8 @@ public class UserProfileActivity extends BaseActivity {
 			userScreenName.setText(userInfo.getScreen_name());
 			userCreatedAt.setText(userInfo.getCreated_at());
 			userDesctiption.setText(userInfo.getDescription());
-			userFolowersButton.setText("Folowers "+ userInfo.getFollowers_count());
-			userFolowingsButton.setText("Folowings " + userInfo.getFriends_count());
+			userFolowersButton.setText(getString(R.string.folowers) + " " + userInfo.getFollowers_count());
+			userFolowingsButton.setText(getString(R.string.folowings) + " " + userInfo.getFriends_count());
 		}
 	}
 	

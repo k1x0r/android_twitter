@@ -18,4 +18,15 @@
     <string name="twitter_callback_url">twitter-oauth://callback</string>
     <string name="folowers">Folowers</string>
     <string name="folowings">Folowings</string>
+    <string name="new_tweet">New Tweet</string>
+    <string name="profile">Profile</string>
+    <string name="tweets">Tweets</string>
+    <string name="timeline">Timeline</string>
+    <string name="favourites">Favourites</string>
+    <string name="mentions">Mentions</string>
+    <string name="tweet">Tweet</string>
+    <string name="user_profile">User Profile</string>
+    <string name="pin_to_slidebar">Pin to slidebar</string>
+    <string name="log_in">Log In</string>
+    <string name="log_out">Log Out</string>
 </resources>

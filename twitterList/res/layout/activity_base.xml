@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:text="Log In"
+            android:text="@string/log_in"
             android:visibility="gone" />
 
         <Button
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="Log Out" />
+            android:text="@string/log_out" />
 
     </RelativeLayout>
 

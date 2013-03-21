@@ -23,7 +23,7 @@
         </activity>
         <activity
             android:name="com.k1x.android.twitterlist.UserHomeTimelineActivity"
-            android:label="Tweets" >
+            android:label="@string/app_name" >
             <intent-filter>
 		        <action android:name="android.intent.action.MAIN" />
         		<category android:name="android.intent.category.LAUNCHER" />
@@ -31,19 +31,19 @@
         </activity>       
         <activity
             android:name="com.k1x.android.twitterlist.TweetInfoActivity"
-            android:label="Tweets" >
+            android:label="@string/app_name" >
         </activity>   
         <activity
             android:name="com.k1x.android.twitterlist.TweetActivity"
-            android:label="Add Tweet" >
+            android:label="@string/app_name" >
         </activity>     
         <activity
             android:name="com.k1x.android.twitterlist.UsersListActivity"
-            android:label="User List" >
+            android:label="@string/app_name" >
         </activity>     
         <activity
             android:name="com.k1x.android.twitterlist.UserProfileActivity"
-            android:label="User Profile" >
+            android:label="@string/app_name" >
         </activity>     
     </application>
  	

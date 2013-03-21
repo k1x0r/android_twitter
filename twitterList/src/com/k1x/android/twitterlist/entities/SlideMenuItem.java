@@ -1,5 +1,6 @@
 package com.k1x.android.twitterlist.entities;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
 public class SlideMenuItem {

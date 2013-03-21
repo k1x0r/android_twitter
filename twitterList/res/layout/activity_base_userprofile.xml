@@ -78,7 +78,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/userProfile_folowersBtn"
-        android:text="Tweets" />
+        android:text="@string/tweets" />
 
     <Button
         android:id="@+id/userProfile_pinToSlideMenuBtn"
@@ -86,6 +86,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/userProfile_tweetsBtn"
-        android:text="Pin to slidebar" />
+        android:text="@string/pin_to_slidebar" />
 
 </RelativeLayout>

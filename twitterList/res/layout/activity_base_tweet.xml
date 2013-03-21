@@ -21,7 +21,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/t_tweetEditText"
-        android:text="Tweet" />
+        android:text="@string/tweet" />
 
     <TextView
         android:id="@+id/t_statusTextView"
