@@ -29,4 +29,7 @@
     <string name="pin_to_slidebar">Прикрепить к бок. меню</string>
     <string name="log_in">Войти</string>
     <string name="log_out">Выйти</string>
+    <string name="search_by_tweet_text">Поиск по тексту</string>
+    <string name="search_by_username">Поиск по польз.</string>
+    <string name="reload_form">Обновить</string>
 </resources>

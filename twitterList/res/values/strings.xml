@@ -29,4 +29,7 @@
     <string name="pin_to_slidebar">Pin to slidebar</string>
     <string name="log_in">Log In</string>
     <string name="log_out">Log Out</string>
+    <string name="search_by_tweet_text">Search by tweet text</string>
+    <string name="search_by_username">Search by username</string>
+    <string name="reload_form">Refresh</string>
 </resources>

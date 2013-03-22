@@ -6,18 +6,18 @@
             android:id="@+id/menu_search_tweet_text"
             android:icon="@drawable/ic_launcher"
             android:showAsAction="ifRoom"
-            android:title="Search by tweet text"/>
+            android:title="@string/search_by_tweet_text"/>
         <item
             android:id="@+id/menu_search_username"
             android:icon="@drawable/ic_launcher"
             android:showAsAction="ifRoom"
-            android:title="Search by username"/>
+            android:title="@string/search_by_username"/>
     </group>
 
     <item
         android:id="@+id/menu_reload_form"
         android:icon="@drawable/ic_launcher"
         android:showAsAction="ifRoom"
-        android:title="Reload Form"/>
+        android:title="@string/reload_form"/>
 
 </menu>

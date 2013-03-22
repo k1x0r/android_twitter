@@ -129,8 +129,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     public static final class drawable {
         public static final int configuration=0x7f020000;
         public static final int ic_launcher=0x7f020001;
-        public static final int search=0x7f020002;
-        public static final int shadow=0x7f020003;
+        public static final int icon=0x7f020002;
+        public static final int search=0x7f020003;
+        public static final int shadow=0x7f020004;
     }
     public static final class id {
         public static final int activity_content=0x7f04000c;
@@ -229,8 +230,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int password=0x7f070005;
         public static final int pin_to_slidebar=0x7f070015;
         public static final int profile=0x7f07000e;
+        public static final int reload_form=0x7f07001a;
         public static final int right_arrow=0x7f070007;
         public static final int save_login_data=0x7f070006;
+        public static final int search_by_tweet_text=0x7f070018;
+        public static final int search_by_username=0x7f070019;
         public static final int timeline=0x7f070010;
         public static final int tweet=0x7f070013;
         public static final int tweetlist=0x7f070003;
