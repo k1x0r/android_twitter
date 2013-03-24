@@ -99,7 +99,6 @@ public abstract class BaseActivity extends Activity {
 					long arg3) {
 				MenuListItem item = (MenuListItem) arg1;
 				item.getItem().getAction().run();
-				System.out.println(item.getItem().getName());
 			}
 		});
 

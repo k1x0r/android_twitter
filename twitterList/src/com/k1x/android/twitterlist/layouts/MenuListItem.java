@@ -5,7 +5,6 @@ import com.k1x.android.twitterlist.R;
 import com.k1x.android.twitterlist.entities.SlideMenuItem;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,11 +31,11 @@ public class MenuListItem extends LinearLayout {
 	public void setMenuItem(SlideMenuItem item)
 	{
 		this.item = item;
-		Bitmap image = item.getImage();
-		if(image!=null) {
-		menuImage.setImageBitmap(item.getImage());
+		Integer imageID = item.getImageID();
+		if (imageID != null) {
+			menuImage.setImageResource(imageID);
 		}
-		menuItemName.setText(item.getName());
+		menuItemName.setText(item.getTextID());
 	}
 
 	public SlideMenuItem getItem() {

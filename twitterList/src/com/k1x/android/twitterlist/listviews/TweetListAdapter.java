@@ -34,7 +34,8 @@ public class TweetListAdapter extends BaseAdapter implements IPostDataChange {
     {
     	if(data.getRetweeted_status()!=null) {
     		data = data.getRetweeted_status();
-    	}
+    		data.setRetweeted(true);
+    	} 
     	
     	list.add(data);
     	UserImageDownloader downloader = new UserImageDownloader(data.getUser(), this);

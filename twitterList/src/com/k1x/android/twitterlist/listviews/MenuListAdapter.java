@@ -31,13 +31,9 @@ public class MenuListAdapter extends BaseAdapter {
     	setModel();
     	
     }
-    
-	private String getString(int StrId) {
-		return activity.getResources().getString(StrId);
-	}
-	
+    	
     private void setModel() {
-    	list.add(new SlideMenuItem(getString(R.string.new_tweet), null, new Runnable() {
+    	list.add(new SlideMenuItem(R.string.new_tweet, R.drawable.tweet, new Runnable() {
 
 			@Override
 			public void run() {
@@ -47,7 +43,7 @@ public class MenuListAdapter extends BaseAdapter {
 				getActivity().finish();
 			}}));
     	
-    	list.add(new SlideMenuItem(getString(R.string.profile), null, new Runnable() {
+    	list.add(new SlideMenuItem(R.string.profile, R.drawable.profile, new Runnable() {
 
 			@Override
 			public void run() {
@@ -57,7 +53,7 @@ public class MenuListAdapter extends BaseAdapter {
 				getActivity().finish();
 			}}));
     	
-    	list.add(new SlideMenuItem(getString(R.string.folowings), null, new Runnable() {
+    	list.add(new SlideMenuItem(R.string.folowings, R.drawable.folowings, new Runnable() {
 
 			@Override
 			public void run() {
@@ -68,7 +64,7 @@ public class MenuListAdapter extends BaseAdapter {
 				getActivity().finish();
 			}}));
     	
-    	list.add(new SlideMenuItem(getString(R.string.folowers), null, new Runnable() {
+    	list.add(new SlideMenuItem(R.string.folowers, R.drawable.folowers, new Runnable() {
 
 			@Override
 			public void run() {
@@ -79,7 +75,7 @@ public class MenuListAdapter extends BaseAdapter {
 				getActivity().finish();
 			}}));
     	
-    	list.add(new SlideMenuItem(getString(R.string.tweets), null, new Runnable() {
+    	list.add(new SlideMenuItem(R.string.tweets, R.drawable.tweets, new Runnable() {
 
 			@Override
 			public void run() {
@@ -91,7 +87,7 @@ public class MenuListAdapter extends BaseAdapter {
 				getActivity().finish();
 			}}));		
     	
-    	list.add(new SlideMenuItem(getString(R.string.timeline), null, new Runnable() {
+    	list.add(new SlideMenuItem(R.string.timeline, R.drawable.timeline, new Runnable() {
 
 			@Override
 			public void run() {
@@ -102,7 +98,7 @@ public class MenuListAdapter extends BaseAdapter {
 				getActivity().finish();
 			}}));	
     	
-    	list.add(new SlideMenuItem(getString(R.string.favourites), null, new Runnable() {
+    	list.add(new SlideMenuItem(R.string.favourites, R.drawable.favorites, new Runnable() {
 
 			@Override
 			public void run() {
@@ -113,7 +109,7 @@ public class MenuListAdapter extends BaseAdapter {
 				getActivity().finish();
 			}}));
     	
-    	list.add(new SlideMenuItem(getString(R.string.mentions), null, new Runnable() {
+    	list.add(new SlideMenuItem(R.string.mentions, R.drawable.mention, new Runnable() {
 
 			@Override
 			public void run() {

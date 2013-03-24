@@ -119,7 +119,7 @@ public class UserInfo implements Serializable, Parcelable {
 	
 	@Override
 	public void writeToParcel(Parcel out, int flags) {
-		out.writeInt(isFollowing() ? 1 : 0);
+		out.writeInt(following ? 1 : 0);
 		out.writeInt(id);
 		out.writeInt(friends_count);
 		out.writeInt(favourites_count);

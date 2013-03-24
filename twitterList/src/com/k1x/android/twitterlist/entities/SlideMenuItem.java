@@ -1,32 +1,24 @@
 package com.k1x.android.twitterlist.entities;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-
 public class SlideMenuItem {
 
-	private String name;
-	private Bitmap image;
+	private Integer textID;
+	private Integer imageID;
 	private Runnable action;
 	
-	public SlideMenuItem(String name, Bitmap image, Runnable action)
+	public SlideMenuItem(Integer textID, Integer imageID, Runnable action)
 	{
-		this.name = name;
-		this.image = image;
+		this.textID = textID;
+		this.imageID = imageID;
 		this.action = action;
 	}
 	
-	public String getName() {
-		return name;
+	public Integer getTextID() {
+		return textID;
 	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public Bitmap getImage() {
-		return image;
-	}
-	public void setImage(Bitmap image) {
-		this.image = image;
+
+	public void setTextID(Integer textID) {
+		this.textID = textID;
 	}
 	
 	public Runnable getAction() {
@@ -36,4 +28,16 @@ public class SlideMenuItem {
 	public void setAction(Runnable action) {
 		this.action = action;
 	}
+
+	public Integer getImageID() {
+		return imageID;
+	}
+
+	public void setImageID(Integer imageID) {
+		this.imageID = imageID;
+	}
+
+
+
+
 }

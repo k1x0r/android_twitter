@@ -128,36 +128,49 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class drawable {
         public static final int configuration=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int icon=0x7f020002;
-        public static final int search=0x7f020003;
-        public static final int shadow=0x7f020004;
+        public static final int favorites=0x7f020001;
+        public static final int favourite_small=0x7f020002;
+        public static final int folowers=0x7f020003;
+        public static final int folowings=0x7f020004;
+        public static final int ic_launcher=0x7f020005;
+        public static final int icon=0x7f020006;
+        public static final int mention=0x7f020007;
+        public static final int profile=0x7f020008;
+        public static final int retweet_small=0x7f020009;
+        public static final int search=0x7f02000a;
+        public static final int shadow=0x7f02000b;
+        public static final int timeline=0x7f02000c;
+        public static final int tweet=0x7f02000d;
+        public static final int tweets=0x7f02000e;
     }
     public static final class id {
         public static final int activity_content=0x7f04000c;
         public static final int animation_layout=0x7f040018;
         public static final int animation_layout_content=0x7f04000a;
         public static final int button_login=0x7f040024;
-        public static final int cell_fullname=0x7f04002b;
-        public static final int cell_nickname=0x7f04002a;
-        public static final int cell_tweet=0x7f04002d;
-        public static final int cell_tweet_icon=0x7f04002c;
+        public static final int cell_favorited=0x7f04002e;
+        public static final int cell_fullname=0x7f04002d;
+        public static final int cell_nickname=0x7f040030;
+        public static final int cell_retweeted=0x7f04002f;
+        public static final int cell_tweet=0x7f04002b;
+        public static final int cell_tweet_icon=0x7f04002a;
         public static final int fullscreen=0x7f040003;
         public static final int left=0x7f040000;
+        public static final int linearLayout1=0x7f04002c;
         public static final int margin=0x7f040002;
-        public static final int menu_reload_form=0x7f040038;
-        public static final int menu_search=0x7f040034;
-        public static final int menu_search_tweet_text=0x7f040036;
-        public static final int menu_search_username=0x7f040037;
-        public static final int menu_settings=0x7f040033;
-        public static final int menu_share=0x7f040035;
+        public static final int menu_reload_form=0x7f04003b;
+        public static final int menu_search=0x7f040037;
+        public static final int menu_search_tweet_text=0x7f040039;
+        public static final int menu_search_username=0x7f04003a;
+        public static final int menu_settings=0x7f040036;
+        public static final int menu_share=0x7f040038;
         public static final int relativeLayout1=0x7f040010;
         public static final int right=0x7f040001;
         public static final int selected_view=0x7f040004;
-        public static final int sidebar_list=0x7f040031;
+        public static final int sidebar_list=0x7f040034;
         public static final int slidebar_item_image=0x7f040029;
         public static final int slidebar_item_text=0x7f040028;
-        public static final int slidingmenumain=0x7f040032;
+        public static final int slidingmenumain=0x7f040035;
         public static final int status_view=0x7f040027;
         public static final int t_statusTextView=0x7f04000f;
         public static final int t_tweetButton=0x7f04000e;
@@ -187,9 +200,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int userProfile_tweetsBtn=0x7f040021;
         public static final int userProfile_userAvatar=0x7f04001a;
         public static final int userProfile_userName=0x7f04001c;
-        public static final int userinfo_fullname=0x7f04002f;
-        public static final int userinfo_screenname=0x7f040030;
-        public static final int userinfo_user_icon=0x7f04002e;
+        public static final int userinfo_fullname=0x7f040032;
+        public static final int userinfo_screenname=0x7f040033;
+        public static final int userinfo_user_icon=0x7f040031;
         public static final int userlist_listview=0x7f040019;
     }
     public static final class integer {

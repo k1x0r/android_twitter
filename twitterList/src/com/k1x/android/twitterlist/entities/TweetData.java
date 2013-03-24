@@ -13,8 +13,8 @@ public class TweetData implements Parcelable {
 	private String source;
     private String created_at;
     private String id_str;
-    
-
+    private boolean favorited;
+    private boolean retweeted;
 
 	public TweetData(Parcel in) {
     	user = in.readParcelable(UserInfo.class.getClassLoader());
@@ -23,6 +23,9 @@ public class TweetData implements Parcelable {
 		source = in.readString();
 	    created_at = in.readString();	
 	    id_str = in.readString();
+	    favorited = in.readInt() == 1;
+	    retweeted = in.readInt() == 1;
+
 	}
     
 	public String getText() {
@@ -62,6 +65,22 @@ public class TweetData implements Parcelable {
 		this.id_str = id_str;
 	}
 	
+	public boolean isFavorited() {
+		return favorited;
+	}
+
+	public void setFavorited(boolean favorited) {
+		this.favorited = favorited;
+	}
+	
+	public boolean isRetweeted() {
+		return retweeted;
+	}
+
+	public void setRetweeted(boolean retweeted) {
+		this.retweeted = retweeted;
+	}
+	
 	@Override
 	public int describeContents() {
 		return 0;
@@ -74,6 +93,9 @@ public class TweetData implements Parcelable {
 		dest.writeString(source);
 	    dest.writeString(created_at);	
 	    dest.writeString(id_str);
+	    dest.writeInt(favorited ? 1:0);
+	    dest.writeInt(retweeted ? 1:0);
+
 	}
 
 	@Override
@@ -83,6 +105,7 @@ public class TweetData implements Parcelable {
 		return sb.toString();
 	}
 	
+
 	public static final Parcelable.Creator<TweetData> CREATOR = new Parcelable.Creator<TweetData>() {  
 	    
         public TweetData createFromParcel(Parcel in) {  

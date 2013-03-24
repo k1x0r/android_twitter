@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.k1x.android.twitterlist.layouts.TweetListItem 
+<com.k1x.android.twitterlist.layouts.TweetListItem xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" >
+    
+    
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/cell_nickname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/cell_fullname"
-            android:text="Small Text"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <ImageView
             android:id="@+id/cell_tweet_icon"
@@ -27,15 +20,6 @@
             android:src="@drawable/ic_launcher" />
 
         <TextView
-            android:id="@+id/cell_fullname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/cell_tweet"
-            android:layout_below="@+id/cell_tweet"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
             android:id="@+id/cell_tweet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,7 +27,48 @@
             android:layout_toRightOf="@+id/cell_tweet_icon"
             android:text="Large Text"
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
     </RelativeLayout>
     
+	<RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/cell_tweet_icon" >
+
+            <TextView
+                android:id="@+id/cell_fullname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Medium Text"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <ImageView
+                android:id="@+id/cell_favorited"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/favourite_small" />
+
+            <ImageView
+                android:id="@+id/cell_retweeted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/retweet_small" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/cell_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/linearLayout1"
+            android:layout_alignParentRight="true"
+            android:text="Small Text"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </RelativeLayout>
+
 </com.k1x.android.twitterlist.layouts.TweetListItem>

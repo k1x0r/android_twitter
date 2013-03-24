@@ -6,6 +6,7 @@ import com.k1x.android.twitterlist.entities.TweetData;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,6 +18,8 @@ public class TweetListItem extends LinearLayout {
 	private TextView tweetAuthor;
 	private TextView tweetNick;
 	private ImageView tweetIcon;
+	private ImageView tweetRetweeted;
+	private ImageView tweetFavorited;
 
 	String url;
 	
@@ -31,6 +34,8 @@ public class TweetListItem extends LinearLayout {
 		tweetAuthor = (TextView)findViewById(R.id.cell_fullname);
 		tweetNick = (TextView)findViewById(R.id.cell_nickname);
 		tweetIcon = (ImageView)findViewById(R.id.cell_tweet_icon);
+		tweetRetweeted = (ImageView)findViewById(R.id.cell_retweeted);
+		tweetFavorited = (ImageView)findViewById(R.id.cell_favorited);
 	}
 	
 	public void setTweet(TweetData tweet)
@@ -55,6 +60,18 @@ public class TweetListItem extends LinearLayout {
 			if (tweetData.getUser().getUserBitmap() != null) {
 				tweetIcon.setImageBitmap(tweetData.getUser().getUserBitmap());
 			}
+		}
+		
+		if (tweetData.isFavorited()) {
+			tweetFavorited.setVisibility(View.VISIBLE);
+		} else {
+			tweetFavorited.setVisibility(View.GONE);
+		}
+		
+		if (tweetData.isRetweeted()) {
+			tweetRetweeted.setVisibility(View.VISIBLE);
+		} else {
+			tweetRetweeted.setVisibility(View.GONE);
 		}
 
 	}
