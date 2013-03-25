@@ -97,25 +97,28 @@ public class UsersListActivity extends BaseActivity {
 			public void run() {
 				isLoading = true;
 	            result = getTweeter().getFolowingsFolowers(mode, userLogin, cursor);
-	            System.out.println(result);
 	            
-	            if(result.getUsers()!=null) {
-	            for(UserInfo info: result.getUsers()) {
-	            	System.out.println(info);
-	            }
-	            runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						userListAdapter.addArray(result.getUsers());
-						userListAdapter.notifyDataSetChanged();
-						app.setUserList(userListAdapter.getList());
-					}});
-	            }
+				if (mode == TweeterAPI.BLOCKERS && result.getUsers() != null) {
+					for (UserInfo uInfo : result.getUsers()) {
+						uInfo.setBlocked(true);
+					}
+				}
+				           
+				if (result.getUsers() != null) {
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							userListAdapter.addArray(result.getUsers());
+							userListAdapter.notifyDataSetChanged();
+							app.setUserList(userListAdapter.getList());
+						}
+					});
+				}
 				if (result.getNextCursorStr() != null) {
 					cursor = result.getNextCursorStr();
 				}
-	            System.out.println("cursor = " + cursor);
-	            isLoading = false;
+				System.out.println("cursor = " + cursor);
+				isLoading = false;
 			}		
 		});
 		T.start();

@@ -44,6 +44,8 @@ public class TweeterAPI {
 
 	public static int FOLOWINGS = 0;
 	public static int FOLOWERS = 1;
+	public static int BLOCKERS = 2;
+
 	public static final String TWEETS_COUNT = "20";
 	public static final String TAG = "Trololo";
 	public static final Pattern ID_PATTERN = Pattern.compile(".*?\"id_str\":\"(\\d*)\".*");
@@ -104,8 +106,10 @@ public class TweeterAPI {
 
 			if (mode == FOLOWERS) {
 				builder.appendPath("followers");
-			} else {
+			} else if (mode == FOLOWINGS) {
 				builder.appendPath("friends");
+			} else if (mode == BLOCKERS) {
+				builder.appendPath("blocks");
 			}
             
             builder.appendPath("list.json");
@@ -113,7 +117,7 @@ public class TweeterAPI {
             if(cursor!=null) {
             	builder.appendQueryParameter("cursor", cursor);
             }
-            if(username!=null) {
+            if(username!=null && mode!= BLOCKERS) {
             	builder.appendQueryParameter("screen_name", username);
             }
             

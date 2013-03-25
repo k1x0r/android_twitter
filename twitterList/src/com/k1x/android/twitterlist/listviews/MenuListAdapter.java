@@ -75,6 +75,17 @@ public class MenuListAdapter extends BaseAdapter {
 				getActivity().finish();
 			}}));
     	
+    	list.add(new SlideMenuItem(R.string.blockers , null, new Runnable() {
+
+			@Override
+			public void run() {
+				getActivity().getMenu().toggle();
+				Intent I = new Intent(getActivity(), UsersListActivity.class);
+				I.putExtra(Constants.KEY_MODE, TweeterAPI.BLOCKERS);
+				getActivity().startActivity(I);	
+				getActivity().finish();
+			}}));
+    	
     	list.add(new SlideMenuItem(R.string.tweets, R.drawable.tweets, new Runnable() {
 
 			@Override
@@ -108,6 +119,7 @@ public class MenuListAdapter extends BaseAdapter {
 				getActivity().startActivity(I);
 				getActivity().finish();
 			}}));
+    	
     	
     	list.add(new SlideMenuItem(R.string.mentions, R.drawable.mention, new Runnable() {
 

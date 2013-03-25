@@ -142,6 +142,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int timeline=0x7f02000c;
         public static final int tweet=0x7f02000d;
         public static final int tweets=0x7f02000e;
+        public static final int userview_block=0x7f02000f;
+        public static final int userview_follow=0x7f020010;
     }
     public static final class id {
         public static final int activity_content=0x7f04000c;
@@ -158,19 +160,19 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int left=0x7f040000;
         public static final int linearLayout1=0x7f04002c;
         public static final int margin=0x7f040002;
-        public static final int menu_reload_form=0x7f04003b;
-        public static final int menu_search=0x7f040037;
-        public static final int menu_search_tweet_text=0x7f040039;
-        public static final int menu_search_username=0x7f04003a;
-        public static final int menu_settings=0x7f040036;
-        public static final int menu_share=0x7f040038;
+        public static final int menu_reload_form=0x7f04003d;
+        public static final int menu_search=0x7f040039;
+        public static final int menu_search_tweet_text=0x7f04003b;
+        public static final int menu_search_username=0x7f04003c;
+        public static final int menu_settings=0x7f040038;
+        public static final int menu_share=0x7f04003a;
         public static final int relativeLayout1=0x7f040010;
         public static final int right=0x7f040001;
         public static final int selected_view=0x7f040004;
-        public static final int sidebar_list=0x7f040034;
+        public static final int sidebar_list=0x7f040036;
         public static final int slidebar_item_image=0x7f040029;
         public static final int slidebar_item_text=0x7f040028;
-        public static final int slidingmenumain=0x7f040035;
+        public static final int slidingmenumain=0x7f040037;
         public static final int status_view=0x7f040027;
         public static final int t_statusTextView=0x7f04000f;
         public static final int t_tweetButton=0x7f04000e;
@@ -200,6 +202,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int userProfile_tweetsBtn=0x7f040021;
         public static final int userProfile_userAvatar=0x7f04001a;
         public static final int userProfile_userName=0x7f04001c;
+        public static final int userinfo_blocked=0x7f040035;
+        public static final int userinfo_folowing=0x7f040034;
         public static final int userinfo_fullname=0x7f040032;
         public static final int userinfo_screenname=0x7f040033;
         public static final int userinfo_user_icon=0x7f040031;
@@ -230,6 +234,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class string {
         public static final int app_name=0x7f070000;
+        public static final int blockers=0x7f07001b;
         public static final int favourites=0x7f070011;
         public static final int folowers=0x7f07000b;
         public static final int folowings=0x7f07000c;

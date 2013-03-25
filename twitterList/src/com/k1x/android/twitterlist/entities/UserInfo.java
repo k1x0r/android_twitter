@@ -23,6 +23,8 @@ public class UserInfo implements Serializable, Parcelable {
 	private String description;
 	private String created_at;
 	
+	@Expose 
+	private boolean blocked;
 	@Expose
 	private Bitmap userBitmap;
 	
@@ -39,6 +41,8 @@ public class UserInfo implements Serializable, Parcelable {
 		description = in.readString();
 		created_at = in.readString();	
 		userBitmap = in.readParcelable(Bitmap.class.getClassLoader());
+		blocked = in.readInt() == 1;
+
 	}
 	
 	public int getId() {
@@ -112,6 +116,14 @@ public class UserInfo implements Serializable, Parcelable {
 		this.userBitmap = userBitmap;
 	}
 
+	public boolean isBlocked() {
+		return blocked;
+	}
+
+	public void setBlocked(boolean blocked) {
+		this.blocked = blocked;
+	}
+	
 	@Override
 	public int describeContents() {
 		return 0;
@@ -130,6 +142,8 @@ public class UserInfo implements Serializable, Parcelable {
 		out.writeString(description);
 		out.writeString(created_at);		
 		out.writeParcelable(userBitmap, flags);
+		out.writeInt(blocked ? 1 : 0);
+
 	}
 	public static final Parcelable.Creator<UserInfo> CREATOR = new Parcelable.Creator<UserInfo>() {  
 	    

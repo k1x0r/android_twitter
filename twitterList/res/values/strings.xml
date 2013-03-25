@@ -32,4 +32,5 @@
     <string name="search_by_tweet_text">Search by tweet text</string>
     <string name="search_by_username">Search by username</string>
     <string name="reload_form">Refresh</string>
+    <string name="blockers">Blockers</string>
 </resources>
