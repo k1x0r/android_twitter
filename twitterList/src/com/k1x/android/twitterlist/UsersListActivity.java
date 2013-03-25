@@ -97,14 +97,13 @@ public class UsersListActivity extends BaseActivity {
 			public void run() {
 				isLoading = true;
 	            result = getTweeter().getFolowingsFolowers(mode, userLogin, cursor);
-	            
-				if (mode == TweeterAPI.BLOCKERS && result.getUsers() != null) {
-					for (UserInfo uInfo : result.getUsers()) {
-						uInfo.setBlocked(true);
-					}
-				}
 				           
 				if (result.getUsers() != null) {
+					if (mode == TweeterAPI.BLOCKERS) {
+						for (UserInfo uInfo : result.getUsers()) {
+							uInfo.setBlocked(true);
+						}
+					}
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
@@ -119,7 +118,7 @@ public class UsersListActivity extends BaseActivity {
 				}
 				System.out.println("cursor = " + cursor);
 				isLoading = false;
-			}		
+			}
 		});
 		T.start();
     }
