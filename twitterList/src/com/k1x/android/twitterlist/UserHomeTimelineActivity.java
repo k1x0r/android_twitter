@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -48,14 +49,18 @@ public class UserHomeTimelineActivity extends BaseActivity implements PopupMenu.
 	private String mode = Constants.SEARCH_MODE_TEXT_TWEETS;
 	private boolean searchMode = false;
 	private UserInfo userInfo;
+	private TextView errorMessageView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState, R.layout.activity_base_tweetlist);
+	}
+	
+	@Override
+	protected void onCreate() {
         app = (TwitterListApplication) getApplication();
 		userLogin = (String) getIntent().getStringExtra(Constants.KEY_USER_LOGIN);
 		activityMode = getIntent().getIntExtra(Constants.TWEETLIST_MODE, 0);
-		
 		setUpViews();
 	}
 	
@@ -74,7 +79,6 @@ public class UserHomeTimelineActivity extends BaseActivity implements PopupMenu.
 			
 			@Override
 			public boolean onQueryTextChange(String arg0) {
-				// TODO Auto-generated method stub
 				return false;
 			}
 		});
@@ -86,19 +90,16 @@ public class UserHomeTimelineActivity extends BaseActivity implements PopupMenu.
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_search_tweet_text:
-			System.out.println("Searching by Tweet Text");
 			itemId = 0;
 			mode = (String) items[itemId];
 			item.setChecked(true);
 			return true;
 		case R.id.menu_search_username:
-			System.out.println("Searching by userName");
 			itemId = 1;
 			mode = (String) items[itemId];
 			item.setChecked(true);
 			return true;
 		case R.id.menu_reload_form:
-			System.out.println("Reloading Form");
 			reloadActivity();
 			return true;
 		case R.id.menu_share:
@@ -114,6 +115,16 @@ public class UserHomeTimelineActivity extends BaseActivity implements PopupMenu.
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+	
+	@Override
+	protected void showErrorMessege() {
+		errorMessageView.setVisibility(View.VISIBLE);
+	}
+	
+	@Override
+	protected void hideErrorMessege() {
+		errorMessageView.setVisibility(View.GONE);
 	}
 	
 	@Override
@@ -153,14 +164,18 @@ public class UserHomeTimelineActivity extends BaseActivity implements PopupMenu.
 		String userName;
 		if(userLogin!=null) {
 			userName = userLogin;
-		} else { 
+		} else if (userInfo.getScreen_name()!=null) { 
 			userName = userInfo.getScreen_name();
+		} else {
+			userName = "and1_john";
 		}
 		return userName;
 	}
 
 	private void setUpViews() {
-			
+		
+		errorMessageView = (TextView) findViewById(R.id.error_not_logged_in);
+		
 	    listAdapter = new TweetListAdapter(this, app.getTweetList());  
 		listView = (ListView) findViewById(android.R.id.list);
 		listView.setAdapter(listAdapter);
@@ -196,8 +211,6 @@ public class UserHomeTimelineActivity extends BaseActivity implements PopupMenu.
 				}
 			}
 		});
-		
-	
 	}
 	
 	private void reloadActivity() {
@@ -272,7 +285,7 @@ public class UserHomeTimelineActivity extends BaseActivity implements PopupMenu.
 		    e.printStackTrace();
 		}
 	}
-	
+
 	private void addDataToAdapter() {
         runOnUiThread(new Runnable() {
 			@Override

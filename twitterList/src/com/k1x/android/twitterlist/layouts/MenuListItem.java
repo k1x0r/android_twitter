@@ -5,12 +5,13 @@ import com.k1x.android.twitterlist.R;
 import com.k1x.android.twitterlist.entities.SlideMenuItem;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class MenuListItem extends LinearLayout {
+public class MenuListItem extends RelativeLayout {
 
 	private TextView menuItemName;
 	private ImageView menuImage;
@@ -31,11 +32,12 @@ public class MenuListItem extends LinearLayout {
 	public void setMenuItem(SlideMenuItem item)
 	{
 		this.item = item;
-		Integer imageID = item.getImageID();
-		if (imageID != null) {
-			menuImage.setImageResource(imageID);
-		}
-		menuItemName.setText(item.getTextID());
+		Drawable image = item.getImage();
+		if (image != null) {
+			menuImage.setImageDrawable(image);
+		} 
+		
+		menuItemName.setText(item.getText());
 	}
 
 	public SlideMenuItem getItem() {

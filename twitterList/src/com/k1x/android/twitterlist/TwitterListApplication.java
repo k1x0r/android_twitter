@@ -6,26 +6,30 @@ import com.k1x.android.twitterlist.entities.TweetData;
 import com.k1x.android.twitterlist.entities.UserInfo;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 public class TwitterListApplication extends Application {
 	
     private static final String SECRET_TOKEN_KEY = "secretToken";
-    private String secretToken;
     private static final String ACCESS_TOKEN_KEY = "accessToken";
+
+    private static Context context;
+
+    private String secretToken;
     private String accessToken;
 
     private LinkedList<UserInfo> userList = null;
     private LinkedList<TweetData> tweetList = null;
 
-    
-	private SharedPreferences prefs;
+    private SharedPreferences prefs;
 	private Editor prefsEditor;
     
 	@Override
 	public void onCreate() {
 		super.onCreate();
+        context=getApplicationContext();
 		loadPrefs();
 	}
 
@@ -75,4 +79,7 @@ public class TwitterListApplication extends Application {
 		this.tweetList = dataList;
 	}
 	
+    public static Context getTwitterAppContext(){
+        return context;
+    } 
 }

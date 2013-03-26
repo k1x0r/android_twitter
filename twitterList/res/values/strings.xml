@@ -33,4 +33,6 @@
     <string name="search_by_username">Search by username</string>
     <string name="reload_form">Refresh</string>
     <string name="blockers">Blockers</string>
+    <string name="not_logged_in">You\'re not logged in. Please log in.</string>
+    <string name="view_profile">View Profile</string>
 </resources>

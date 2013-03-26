@@ -23,6 +23,8 @@ public class MenuListAdapter extends BaseAdapter {
 	
     private LinkedList<SlideMenuItem> list;
 	private BaseActivity activity;
+	private SlideMenuItem loginItem;
+
 
 	public MenuListAdapter(BaseActivity activity)
     {
@@ -33,6 +35,10 @@ public class MenuListAdapter extends BaseAdapter {
     }
     	
     private void setModel() {
+    	
+    	loginItem = new SlideMenuItem(R.string.log_in, null, null);
+    	list.add(loginItem);
+    	
     	list.add(new SlideMenuItem(R.string.new_tweet, R.drawable.tweet, new Runnable() {
 
 			@Override
@@ -133,6 +139,10 @@ public class MenuListAdapter extends BaseAdapter {
 			}}));
 	}
 
+	public SlideMenuItem getLoginItem() {
+		return loginItem;
+	}
+    
 	public void add(SlideMenuItem data)
     {
     	list.add(data);

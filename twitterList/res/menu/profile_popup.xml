@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/popup_view_profile"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/view_profile"/>
+    <item
+        android:id="@+id/popup_log_out"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/log_out"/>
+
+</menu>

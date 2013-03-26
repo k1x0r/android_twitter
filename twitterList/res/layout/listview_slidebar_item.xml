@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.k1x.android.twitterlist.layouts.MenuListItem 
+<com.k1x.android.twitterlist.layouts.MenuListItem xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android">
-    
-<RelativeLayout android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+    android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/slidebar_item_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/slidebar_item_image"
-            android:text="Large Text"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+    <TextView
+        android:id="@+id/slidebar_item_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/slidebar_item_image"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <ImageView
-            android:id="@+id/slidebar_item_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_launcher" />
+    <ImageView
+        android:id="@+id/slidebar_item_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_launcher" />
 
-</RelativeLayout>
 </com.k1x.android.twitterlist.layouts.MenuListItem>
