@@ -110,6 +110,8 @@ public class UserProfileActivity extends BaseActivity {
 
 
 	private void fillForm() {
+		
+		
 		userName.setText(userInfo.getName());
 		userAvatar.setImageBitmap(userInfo.getUserBitmap());
 		userScreenName.setText(userInfo.getScreen_name());
@@ -124,7 +126,8 @@ public class UserProfileActivity extends BaseActivity {
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
-						getApp().getAPI().folowUser(userInfo.getScreen_name(), !userInfo.isBlocked());					
+						getApp().getAPI().folowUser(userInfo.getScreen_name(), !userInfo.isFollowing());					
+
 					}
 				}).start();
 			}
@@ -137,7 +140,8 @@ public class UserProfileActivity extends BaseActivity {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					getApp().getAPI().blockUser(userInfo.getScreen_name(), !userInfo.isFollowing());
+					getApp().getAPI().blockUser(userInfo.getScreen_name(), !userInfo.isBlocked());
+
 				}
 			}).start();
 			}
