@@ -8,7 +8,6 @@ import com.k1x.android.twitterlist.listviews.UserListAdapter;
 import com.k1x.android.twitterlist.twitterutil.TweeterAPI;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
@@ -35,10 +34,25 @@ public class UsersListActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState, R.layout.activity_base_userlist);
+	}
+	
+	@Override
+	protected void onCreate() {
         app = (TwitterListApplication) getApplication();
 		mode =  getIntent().getIntExtra(Constants.KEY_MODE, TweeterAPI.FOLOWERS);
 		System.out.println(userInfo);
 		setUpViews();
+	}
+
+	@Override
+	protected void onGettingUserInfo(UserInfo userInfo) {
+    	userLogin = (String) getIntent().getStringExtra(Constants.KEY_USER_LOGIN);
+		if(userLogin == null) {
+			userLogin = userInfo.getScreen_name();
+		} 
+	
+		userListAdapter.clear();
+    	getList();
 	}
 
 	private void setUpViews()
@@ -78,15 +92,6 @@ public class UsersListActivity extends BaseActivity {
 		
 	}
 
-    @Override
-	protected void onGettingUserInfo(UserInfo userInfo, Bitmap bitmap) {
-    	userLogin = (String) getIntent().getStringExtra(Constants.KEY_USER_LOGIN);
-		if(userLogin == null) {
-			userLogin = userInfo.getScreen_name();
-		}
-		userListAdapter.clear();
-    	getList();
-	}
 
 	private void getList() 
     {
@@ -96,7 +101,7 @@ public class UsersListActivity extends BaseActivity {
 			@Override
 			public void run() {
 				isLoading = true;
-	            result = getTweeter().getFolowingsFolowers(mode, userLogin, cursor);
+	            result = getTweeter().getUserList(mode, userLogin, cursor);
 				           
 				if (result.getUsers() != null) {
 					if (mode == TweeterAPI.BLOCKERS) {

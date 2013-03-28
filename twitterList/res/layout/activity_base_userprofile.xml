@@ -68,24 +68,62 @@
         android:id="@+id/userProfile_folowersBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/userProfile_folowingsBtn"
+        android:layout_alignBaseline="@+id/userProfile_folowingsBtn"
+        android:layout_alignBottom="@+id/userProfile_folowingsBtn"
+        android:layout_toRightOf="@+id/userProfile_createdAt"
         android:text="@string/folowers" />
 
-    <Button
-        android:id="@+id/userProfile_tweetsBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/userProfile_folowersBtn"
-        android:text="@string/tweets" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/userProfile_description"
+            android:layout_weight="0.35"
+            android:orientation="horizontal" >
 
-    <Button
-        android:id="@+id/userProfile_pinToSlideMenuBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/userProfile_tweetsBtn"
-        android:text="@string/pin_to_slidebar" />
+            <ImageView
+                android:id="@+id/userinfo_folowing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/userview_follow" />
+
+            <ImageView
+                android:id="@+id/userinfo_blocked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/userview_block" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/userProfile_tweetsBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/userProfile_folowingsBtn"
+            android:text="@string/tweets" />
+
+        <Button
+            android:id="@+id/folow_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/userProfile_tweetsBtn"
+            android:text="@string/folow" />
+
+        <Button
+            android:id="@+id/block_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/userProfile_pinToSlideMenuBtn"
+            android:layout_alignRight="@+id/userProfile_pinToSlideMenuBtn"
+            android:text="@string/block" />
+
+        <Button
+            android:id="@+id/userProfile_pinToSlideMenuBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/folow_button"
+            android:text="@string/pin_to_slidebar" />
 
 </RelativeLayout>

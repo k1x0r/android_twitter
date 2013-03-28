@@ -35,4 +35,6 @@
     <string name="blockers">Blockers</string>
     <string name="not_logged_in">You\'re not logged in. Please log in.</string>
     <string name="view_profile">View Profile</string>
+    <string name="folow">Folow</string>
+    <string name="block">Block</string>
 </resources>

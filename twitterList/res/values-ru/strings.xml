@@ -7,7 +7,7 @@
     <string name="tweetlist">Список твитов</string>
     <string name="login">Логин</string>
     <string name="password">Password</string>
-    <string name="save_login_data">Сохранить данніе</string>
+    <string name="save_login_data">Сохранить данные</string>
     <string name="right_arrow">-></string>
     <!-- 
     <string name="twitter_oauth_consumer_key">rLgj2ZPStx0cFoFv5vM3A</string>
@@ -32,4 +32,7 @@
     <string name="search_by_tweet_text">Поиск по тексту</string>
     <string name="search_by_username">Поиск по польз.</string>
     <string name="reload_form">Обновить</string>
+    <string name="blockers">Заблокированные</string>
+    <string name="not_logged_in">Вы не авторизировались. Необходимо выполнить вход.</string>
+    <string name="view_profile">Просмотр профиля</string>
 </resources>

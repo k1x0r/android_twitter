@@ -4,12 +4,14 @@ import java.util.LinkedList;
 
 import com.k1x.android.twitterlist.entities.TweetData;
 import com.k1x.android.twitterlist.entities.UserInfo;
+import com.k1x.android.twitterlist.twitterutil.TweeterAPI;
 
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
+
 public class TwitterListApplication extends Application {
 	
     private static final String SECRET_TOKEN_KEY = "secretToken";
@@ -25,7 +27,12 @@ public class TwitterListApplication extends Application {
 
     private SharedPreferences prefs;
 	private Editor prefsEditor;
+	
+	private UserInfo userProfile;
+	
+	private TweeterAPI twitterAPI;
     
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -82,4 +89,24 @@ public class TwitterListApplication extends Application {
     public static Context getTwitterAppContext(){
         return context;
     } 
+    
+
+	public UserInfo getUserProfile() {
+		return userProfile;
+	}
+
+	public void setUserProfile(UserInfo userProfile) {
+		this.userProfile = userProfile;
+	}
+	
+	public TweeterAPI getAPI() {
+		if(twitterAPI!=null) {
+			return twitterAPI;
+		} else {
+			return new TweeterAPI(getAccessToken(), getSecretToken(), getApplicationContext());
+
+		}
+	}
+
+
 }

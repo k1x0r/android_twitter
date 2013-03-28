@@ -12,7 +12,6 @@ import com.k1x.android.twitterlist.layouts.TweetListItem;
 import com.k1x.android.twitterlist.listviews.TweetListAdapter;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 
@@ -153,7 +152,7 @@ public class UserHomeTimelineActivity extends BaseActivity implements PopupMenu.
 
 	
 	@Override
-	protected void onGettingUserInfo(UserInfo userInfo, Bitmap bitmap) {
+	protected void onGettingUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
 		listAdapter.clear();
 		text = getUserLogin();

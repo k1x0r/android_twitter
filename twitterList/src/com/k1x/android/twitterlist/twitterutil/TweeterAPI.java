@@ -94,7 +94,7 @@ public class TweeterAPI {
     }
     
     
-    public UserList getFolowingsFolowers(int mode, String username, String cursor)
+    public UserList getUserList(int mode, String username, String cursor)
     {
 		try {
 			UserList info; 
@@ -122,7 +122,6 @@ public class TweeterAPI {
             }
             
             Uri man = builder.build();
-		    //prepare the HTTP GET call 
             
             System.out.println("https://api.twitter.com/1.1" + man.toString());
 		    HttpGet httpget = new HttpGet("https://api.twitter.com/1.1" + man.toString());
@@ -134,8 +133,6 @@ public class TweeterAPI {
 		    	InputStreamReader reader = new InputStreamReader(is);	    	
 		        Gson gson = new GsonBuilder().create();
 		        info = gson.fromJson(reader, UserList.class);
-//	            String jsonResponseStr = convertStreamToString(entity.getContent());
-//		        System.out.println(jsonResponseStr);
 		        httpClient.getConnectionManager().shutdown();
 		        return info;
 		    }
@@ -145,6 +142,7 @@ public class TweeterAPI {
 		}
         return null;
     }
+    
     public UserInfo getUserInfo()
     {
 		try {
@@ -155,7 +153,7 @@ public class TweeterAPI {
 		    HttpClient httpClient = new DefaultHttpClient(params);
 
 		    //prepare the HTTP GET call 
-		    HttpGet httpget = new HttpGet("https://api.twitter.com/1/account/verify_credentials.json");
+		    HttpGet httpget = new HttpGet("https://api.twitter.com/1.1/account/verify_credentials.json");
             oAuthConsumer.sign(httpget);
 
 		    HttpEntity entity = httpClient.execute(httpget).getEntity();
@@ -171,6 +169,54 @@ public class TweeterAPI {
 		}catch (Exception e) {
 		    e.printStackTrace();
 	        return null;
+		}
+        return null;
+
+    }
+    
+    public UserInfo folowUser(String targetUser, boolean create) {
+    	return folowBlockUser(targetUser, create, "friendships");
+    }
+    
+    public UserInfo blockUser(String targetUser, boolean create) {
+    	return folowBlockUser(targetUser, create, "blocks");
+    }
+    
+    
+    public UserInfo folowBlockUser(String targetUser,boolean create, String pathString)
+    {
+		try {
+			UserInfo info; 
+			
+		    HttpParams params = new BasicHttpParams();
+		    HttpConnectionParams.setSoTimeout(params, 0);
+		    HttpClient httpClient = new DefaultHttpClient(params);
+	    
+	        Uri.Builder builder = new Uri.Builder();
+
+	        builder.appendPath(pathString)
+	        	   .appendPath(create? "create.json" : "destroy.json")
+	        	   .appendQueryParameter("screen_name", targetUser);
+	        
+	        Uri man = builder.build();
+	        System.out.println("https://api.twitter.com/1.1" + man.toString());
+		    HttpPost httpget = new HttpPost("https://api.twitter.com/1.1" + man.toString());
+            oAuthConsumer.sign(httpget);
+
+		    HttpEntity entity = httpClient.execute(httpget).getEntity();
+		    if (entity != null) {
+		    	is = entity.getContent();
+		    	InputStreamReader reader = new InputStreamReader(is);
+		        Gson gson = new GsonBuilder().create();
+		        info = gson.fromJson(reader, UserInfo.class);
+		        System.out.println(info);
+		        httpClient.getConnectionManager().shutdown();
+		        System.out.println(info);
+		        return info;
+		    }
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
         return null;
 

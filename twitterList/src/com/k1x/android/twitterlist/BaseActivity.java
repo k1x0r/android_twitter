@@ -76,24 +76,26 @@ public abstract class BaseActivity extends Activity {
 		setUpData();
 		onCreate();
 		
-		if(!app.getAccessToken().equals("0")) {
+		if(app.getUserProfile()!=null && !app.getAccessToken().equals("0")) {
+			setUserUIControlsLoggedIn(app.getUserProfile());
+			onGettingUserInfo(app.getUserProfile());
+		} else if(!app.getAccessToken().equals("0")) {
 			getUserInfo();
 		} else {
 			showErrorMessege();
 		}
 	}
 	
-	protected void onGettingUserInfo(UserInfo userInfo, Bitmap bitmap) {}  
+	protected void onGettingUserInfo(UserInfo userInfo) {}  
     protected void onCreate() {}
 	protected void showErrorMessege() {}
 	protected void hideErrorMessege() {}
 
 	
 	private void setUpViews() {
+	
 		setContentView(R.layout.activity_base_assembly);
-		
 		activityContentLayout = (LinearLayout) findViewById(R.id.activity_content);
-        
 		userInfoLayout = (RelativeLayout) findViewById(R.id.tl_userloginDataLayout);
 		
         menu = new SlidingMenu(this);
@@ -200,7 +202,7 @@ public abstract class BaseActivity extends Activity {
 	}
 	
 	private void setUpData() {
-		tweeter = new TweeterAPI(app.getAccessToken(), app.getSecretToken(), BaseActivity.this);
+		tweeter = app.getAPI();
 	}
 
     protected void getUserInfo()
@@ -222,17 +224,11 @@ public abstract class BaseActivity extends Activity {
 				}
 	            runOnUiThread(new Runnable() {
 					@Override
-					public void run() {
-						userNameTextField.setText(uinfo.getName());
-						userAvatar.setImageBitmap(userAvatarImage);
-						hideErrorMessege();
-						setLoggedIn(true);
-						
-						loginItem.setText(uinfo.getName());
-						loginItem.setImage(new BitmapDrawable(getResources(), userAvatarImage));
-						menuAdapter.notifyDataSetChanged();
-						
-						onGettingUserInfo(uinfo, userAvatarImage);
+					public void run() {		
+						uinfo.setUserBitmap(userAvatarImage);
+						app.setUserProfile(uinfo);
+						setUserUIControlsLoggedIn(uinfo);
+						onGettingUserInfo(uinfo);
 					}});
 				} else 
 					runOnUiThread(new Runnable() {
@@ -245,6 +241,20 @@ public abstract class BaseActivity extends Activity {
 		T.start();
     }
 	
+	private void setUserUIControlsLoggedIn(UserInfo uInfo) {
+		String userName = uInfo.getName();
+		Bitmap userAvatarImage = uInfo.getUserBitmap();
+		setLoggedIn(true);
+		BitmapDrawable userAvatarDrawable = new BitmapDrawable(getResources(), userAvatarImage);
+
+		userNameTextField.setText(userName);
+		userAvatar.setImageDrawable(userAvatarDrawable);
+		loginItem.setText(userName);
+		loginItem.setImage(userAvatarDrawable);
+		menuAdapter.notifyDataSetChanged();
+		
+		hideErrorMessege();
+	}
    
 	private void setLoggedIn(boolean loggedIn)
 	{
@@ -281,6 +291,7 @@ public abstract class BaseActivity extends Activity {
     {
         app.setAccessToken("0");
         app.setSecretToken("0");
+        app.setUserProfile(null);
         setLoggedIn(false);
     }
     
@@ -335,5 +346,7 @@ public abstract class BaseActivity extends Activity {
 	public TweeterAPI getTweeter() {
 		return tweeter;
 	}
+
+
 
 }

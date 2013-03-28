@@ -1,7 +1,6 @@
 package com.k1x.android.twitterlist;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,15 +25,33 @@ public class UserProfileActivity extends BaseActivity {
 	private Button userPinToSlideBarButton;
 	private boolean userInfoSet;
 	private UserInfo userInfo;
-	private Bitmap userBitmap;
+	private Button userFolowButton;
+	private Button userBlockButton;
+	private ImageView userFolowingIcon;
+	private ImageView userBlockedIcon;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState, R.layout.activity_base_userprofile);
+	}
+	
+	
+	
+	@Override
+	protected void onCreate() {
 		userInfo = (UserInfo) getIntent().getParcelableExtra(Constants.USER_INFO);
-		userBitmap = (Bitmap) getIntent().getParcelableExtra(Constants.USER_BITMAP);
 		userInfoSet = userInfo!=null;
 		setUpViews();
+	}
+
+
+
+	@Override
+	protected void onGettingUserInfo(UserInfo userInfo) {
+		if(!userInfoSet) {
+			this.userInfo = userInfo;
+		} 
+		fillForm();
 	}
 
 	private void setUpViews()
@@ -48,6 +65,10 @@ public class UserProfileActivity extends BaseActivity {
 		userFolowersButton = (Button) findViewById(R.id.userProfile_folowersBtn);
 		userTweetButton = (Button) findViewById(R.id.userProfile_tweetsBtn);
 		userPinToSlideBarButton = (Button) findViewById(R.id.userProfile_pinToSlideMenuBtn);
+		userFolowButton = (Button) findViewById(R.id.folow_button);
+		userBlockButton = (Button) findViewById(R.id.block_button);
+		userFolowingIcon = (ImageView)findViewById(R.id.userinfo_folowing);
+		userBlockedIcon = (ImageView)findViewById(R.id.userinfo_blocked);
 		
 		userFolowersButton.setOnClickListener(new OnClickListener() {
 			
@@ -82,29 +103,59 @@ public class UserProfileActivity extends BaseActivity {
 		});
 		
 		if(userInfoSet) {
-			userName.setText(userInfo.getName());
-			userAvatar.setImageBitmap(userBitmap);
-			userScreenName.setText(userInfo.getScreen_name());
-			userCreatedAt.setText(userInfo.getCreated_at());
-			userDesctiption.setText(userInfo.getDescription());
-			userFolowersButton.setText(getString(R.string.folowers) + " " + userInfo.getFollowers_count());
-			userFolowingsButton.setText(getString(R.string.folowings) + " " + userInfo.getFriends_count());
+			fillForm();
 		}
 	}
 
-	@Override
-	protected void onGettingUserInfo(UserInfo userInfo, Bitmap userImage) {
-		if(!userInfoSet) {
-			this.userInfo = userInfo;
-			userName.setText(userInfo.getName());
-			userAvatar.setImageBitmap(userImage);
-			userScreenName.setText(userInfo.getScreen_name());
-			userCreatedAt.setText(userInfo.getCreated_at());
-			userDesctiption.setText(userInfo.getDescription());
-			userFolowersButton.setText(getString(R.string.folowers) + " " + userInfo.getFollowers_count());
-			userFolowingsButton.setText(getString(R.string.folowings) + " " + userInfo.getFriends_count());
+
+
+	private void fillForm() {
+		userName.setText(userInfo.getName());
+		userAvatar.setImageBitmap(userInfo.getUserBitmap());
+		userScreenName.setText(userInfo.getScreen_name());
+		userCreatedAt.setText(userInfo.getCreated_at());
+		userDesctiption.setText(userInfo.getDescription());
+		userFolowersButton.setText(getString(R.string.folowers) + " " + userInfo.getFollowers_count());
+		userFolowingsButton.setText(getString(R.string.folowings) + " " + userInfo.getFriends_count());
+		userFolowButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						getApp().getAPI().folowUser(userInfo.getScreen_name(), !userInfo.isBlocked());					
+					}
+				}).start();
+			}
+		});
+		
+		userBlockButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					getApp().getAPI().blockUser(userInfo.getScreen_name(), !userInfo.isFollowing());
+				}
+			}).start();
+			}
+		});
+		
+		if(userInfo.isFollowing()) {
+			userFolowingIcon.setVisibility(View.VISIBLE);
+		} else {
+			userFolowingIcon.setVisibility(View.GONE);
+		}
+		if(userInfo.isBlocked()) {
+			userBlockedIcon.setVisibility(View.VISIBLE);
+		} else {
+			userBlockedIcon.setVisibility(View.GONE);
 		}
 	}
+
+
 	
 	
 }
