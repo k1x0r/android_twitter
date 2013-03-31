@@ -22,7 +22,7 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.k1x.android.twitterlist.UserHomeTimelineActivity"
+            android:name=".TweetsTimelineActivity"
             android:label="@string/app_name" >
             <intent-filter>
 		        <action android:name="android.intent.action.MAIN" />
@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>       
         <activity
-            android:name="com.k1x.android.twitterlist.TweetInfoActivity"
+            android:name=".FullTweetActivity"
             android:label="@string/app_name" >
         </activity>   
         <activity

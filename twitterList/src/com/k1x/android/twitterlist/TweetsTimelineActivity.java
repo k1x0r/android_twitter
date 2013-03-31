@@ -12,6 +12,7 @@ import com.k1x.android.twitterlist.layouts.TweetListItem;
 import com.k1x.android.twitterlist.listviews.TweetListAdapter;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 
@@ -28,7 +29,7 @@ import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class UserHomeTimelineActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener {
+public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener {
 	
 	private LinkedList<TweetData> tweetData;
 	private TweetListAdapter listAdapter;
@@ -49,6 +50,8 @@ public class UserHomeTimelineActivity extends BaseActivity implements PopupMenu.
 	private boolean searchMode = false;
 	private UserInfo userInfo;
 	private TextView errorMessageView;
+	private SearchView searchView;
+	private boolean menuEnabled;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,16 +69,21 @@ public class UserHomeTimelineActivity extends BaseActivity implements PopupMenu.
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    getMenuInflater().inflate(R.menu.options, menu);
-
-	    final SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+	    
+	    searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+	    
 	    searchView.setOnQueryTextListener(new OnQueryTextListener() {
 			
 			@Override
 			public boolean onQueryTextSubmit(String query) {
-				searchTweets(query);
-				return true;
+				if (menuEnabled) {
+					searchTweets(query);
+					return true;
+				} else {
+					return true;
+				}
 			}
-			
+
 			@Override
 			public boolean onQueryTextChange(String arg0) {
 				return false;
@@ -84,41 +92,45 @@ public class UserHomeTimelineActivity extends BaseActivity implements PopupMenu.
 
 	    return super.onCreateOptionsMenu(menu);
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.menu_search_tweet_text:
-			itemId = 0;
-			mode = (String) items[itemId];
-			item.setChecked(true);
-			return true;
-		case R.id.menu_search_username:
-			itemId = 1;
-			mode = (String) items[itemId];
-			item.setChecked(true);
-			return true;
-		case R.id.menu_reload_form:
-			reloadActivity();
-			return true;
-		case R.id.menu_share:
-			View menuItemView = findViewById(R.id.menu_share); // SAME ID AS
-																// MENU ID
-			PopupMenu popupMenu = new PopupMenu(this, menuItemView);
-			popupMenu.inflate(R.menu.options_menu);
-			popupMenu.getMenu().getItem(itemId).setChecked(true);
-			popupMenu.setOnMenuItemClickListener(this);
-			popupMenu.show();
-			return true;
-
-		default:
-			return super.onOptionsItemSelected(item);
+		if (menuEnabled) {
+			switch (item.getItemId()) {
+			case R.id.menu_search_tweet_text:
+				itemId = 0;
+				mode = (String) items[itemId];
+				item.setChecked(true);
+				return true;
+			case R.id.menu_search_username:
+				itemId = 1;
+				mode = (String) items[itemId];
+				item.setChecked(true);
+				return true;
+			case R.id.menu_reload_form:
+				reloadActivity();
+				return true;
+			case R.id.menu_share:
+				View menuItemView = findViewById(R.id.menu_share); // SAME ID AS
+																	// MENU ID
+				PopupMenu popupMenu = new PopupMenu(this, menuItemView);
+				popupMenu.inflate(R.menu.options_menu);
+				popupMenu.getMenu().getItem(itemId).setChecked(true);
+				popupMenu.setOnMenuItemClickListener(this);
+				popupMenu.show();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+			}
+		} else {
+			return false;
 		}
 	}
 	
 	@Override
 	protected void showErrorMessege() {
 		errorMessageView.setVisibility(View.VISIBLE);
+		listAdapter.clear();
 	}
 	
 	@Override
@@ -149,15 +161,20 @@ public class UserHomeTimelineActivity extends BaseActivity implements PopupMenu.
 			}
 	}
 	
-
-	
 	@Override
 	protected void onGettingUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
+		menuEnabled = true;
 		listAdapter.clear();
 		text = getUserLogin();
 		loadTweetsTask(text);
 	}
+	
+	@Override
+    protected void onLogout() {
+		menuEnabled = false;
+	}
+
 
 	private String getUserLogin() {
 		String userName;
@@ -184,7 +201,7 @@ public class UserHomeTimelineActivity extends BaseActivity implements PopupMenu.
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				TweetListItem item = (TweetListItem) arg1;
-				Intent I = new Intent(UserHomeTimelineActivity.this, TweetInfoActivity.class);
+				Intent I = new Intent(TweetsTimelineActivity.this, FullTweetActivity.class);
 				I.putExtra(Constants.TWEET_DATA, item.getTweetData());
 				I.putExtra(Constants.TWEET_BITMAP, item.getTweetData().getUser().getUserBitmap());
 				startActivity(I);
@@ -234,14 +251,27 @@ public class UserHomeTimelineActivity extends BaseActivity implements PopupMenu.
 		searchSinceId = null;
 	}
 	
-	private void loadTweetsTask(final String tweetParam) {
-		Thread T = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				loadTweets(tweetParam);
-				listView.postInvalidate();
-			}});
-		T.start();		
+
+	
+
+	
+	private void loadTweetsTask(String tweetParam) {
+		new LoadTweetsTask().execute(tweetParam);
+	}
+	
+	private class LoadTweetsTask extends AsyncTask<String, Void, Void> {
+
+		@Override
+		protected Void doInBackground(String... params) {
+			loadTweets(params[0]);
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			listView.postInvalidate();
+		}
+
 	}
 	
 	private void loadTweets(String tweetParam)
@@ -311,7 +341,7 @@ public class UserHomeTimelineActivity extends BaseActivity implements PopupMenu.
 			}});
     	searchSinceId = String.valueOf(searchData.getSearchData().getSinceId() + 1);
 	}
-
+	
 	/*	
 	private void alertDialogChooseSearchMode() {
 

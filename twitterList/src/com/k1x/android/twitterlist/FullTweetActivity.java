@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class TweetInfoActivity extends BaseActivity {
+public class FullTweetActivity extends BaseActivity {
 
 	
 	private ImageView userAvatar;
@@ -62,7 +62,7 @@ public class TweetInfoActivity extends BaseActivity {
 				
 				@Override
 				public void onClick(View arg0) {
-					Intent I = new Intent(TweetInfoActivity.this, UserProfileActivity.class);
+					Intent I = new Intent(FullTweetActivity.this, UserProfileActivity.class);
 					I.putExtra(Constants.USER_INFO, (Parcelable)tweetData.getUser());
 					I.putExtra(Constants.USER_BITMAP, userBitmap);
 					startActivity(I);					

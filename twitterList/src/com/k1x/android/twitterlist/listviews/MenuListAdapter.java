@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import com.k1x.android.twitterlist.BaseActivity;
 import com.k1x.android.twitterlist.R;
 import com.k1x.android.twitterlist.TweetActivity;
-import com.k1x.android.twitterlist.UserHomeTimelineActivity;
+import com.k1x.android.twitterlist.TweetsTimelineActivity;
 import com.k1x.android.twitterlist.UserProfileActivity;
 import com.k1x.android.twitterlist.UsersListActivity;
 import com.k1x.android.twitterlist.constants.Constants;
@@ -97,7 +97,7 @@ public class MenuListAdapter extends BaseAdapter {
 			@Override
 			public void run() {
 				getActivity().getMenu().toggle();
-				Intent I = new Intent(getActivity(), UserHomeTimelineActivity.class);
+				Intent I = new Intent(getActivity(), TweetsTimelineActivity.class);
 				I.putExtra(Constants.TWEETLIST_MODE, Constants.MODE_USERTIMELINE);
 
 				getActivity().startActivity(I);
@@ -109,7 +109,7 @@ public class MenuListAdapter extends BaseAdapter {
 			@Override
 			public void run() {
 				getActivity().getMenu().toggle();
-				Intent I = new Intent(getActivity(), UserHomeTimelineActivity.class);
+				Intent I = new Intent(getActivity(), TweetsTimelineActivity.class);
 				I.putExtra(Constants.TWEETLIST_MODE, Constants.MODE_HOMETIMELINE);
 				getActivity().startActivity(I);
 				getActivity().finish();
@@ -120,7 +120,7 @@ public class MenuListAdapter extends BaseAdapter {
 			@Override
 			public void run() {
 				getActivity().getMenu().toggle();
-				Intent I = new Intent(getActivity(), UserHomeTimelineActivity.class);
+				Intent I = new Intent(getActivity(), TweetsTimelineActivity.class);
 				I.putExtra(Constants.TWEETLIST_MODE, Constants.MODE_FAVOURITES);
 				getActivity().startActivity(I);
 				getActivity().finish();
@@ -132,7 +132,7 @@ public class MenuListAdapter extends BaseAdapter {
 			@Override
 			public void run() {
 				getActivity().getMenu().toggle();
-				Intent I = new Intent(getActivity(), UserHomeTimelineActivity.class);
+				Intent I = new Intent(getActivity(), TweetsTimelineActivity.class);
 				I.putExtra(Constants.TWEETLIST_MODE, Constants.MODE_MENTIONS);
 				getActivity().startActivity(I);
 				getActivity().finish();

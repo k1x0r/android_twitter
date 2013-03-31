@@ -1,6 +1,7 @@
 package com.k1x.android.twitterlist;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -96,7 +97,7 @@ public class UserProfileActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent I = new Intent(UserProfileActivity.this, UserHomeTimelineActivity.class);
+				Intent I = new Intent(UserProfileActivity.this, TweetsTimelineActivity.class);
 				I.putExtra(Constants.KEY_USER_LOGIN, userInfo.getScreen_name());
 				startActivity(I);				
 			}
@@ -123,43 +124,91 @@ public class UserProfileActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						getApp().getAPI().folowUser(userInfo.getScreen_name(), !userInfo.isFollowing());					
-
-					}
-				}).start();
+				new FolowTask().execute(null, null);
 			}
 		});
 		
-		userBlockButton.setOnClickListener(new OnClickListener() {
-			
+		userBlockButton.setOnClickListener(new OnClickListener() {	
 			@Override
 			public void onClick(View v) {
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					getApp().getAPI().blockUser(userInfo.getScreen_name(), !userInfo.isBlocked());
-
-				}
-			}).start();
+				new BlockTask().execute(null, null);				
 			}
 		});
 		
 		if(userInfo.isFollowing()) {
 			userFolowingIcon.setVisibility(View.VISIBLE);
+			userFolowButton.setText(R.string.unfolow);
 		} else {
 			userFolowingIcon.setVisibility(View.GONE);
 		}
 		if(userInfo.isBlocked()) {
 			userBlockedIcon.setVisibility(View.VISIBLE);
+			userBlockButton.setText(R.string.unblock);
 		} else {
 			userBlockedIcon.setVisibility(View.GONE);
 		}
 	}
 
+	private class BlockTask extends AsyncTask<Void, Void, Boolean> {
 
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			UserInfo result = getApp().getAPI().blockUser(userInfo.getScreen_name(), !userInfo.isBlocked());
+			if(result.getScreen_name().equals(userInfo.getScreen_name()) && result.getScreen_name()!=null && result!=null) {
+				boolean status = !userInfo.isBlocked();
+				userInfo.setBlocked(status);
+				userInfo.setFollowing(false);
+				return true;					
+			} else {
+				return false;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			if(userInfo.isBlocked() && result) {
+				userFolowButton.setText(R.string.folow);
+				userBlockButton.setText(R.string.unblock);
+				userFolowingIcon.setVisibility(View.GONE);
+				userBlockedIcon.setVisibility(View.VISIBLE);
+			} else if(result) {
+				userBlockButton.setText(R.string.block);
+				userBlockedIcon.setVisibility(View.GONE);
+			} else {
+				System.out.println("User is not " + (userInfo.isBlocked()?"blocked":"unblocked"));
+			}
+		}
+	}
 	
+	private class FolowTask extends AsyncTask<Void, Void, Boolean> {
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			UserInfo result = 	getApp().getAPI().folowUser(userInfo.getScreen_name(), !userInfo.isFollowing());					
+			if(result.getScreen_name().equals(userInfo.getScreen_name()) && result.getScreen_name()!=null && result!=null) {
+				boolean status = !userInfo.isFollowing();
+				userInfo.setFollowing(status);
+				userInfo.setBlocked(false);
+				return true;					
+			} else {
+				return false;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			if(userInfo.isFollowing() && result) {
+				userFolowButton.setText(R.string.unfolow);
+				userBlockButton.setText(R.string.block);
+				userFolowingIcon.setVisibility(View.VISIBLE);
+				userBlockedIcon.setVisibility(View.GONE);
+			} else if(result) {
+				userFolowButton.setText(R.string.folow);
+				userFolowingIcon.setVisibility(View.GONE);
+			} else {
+				System.out.println("User is not " + (userInfo.isFollowing()?"folowed":"unfolowed"));
+			}
+		}
+	}
 	
 }

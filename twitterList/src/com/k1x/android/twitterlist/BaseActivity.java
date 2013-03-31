@@ -43,21 +43,17 @@ import com.slidingmenu.lib.SlidingMenu;
 public abstract class BaseActivity extends Activity {
 
 
-	public static final String TAG = "Trololo";   
+	public static final String TAG = "My Twitter";   
     public static final String TWITTER_OAUTH_REQUEST_TOKEN_ENDPOINT = "https://api.twitter.com/oauth/request_token";
     public static final String TWITTER_OAUTH_ACCESS_TOKEN_ENDPOINT = "https://api.twitter.com/oauth/access_token";
     public static final String TWITTER_OAUTH_AUTHORIZE_ENDPOINT = "https://api.twitter.com/oauth/authorize";
     
 	private TweeterAPI tweeter;
 
-	private Button loginButton;
-	private Button logoutButton;
-	private TextView userNameTextField;
-	private ImageView userAvatar;
+
 	private TwitterListApplication app;
 	private CommonsHttpOAuthProvider commonsHttpOAuthProvider;
 	private CommonsHttpOAuthConsumer commonsHttpOAuthConsumer;
-	private RelativeLayout userInfoLayout;
 	private int resLayout;
 
 	private ListView menuListView;
@@ -73,7 +69,7 @@ public abstract class BaseActivity extends Activity {
 		this.resLayout = resLayout;
         app = (TwitterListApplication) getApplication();
 		setUpViews();
-		setUpData();
+		getAPI();
 		onCreate();
 		
 		if(app.getUserProfile()!=null && !app.getAccessToken().equals("0")) {
@@ -85,18 +81,18 @@ public abstract class BaseActivity extends Activity {
 			showErrorMessege();
 		}
 	}
-	
+
 	protected void onGettingUserInfo(UserInfo userInfo) {}  
     protected void onCreate() {}
 	protected void showErrorMessege() {}
 	protected void hideErrorMessege() {}
-
+    protected void onLogout() {}
+	
 	
 	private void setUpViews() {
 	
 		setContentView(R.layout.activity_base_assembly);
 		activityContentLayout = (LinearLayout) findViewById(R.id.activity_content);
-		userInfoLayout = (RelativeLayout) findViewById(R.id.tl_userloginDataLayout);
 		
         menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
@@ -169,24 +165,7 @@ public abstract class BaseActivity extends Activity {
 			}
 		});
         
-		loginButton = (Button) findViewById(R.id.tl_loginbutton);
-		loginButton.setOnClickListener(new OnClickListener() {		
-			@Override
-			public void onClick(View v) {
-				authorizeUser();
-			}
-		});
-		
-		logoutButton = (Button) findViewById(R.id.tl_logoutbutton);
-		logoutButton.setOnClickListener(new OnClickListener() {		
-			@Override
-			public void onClick(View v) {
-				logOut();
-			}
-		});
-		
-		userNameTextField = (TextView) findViewById(R.id.tl_username);
-		userAvatar = (ImageView) findViewById(R.id.tl_useravatar);		
+
 	}
 
 	public boolean onProfilePopupItemClick(MenuItem item) {
@@ -201,7 +180,7 @@ public abstract class BaseActivity extends Activity {
 		return true;
 	}
 	
-	private void setUpData() {
+	private void getAPI() {
 		tweeter = app.getAPI();
 	}
 
@@ -216,7 +195,7 @@ public abstract class BaseActivity extends Activity {
 				if(uinfo!=null)
 				{ 
 				try {
-					int destSize = userInfoLayout.getHeight(); 
+					int destSize = 72; 
 					Bitmap avatarFromTwitter =  HTTPUtil.getImage(uinfo.getProfile_image_url());			
 					userAvatarImage = Bitmap.createScaledBitmap(avatarFromTwitter, destSize, destSize, true);
 				} catch (IOException e) {
@@ -247,8 +226,7 @@ public abstract class BaseActivity extends Activity {
 		setLoggedIn(true);
 		BitmapDrawable userAvatarDrawable = new BitmapDrawable(getResources(), userAvatarImage);
 
-		userNameTextField.setText(userName);
-		userAvatar.setImageDrawable(userAvatarDrawable);
+
 		loginItem.setText(userName);
 		loginItem.setImage(userAvatarDrawable);
 		menuAdapter.notifyDataSetChanged();
@@ -260,16 +238,8 @@ public abstract class BaseActivity extends Activity {
 	{
 		this.loggedIn = loggedIn;
 		if (loggedIn) {
-			loginButton.setVisibility(View.GONE);
-			logoutButton.setVisibility(View.VISIBLE);
-			userNameTextField.setVisibility(View.VISIBLE);
-			userAvatar.setVisibility(View.VISIBLE);
-		} else {
-			loginButton.setVisibility(View.VISIBLE);
-			logoutButton.setVisibility(View.GONE);
-			userNameTextField.setVisibility(View.GONE);
-			userAvatar.setVisibility(View.GONE);
-			
+
+		} else {		
 			loginItem.setText(getResources().getString(R.string.log_in));
 			loginItem.setImage(getResources().getDrawable(R.drawable.ic_launcher));
 			menuAdapter.notifyDataSetChanged();
@@ -293,6 +263,7 @@ public abstract class BaseActivity extends Activity {
         app.setSecretToken("0");
         app.setUserProfile(null);
         setLoggedIn(false);
+        onLogout();
     }
     
     private void showUserProfile() {
@@ -316,8 +287,8 @@ public abstract class BaseActivity extends Activity {
 				public void run() {
 		            setLoggedIn(true);				
 				}});
-            setUpData();
-
+            getAPI();
+            getUserInfo();
         }
 
         public void onTwitterError(TwitterError e) { 
@@ -339,6 +310,7 @@ public abstract class BaseActivity extends Activity {
 		return app;
 	}
 	
+
 	public SlidingMenu getMenu() {
 		return menu;
 	}

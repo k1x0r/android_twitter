@@ -75,7 +75,7 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(MainActivity.this, UserHomeTimelineActivity.class);
+				Intent intent = new Intent(MainActivity.this, TweetsTimelineActivity.class);
 		        startActivity(intent);
 			}
 		});
