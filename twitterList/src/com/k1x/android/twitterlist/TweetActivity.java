@@ -41,12 +41,16 @@ public class TweetActivity extends BaseActivity {
 						
 			@Override
 			public void run() {
-	            result = getTweeter().tweet(tweetText.getText().toString());
-	            runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						tweetStatus.setText(result);
-					}});
+				result = getTweeter().tweet(tweetText.getText().toString())
+						.getCreatedAt();
+				if (result != null) {
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							tweetStatus.setText(result);
+						}
+					});
+				}
 			}
 			
 		});

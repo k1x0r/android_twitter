@@ -24,7 +24,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -49,7 +48,6 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 	private String mode = Constants.SEARCH_MODE_TEXT_TWEETS;
 	private boolean searchMode = false;
 	private UserInfo userInfo;
-	private TextView errorMessageView;
 	private SearchView searchView;
 	private boolean menuEnabled;
 

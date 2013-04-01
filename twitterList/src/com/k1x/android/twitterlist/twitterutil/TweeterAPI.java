@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,7 +14,6 @@ import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -61,7 +59,7 @@ public class TweeterAPI {
     }
 
     
-    public String tweet(String message) {
+    public TweetData tweet(String message) {
         try {
             HttpClient httpClient = new DefaultHttpClient();
             Uri.Builder builder = new Uri.Builder();
@@ -72,23 +70,22 @@ public class TweeterAPI {
             System.out.println(man.toString());
             
             oAuthConsumer.sign(post);
-            HttpResponse resp = httpClient.execute(post);
-            String jsonResponseStr = convertStreamToString(resp.getEntity().getContent());
-            Log.i(TAG,"response: " + jsonResponseStr);
-            String id = getFirstMatch(ID_PATTERN,jsonResponseStr);
-            Log.i(TAG,"id: " + id);
-            String screenName = getFirstMatch(SCREEN_NAME_PATTERN,jsonResponseStr);
-            Log.i(TAG,"screen name: " + screenName);
+            HttpEntity entity =  httpClient.execute(post).getEntity();
 
-            final String url = MessageFormat.format("https://twitter.com/#!/{0}/status/{1}",screenName,id);
-            Log.i(TAG,"url: " + url);
-
-
-            return "Tweeted: " + url;
-            
+		    if (entity != null) {
+		    	is = entity.getContent();
+		    	InputStreamReader reader = new InputStreamReader(is);	    	
+		        Gson gson = new GsonBuilder().create();
+		        TweetData tweetData = gson.fromJson(reader, TweetData.class);
+		        httpClient.getConnectionManager().shutdown();
+		        return tweetData;
+		    } else {
+		    	return null;
+		    }
+             
         } catch (Exception e) {
             Log.e(TAG,"trying to tweet: " + message, e);
-            return "Failed";
+            return null;
         }
 
     }

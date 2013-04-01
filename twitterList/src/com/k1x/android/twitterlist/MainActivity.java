@@ -129,7 +129,7 @@ public class MainActivity extends Activity {
 						
 			@Override
 			public void run() {
-	            result = tweeter.tweet(tweetEditText.getText().toString());
+	            result = tweeter.tweet(tweetEditText.getText().toString()).getCreatedAt();
 	            runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
