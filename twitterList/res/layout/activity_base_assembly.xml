@@ -5,10 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
     
+    <TextView
+        android:id="@+id/error_not_logged_in"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/not_logged_in"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
 	<LinearLayout
 	    android:id="@+id/activity_content"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
-	     />
+	/>
 
 </RelativeLayout>    

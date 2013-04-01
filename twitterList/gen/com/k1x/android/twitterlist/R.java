@@ -146,8 +146,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int userview_follow=0x7f020010;
     }
     public static final class id {
-        public static final int activity_content=0x7f040006;
-        public static final int animation_layout=0x7f040012;
+        public static final int activity_content=0x7f040007;
+        public static final int animation_layout=0x7f040013;
         public static final int animation_layout_content=0x7f040005;
         public static final int block_button=0x7f040021;
         public static final int button_login=0x7f040024;
@@ -157,7 +157,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int cell_retweeted=0x7f04002e;
         public static final int cell_tweet=0x7f04002b;
         public static final int cell_tweet_icon=0x7f04002a;
-        public static final int error_not_logged_in=0x7f040013;
+        public static final int error_not_logged_in=0x7f040006;
         public static final int folow_button=0x7f040020;
         public static final int fullscreen=0x7f040003;
         public static final int left=0x7f040000;
@@ -171,7 +171,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int menu_share=0x7f040037;
         public static final int popup_log_out=0x7f04003c;
         public static final int popup_view_profile=0x7f04003b;
-        public static final int relativeLayout1=0x7f04000a;
+        public static final int relativeLayout1=0x7f04000b;
         public static final int right=0x7f040001;
         public static final int selected_view=0x7f040004;
         public static final int sidebar_list=0x7f040033;
@@ -179,17 +179,17 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int slidebar_item_text=0x7f040028;
         public static final int slidingmenumain=0x7f040034;
         public static final int status_view=0x7f040027;
-        public static final int t_statusTextView=0x7f040009;
-        public static final int t_tweetButton=0x7f040008;
-        public static final int t_tweetEditText=0x7f040007;
+        public static final int t_statusTextView=0x7f04000a;
+        public static final int t_tweetButton=0x7f040009;
+        public static final int t_tweetEditText=0x7f040008;
         public static final int tweetEditText=0x7f040025;
-        public static final int tweetI_created=0x7f04000f;
-        public static final int tweetI_fullname=0x7f04000c;
-        public static final int tweetI_nickname=0x7f04000d;
-        public static final int tweetI_source=0x7f040010;
-        public static final int tweetI_tweet=0x7f04000e;
-        public static final int tweetI_tweet_icon=0x7f04000b;
-        public static final int tweetI_userProfileButton=0x7f040011;
+        public static final int tweetI_created=0x7f040010;
+        public static final int tweetI_fullname=0x7f04000d;
+        public static final int tweetI_nickname=0x7f04000e;
+        public static final int tweetI_source=0x7f040011;
+        public static final int tweetI_tweet=0x7f04000f;
+        public static final int tweetI_tweet_icon=0x7f04000c;
+        public static final int tweetI_userProfileButton=0x7f040012;
         public static final int tweet_button=0x7f040026;
         public static final int tweet_list_button=0x7f040023;
         public static final int userProfile_createdAt=0x7f040019;

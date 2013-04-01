@@ -63,6 +63,7 @@ public abstract class BaseActivity extends Activity {
 	private MenuListAdapter menuAdapter;
 	private SlideMenuItem loginItem;
 	private boolean loggedIn;
+	private TextView errorMessageView;
 
 	protected void onCreate(Bundle savedInstanceState, int resLayout) {
 		super.onCreate(savedInstanceState);
@@ -84,15 +85,26 @@ public abstract class BaseActivity extends Activity {
 
 	protected void onGettingUserInfo(UserInfo userInfo) {}  
     protected void onCreate() {}
-	protected void showErrorMessege() {}
-	protected void hideErrorMessege() {}
     protected void onLogout() {}
+	protected void onShowErrorMessege() {}
+
 	
+	protected void showErrorMessege() {
+		errorMessageView.setVisibility(View.VISIBLE);
+		activityContentLayout.setVisibility(View.GONE);
+		onShowErrorMessege();
+	}
+	
+	protected void hideErrorMessege() {
+		errorMessageView.setVisibility(View.GONE);
+		activityContentLayout.setVisibility(View.VISIBLE);
+	}
 	
 	private void setUpViews() {
 	
 		setContentView(R.layout.activity_base_assembly);
 		activityContentLayout = (LinearLayout) findViewById(R.id.activity_content);
+		errorMessageView = (TextView) findViewById(R.id.error_not_logged_in);
 		
         menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);

@@ -128,17 +128,6 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 	}
 	
 	@Override
-	protected void showErrorMessege() {
-		errorMessageView.setVisibility(View.VISIBLE);
-		listAdapter.clear();
-	}
-	
-	@Override
-	protected void hideErrorMessege() {
-		errorMessageView.setVisibility(View.GONE);
-	}
-	
-	@Override
 	public boolean onMenuItemClick(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_search_tweet_text:
@@ -190,7 +179,6 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 
 	private void setUpViews() {
 		
-		errorMessageView = (TextView) findViewById(R.id.error_not_logged_in);
 		
 	    listAdapter = new TweetListAdapter(this, app.getTweetList());  
 		listView = (ListView) findViewById(android.R.id.list);
@@ -250,10 +238,6 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 		maxId = null;
 		searchSinceId = null;
 	}
-	
-
-	
-
 	
 	private void loadTweetsTask(String tweetParam) {
 		new LoadTweetsTask().execute(tweetParam);

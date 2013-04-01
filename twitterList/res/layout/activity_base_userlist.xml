@@ -10,15 +10,4 @@
         android:layout_height="match_parent" >
     </ListView>
 
-    <TextView
-        android:id="@+id/error_not_logged_in"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:text="@string/not_logged_in"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:visibility="gone" />
-
 </RelativeLayout>
