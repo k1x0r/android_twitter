@@ -87,18 +87,21 @@
 
         <Button
             android:id="@+id/userProfile_folowingsBtn"
+            style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/folowings" />
 
         <Button
             android:id="@+id/userProfile_folowersBtn"
+            style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/folowers" />
 
         <Button
             android:id="@+id/userProfile_tweetsBtn"
+            style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tweets" />
@@ -106,6 +109,7 @@
 
     <Button
         android:id="@+id/folow_button"
+        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -114,19 +118,12 @@
 
     <Button
         android:id="@+id/block_button"
+        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/folow_button"
         android:layout_alignBottom="@+id/folow_button"
         android:layout_toRightOf="@+id/folow_button"
         android:text="@string/block" />
-
-    <Button
-        android:id="@+id/userProfile_pinToSlideMenuBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/block_button"
-        android:layout_below="@+id/folow_button"
-        android:text="@string/pin_to_slidebar" />
 
 </RelativeLayout>

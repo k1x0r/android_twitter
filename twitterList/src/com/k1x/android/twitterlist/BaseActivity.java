@@ -249,7 +249,7 @@ public abstract class BaseActivity extends Activity {
 
 		} else {		
 			loginItem.setText(getResources().getString(R.string.log_in));
-			loginItem.setImage(getResources().getDrawable(R.drawable.ic_launcher));
+			loginItem.setImage(getResources().getDrawable(R.drawable.login));
 			menuAdapter.notifyDataSetChanged();
 		}
 	}
@@ -261,7 +261,7 @@ public abstract class BaseActivity extends Activity {
                 getString(R.string.twitter_oauth_consumer_secret));
         commonsHttpOAuthProvider.setOAuth10a(true);
         TwDialog dialog = new TwDialog(this, commonsHttpOAuthProvider, commonsHttpOAuthConsumer,
-                dialogListener, R.drawable.ic_launcher);
+                dialogListener, R.drawable.login);
         dialog.show();		
 	}
     

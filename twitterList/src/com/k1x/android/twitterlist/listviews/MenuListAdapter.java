@@ -36,7 +36,7 @@ public class MenuListAdapter extends BaseAdapter {
     	
     private void setModel() {
     	
-    	loginItem = new SlideMenuItem(R.string.log_in, null, null);
+    	loginItem = new SlideMenuItem(R.string.log_in, R.drawable.login, null);
     	list.add(loginItem);
     	
     	list.add(new SlideMenuItem(R.string.new_tweet, R.drawable.tweet, new Runnable() {
@@ -81,7 +81,7 @@ public class MenuListAdapter extends BaseAdapter {
 				getActivity().finish();
 			}}));
     	
-    	list.add(new SlideMenuItem(R.string.blockers , null, new Runnable() {
+    	list.add(new SlideMenuItem(R.string.blockers , R.drawable.blockers, new Runnable() {
 
 			@Override
 			public void run() {

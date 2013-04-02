@@ -78,6 +78,7 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 					searchTweets(query);
 					return true;
 				} else {
+					Toast.makeText(getApplicationContext(), R.string.you_must_log_in_first, Toast.LENGTH_SHORT).show();			
 					return true;
 				}
 			}
@@ -121,6 +122,7 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 				return super.onOptionsItemSelected(item);
 			}
 		} else {
+			Toast.makeText(getApplicationContext(), R.string.you_must_log_in_first, Toast.LENGTH_SHORT).show();			
 			return false;
 		}
 	}
@@ -289,7 +291,7 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 	        runOnUiThread(new Runnable() {       
 			@Override
 			public void run() {
-				Toast.makeText(getApplicationContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();			
+				Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_SHORT).show();			
 	        }});        
 		}
 		catch (Exception e) {

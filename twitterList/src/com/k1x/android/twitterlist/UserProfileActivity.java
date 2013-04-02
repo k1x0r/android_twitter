@@ -23,7 +23,6 @@ public class UserProfileActivity extends BaseActivity {
 	private Button userFolowingsButton;
 	private Button userFolowersButton;
 	private Button userTweetButton;
-	private Button userPinToSlideBarButton;
 	private boolean userInfoSet;
 	private UserInfo userInfo;
 	private Button userFolowButton;
@@ -65,7 +64,6 @@ public class UserProfileActivity extends BaseActivity {
 		userFolowingsButton = (Button) findViewById(R.id.userProfile_folowingsBtn);
 		userFolowersButton = (Button) findViewById(R.id.userProfile_folowersBtn);
 		userTweetButton = (Button) findViewById(R.id.userProfile_tweetsBtn);
-		userPinToSlideBarButton = (Button) findViewById(R.id.userProfile_pinToSlideMenuBtn);
 		userFolowButton = (Button) findViewById(R.id.folow_button);
 		userBlockButton = (Button) findViewById(R.id.block_button);
 		userFolowingIcon = (ImageView)findViewById(R.id.userinfo_folowing);
@@ -120,6 +118,8 @@ public class UserProfileActivity extends BaseActivity {
 		userDesctiption.setText(userInfo.getDescription());
 		userFolowersButton.setText(getString(R.string.folowers) + " " + userInfo.getFollowers_count());
 		userFolowingsButton.setText(getString(R.string.folowings) + " " + userInfo.getFriends_count());
+		userTweetButton.setText(getString(R.string.tweets) + " " + userInfo.getTweetsCount());
+		
 		userFolowButton.setOnClickListener(new OnClickListener() {
 			
 			@Override

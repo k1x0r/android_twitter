@@ -3,6 +3,7 @@ package com.k1x.android.twitterlist.entities;
 import java.io.Serializable;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import android.graphics.Bitmap;
 import android.os.Parcel;
@@ -23,6 +24,11 @@ public class UserInfo implements Serializable, Parcelable {
 	private String description;
 	private String created_at;
 	
+	
+	@SerializedName("statuses_count")
+	private int tweetsCount;
+	
+
 	@Expose 
 	private boolean blocked;
 	@Expose
@@ -42,7 +48,7 @@ public class UserInfo implements Serializable, Parcelable {
 		created_at = in.readString();	
 		userBitmap = in.readParcelable(Bitmap.class.getClassLoader());
 		blocked = in.readInt() == 1;
-
+		tweetsCount = in.readInt();
 	}
 	
 	public int getId() {
@@ -124,6 +130,14 @@ public class UserInfo implements Serializable, Parcelable {
 		this.blocked = blocked;
 	}
 	
+	public int getTweetsCount() {
+		return tweetsCount;
+	}
+
+	public void setTweetsCount(int tweetsCount) {
+		this.tweetsCount = tweetsCount;
+	}
+	
 	@Override
 	public int describeContents() {
 		return 0;
@@ -143,6 +157,7 @@ public class UserInfo implements Serializable, Parcelable {
 		out.writeString(created_at);		
 		out.writeParcelable(userBitmap, flags);
 		out.writeInt(blocked ? 1 : 0);
+		out.writeInt(tweetsCount);
 
 	}
 	public static final Parcelable.Creator<UserInfo> CREATOR = new Parcelable.Creator<UserInfo>() {  
@@ -162,4 +177,6 @@ public class UserInfo implements Serializable, Parcelable {
 	public String toString() {
 		return String.format("id: %s\nname: %s\nprofile_image_url: %s", id, name,  profile_image_url);
 	}
+
+
 }
