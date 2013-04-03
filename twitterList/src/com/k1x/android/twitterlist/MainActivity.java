@@ -109,7 +109,12 @@ public class MainActivity extends Activity {
 			private String text;
 			@Override
 			public void run() {
-				text = tweeter.getUserInfo().toString();
+				try {
+					text = tweeter.getUserInfo().toString();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				if(text!=null)
 	            runOnUiThread(new Runnable() {
 					@Override

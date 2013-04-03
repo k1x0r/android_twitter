@@ -93,6 +93,12 @@ public class TwDialog extends Dialog {
 		mSpinner.show();
 	}
 
+	@Override
+	public void hide() {
+		mSpinner.hide();
+		super.hide();
+	}
+
 	private void setUpTitle() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         Drawable icon = getContext().getResources().getDrawable(mIcon);

@@ -116,9 +116,9 @@ public class UserProfileActivity extends BaseActivity {
 		userScreenName.setText(userInfo.getScreen_name());
 		userCreatedAt.setText(userInfo.getCreated_at());
 		userDesctiption.setText(userInfo.getDescription());
-		userFolowersButton.setText(getString(R.string.folowers) + " " + userInfo.getFollowers_count());
-		userFolowingsButton.setText(getString(R.string.folowings) + " " + userInfo.getFriends_count());
-		userTweetButton.setText(getString(R.string.tweets) + " " + userInfo.getTweetsCount());
+		userFolowersButton.setText(getString(R.string.folowers) + "\n" + userInfo.getFollowers_count());
+		userFolowingsButton.setText(getString(R.string.folowings) + "\n" + userInfo.getFriends_count());
+		userTweetButton.setText(getString(R.string.tweets) + "\n" + userInfo.getTweetsCount());
 		
 		userFolowButton.setOnClickListener(new OnClickListener() {
 			

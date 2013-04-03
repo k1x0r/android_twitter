@@ -11,20 +11,27 @@ import com.k1x.android.twitterlist.entities.UserInfo;
 import com.k1x.android.twitterlist.layouts.TweetListItem;
 import com.k1x.android.twitterlist.listviews.TweetListAdapter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.SearchView.OnQueryTextListener;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -50,6 +57,8 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 	private UserInfo userInfo;
 	private SearchView searchView;
 	private boolean menuEnabled;
+	private EditText tweetEditText;
+	private InputMethodManager inputManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -179,6 +188,23 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 
 	private void setUpViews() {
 		
+		tweetEditText = (EditText) findViewById(R.id.tweetText);
+		inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+		tweetEditText.setOnEditorActionListener(new OnEditorActionListener() {
+			
+			@Override
+		    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (actionId == 0) {
+					new TweetTask().execute(v.getText().toString());
+					inputManager.hideSoftInputFromWindow(tweetEditText.getWindowToken(), 0);
+					tweetEditText.setText(null);
+					return false;
+				}
+				return false;
+			}
+		});
+		
 		
 	    listAdapter = new TweetListAdapter(this, app.getTweetList());  
 		listView = (ListView) findViewById(android.R.id.list);
@@ -243,20 +269,7 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 		new LoadTweetsTask().execute(tweetParam);
 	}
 	
-	private class LoadTweetsTask extends AsyncTask<String, Void, Void> {
 
-		@Override
-		protected Void doInBackground(String... params) {
-			loadTweets(params[0]);
-			return null;
-		}
-		
-		@Override
-		protected void onPostExecute(Void result) {
-			listView.postInvalidate();
-		}
-
-	}
 	
 	private void loadTweets(String tweetParam)
 	{
@@ -299,6 +312,7 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 		}
 	}
 
+	
 	private void addDataToAdapter() {
         runOnUiThread(new Runnable() {
 			@Override
@@ -324,6 +338,46 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 				app.setDataList(listAdapter.getList());
 			}});
     	searchSinceId = String.valueOf(searchData.getSearchData().getSinceId() + 1);
+	}
+	
+	private class LoadTweetsTask extends AsyncTask<String, Void, Void> {
+
+		@Override
+		protected Void doInBackground(String... params) {
+			loadTweets(params[0]);
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			listView.postInvalidate();
+		}
+
+	}
+	
+	private class TweetTask extends AsyncTask<String, Void, Boolean> {
+
+		@Override
+		protected Boolean doInBackground(String... params) {
+			String tweetText = tweetEditText.getText().toString();
+			String result = getTweeter().tweet(tweetText).getText();
+			System.out.println("tweetText '" + tweetText+ "' result '" + result + "'");
+			if(result!=null) {
+				return result.equals(tweetText);
+			} else {
+				return false;
+			}
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean result) {
+			if(result) {
+				searchMode = false;
+				activityMode = Constants.MODE_USERTIMELINE;
+				reloadActivity();
+			}
+		}
+
 	}
 	
 	/*	

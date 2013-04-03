@@ -1,6 +1,7 @@
 package com.k1x.android.twitterlist;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
@@ -21,6 +22,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
@@ -60,6 +62,7 @@ public abstract class BaseActivity extends Activity {
 	private SlideMenuItem loginItem;
 	private boolean loggedIn;
 	private TextView errorMessageView;
+	private TwDialog dialog;
 
 	protected void onCreate(Bundle savedInstanceState, int resLayout) {
 		super.onCreate(savedInstanceState);
@@ -195,10 +198,25 @@ public abstract class BaseActivity extends Activity {
     protected void getUserInfo()
     {
 		Thread T = new Thread(new Runnable() {
+			
 			private UserInfo uinfo;
 			Bitmap userAvatarImage;
+			
 			@Override
 			public void run() {
+				try {
+					execute();
+				} catch (final Exception e) {
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							showErrorMessege();
+							Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+						}});
+				}
+			}
+			
+			private void execute() throws Exception {
 				uinfo = tweeter.getUserInfo();
 				if(uinfo!=null)
 				{ 
@@ -223,7 +241,8 @@ public abstract class BaseActivity extends Activity {
 						public void run() {
 							setLoggedIn(false);
 						}});
-			}		
+				}	
+
 		});
 		T.start();
     }
@@ -260,7 +279,7 @@ public abstract class BaseActivity extends Activity {
         commonsHttpOAuthConsumer = new CommonsHttpOAuthConsumer(getString(R.string.twitter_oauth_consumer_key),
                 getString(R.string.twitter_oauth_consumer_secret));
         commonsHttpOAuthProvider.setOAuth10a(true);
-        TwDialog dialog = new TwDialog(this, commonsHttpOAuthProvider, commonsHttpOAuthConsumer,
+        dialog = new TwDialog(this, commonsHttpOAuthProvider, commonsHttpOAuthConsumer,
                 dialogListener, R.drawable.login);
         dialog.show();		
 	}
@@ -303,8 +322,14 @@ public abstract class BaseActivity extends Activity {
         	Log.e(TAG,"onTwitterError called for TwitterDialog", new Exception(e));
         	}
 
-        public void onError(DialogError e) { 
-        	Log.e(TAG,"onError called for TwitterDialog", new Exception(e)); 
+        public void onError(final DialogError e) { 
+			runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					showErrorMessege();
+					Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+					dialog.hide();
+				}});
         	}
 
         public void onCancel() { 

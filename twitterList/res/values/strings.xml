@@ -41,4 +41,5 @@
     <string name="unfolow">Unfolow</string>
     <string name="something_went_wrong">Something went wrong...</string>
     <string name="you_must_log_in_first">You must log in first</string>
+    <string name="enter_tweet_text">Enter tweet text</string>
 </resources>

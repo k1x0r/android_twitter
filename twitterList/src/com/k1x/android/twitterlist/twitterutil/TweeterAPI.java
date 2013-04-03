@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.net.UnknownHostException;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -140,9 +141,8 @@ public class TweeterAPI {
         return null;
     }
     
-    public UserInfo getUserInfo()
+    public UserInfo getUserInfo() throws Exception
     {
-		try {
 			UserInfo info; 
 			
 		    HttpParams params = new BasicHttpParams();
@@ -163,10 +163,7 @@ public class TweeterAPI {
 		        httpClient.getConnectionManager().shutdown();
 		        return info;
 		    }
-		}catch (Exception e) {
-		    e.printStackTrace();
-	        return null;
-		}
+
         return null;
 
     }

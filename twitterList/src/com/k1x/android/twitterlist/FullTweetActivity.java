@@ -2,6 +2,7 @@ package com.k1x.android.twitterlist;
 
 import com.k1x.android.twitterlist.constants.Constants;
 import com.k1x.android.twitterlist.entities.TweetData;
+import com.k1x.android.twitterlist.util.StringUtil;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -57,7 +58,7 @@ public class FullTweetActivity extends BaseActivity {
 			userScreenName.setText(tweetData.getUser().getScreen_name());
 			tweetText.setText(tweetData.getText());
 			tweetCreatedAt.setText(tweetData.getCreatedAt());
-			tweetSource.setText(tweetData.getSource());
+			tweetSource.setText(StringUtil.removeTags(tweetData.getSource()));
 			userProfileButton.setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -71,4 +72,5 @@ public class FullTweetActivity extends BaseActivity {
 			
 		}
 	}
+	
 }
