@@ -1,5 +1,7 @@
 package com.k1x.android.twitterlist;
 
+import java.net.UnknownHostException;
+
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,22 +39,27 @@ public class TweetActivity extends BaseActivity {
     private void Tweet() 
     {
 		Thread T = new Thread(new Runnable() {
-			private String result ;
-						
+			private String result;
+
 			@Override
 			public void run() {
-				result = getTweeter().tweet(tweetText.getText().toString())
-						.getCreatedAt();
-				if (result != null) {
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							tweetStatus.setText(result);
-						}
-					});
+				try {
+					result = getTweeter().tweet(tweetText.getText().toString()).getCreatedAt();
+					if (result != null) {
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								tweetStatus.setText(result);
+							}
+						});
+					}
+				} catch (UnknownHostException e) {
+					showToastMessage(R.string.unknown_host);
+				} catch (Exception e) {
+					showToastMessage(e.getMessage());
 				}
 			}
-			
+
 		});
 		T.start();
     }

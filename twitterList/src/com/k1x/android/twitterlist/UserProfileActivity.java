@@ -1,5 +1,7 @@
 package com.k1x.android.twitterlist;
 
+import java.net.UnknownHostException;
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -153,13 +155,26 @@ public class UserProfileActivity extends BaseActivity {
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			UserInfo result = getApp().getAPI().blockUser(userInfo.getScreen_name(), !userInfo.isBlocked());
-			if(result!=null && result.getScreen_name()!=null && result.getScreen_name().equals(userInfo.getScreen_name())) {
-				boolean status = !userInfo.isBlocked();
-				userInfo.setBlocked(status);
-				userInfo.setFollowing(false);
-				return true;					
-			} else {
+			try {
+				UserInfo result = getApp().getAPI().blockUser(
+						userInfo.getScreen_name(), !userInfo.isBlocked());
+
+				if (result != null
+						&& result.getScreen_name() != null
+						&& result.getScreen_name().equals(
+								userInfo.getScreen_name())) {
+					boolean status = !userInfo.isBlocked();
+					userInfo.setBlocked(status);
+					userInfo.setFollowing(false);
+					return true;
+				} else {
+					return false;
+				}
+			} catch (UnknownHostException e) {
+				showToastMessage(R.string.unknown_host);
+				return false;
+			} catch (Exception e) {
+				showToastMessage(e.getMessage());
 				return false;
 			}
 		}
@@ -184,13 +199,25 @@ public class UserProfileActivity extends BaseActivity {
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			UserInfo result = 	getApp().getAPI().folowUser(userInfo.getScreen_name(), !userInfo.isFollowing());					
-			if( result!=null && result.getScreen_name()!=null && result.getScreen_name().equals(userInfo.getScreen_name())) {
-				boolean status = !userInfo.isFollowing();
-				userInfo.setFollowing(status);
-				userInfo.setBlocked(false);
-				return true;					
-			} else {
+			try {
+				UserInfo result = getApp().getAPI().folowUser(
+						userInfo.getScreen_name(), !userInfo.isFollowing());
+				if (result != null
+						&& result.getScreen_name() != null
+						&& result.getScreen_name().equals(
+								userInfo.getScreen_name())) {
+					boolean status = !userInfo.isFollowing();
+					userInfo.setFollowing(status);
+					userInfo.setBlocked(false);
+					return true;
+				} else {
+					return false;
+				}
+			} catch (UnknownHostException e) {
+				showToastMessage(R.string.unknown_host);
+				return false;
+			} catch (Exception e) {
+				showToastMessage(e.getMessage());
 				return false;
 			}
 		}

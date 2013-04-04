@@ -2,6 +2,7 @@ package com.k1x.android.twitterlist.listviews;
 
 import java.util.LinkedList;
 
+import com.k1x.android.twitterlist.AppInfoActivity;
 import com.k1x.android.twitterlist.BaseActivity;
 import com.k1x.android.twitterlist.R;
 import com.k1x.android.twitterlist.TweetActivity;
@@ -133,6 +134,17 @@ public class MenuListAdapter extends BaseAdapter {
 			public void run() {
 				getActivity().getMenu().toggle();
 				Intent I = new Intent(getActivity(), TweetsTimelineActivity.class);
+				I.putExtra(Constants.TWEETLIST_MODE, Constants.MODE_MENTIONS);
+				getActivity().startActivity(I);
+				getActivity().finish();
+			}}));
+    	
+    	list.add(new SlideMenuItem(R.string.about, null, new Runnable() {
+
+			@Override
+			public void run() {
+				getActivity().getMenu().toggle();
+				Intent I = new Intent(getActivity(), AppInfoActivity.class);
 				I.putExtra(Constants.TWEETLIST_MODE, Constants.MODE_MENTIONS);
 				getActivity().startActivity(I);
 				getActivity().finish();

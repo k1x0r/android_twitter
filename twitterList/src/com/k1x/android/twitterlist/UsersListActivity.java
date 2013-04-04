@@ -1,5 +1,7 @@
 package com.k1x.android.twitterlist;
 
+import java.net.UnknownHostException;
+
 import com.k1x.android.twitterlist.constants.Constants;
 import com.k1x.android.twitterlist.entities.UserInfo;
 import com.k1x.android.twitterlist.entities.UserList;
@@ -101,27 +103,33 @@ public class UsersListActivity extends BaseActivity {
 			@Override
 			public void run() {
 				isLoading = true;
-	            result = getTweeter().getUserList(mode, userLogin, cursor);
-				           
-				if (result.getUsers() != null) {
-					if (mode == TweeterAPI.BLOCKERS) {
-						for (UserInfo uInfo : result.getUsers()) {
-							uInfo.setBlocked(true);
+				try {
+					result = getTweeter().getUserList(mode, userLogin, cursor);
+
+					if (result.getUsers() != null) {
+						if (mode == TweeterAPI.BLOCKERS) {
+							for (UserInfo uInfo : result.getUsers()) {
+								uInfo.setBlocked(true);
+							}
 						}
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								userListAdapter.addArray(result.getUsers());
+								userListAdapter.notifyDataSetChanged();
+								app.setUserList(userListAdapter.getList());
+							}
+						});
 					}
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							userListAdapter.addArray(result.getUsers());
-							userListAdapter.notifyDataSetChanged();
-							app.setUserList(userListAdapter.getList());
-						}
-					});
+					if (result.getNextCursorStr() != null) {
+						cursor = result.getNextCursorStr();
+					}
+					System.out.println("cursor = " + cursor);
+				} catch (UnknownHostException e) {
+					showToastMessage(R.string.unknown_host);
+				} catch (Exception e) {
+					showToastMessage(e.getMessage());
 				}
-				if (result.getNextCursorStr() != null) {
-					cursor = result.getNextCursorStr();
-				}
-				System.out.println("cursor = " + cursor);
 				isLoading = false;
 			}
 		});

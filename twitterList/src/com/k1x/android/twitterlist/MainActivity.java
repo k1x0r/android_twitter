@@ -20,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -134,12 +135,21 @@ public class MainActivity extends Activity {
 						
 			@Override
 			public void run() {
+				try {
 	            result = tweeter.tweet(tweetEditText.getText().toString()).getCreatedAt();
 	            runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
 						statusTextView.setText(result);
 					}});
+	            } catch(final Exception e) {
+		            runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+						}});	            	
+	            }
+				
 			}
 			
 		});

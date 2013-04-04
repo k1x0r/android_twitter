@@ -1,7 +1,6 @@
 package com.k1x.android.twitterlist;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
@@ -47,8 +46,6 @@ public abstract class BaseActivity extends Activity {
     public static final String TWITTER_OAUTH_AUTHORIZE_ENDPOINT = "https://api.twitter.com/oauth/authorize";
     
 	private TweeterAPI tweeter;
-
-
 	private TwitterListApplication app;
 	private CommonsHttpOAuthProvider commonsHttpOAuthProvider;
 	private CommonsHttpOAuthConsumer commonsHttpOAuthConsumer;
@@ -61,6 +58,9 @@ public abstract class BaseActivity extends Activity {
 	private MenuListAdapter menuAdapter;
 	private SlideMenuItem loginItem;
 	private boolean loggedIn;
+	private boolean requiresInternet = true;
+
+
 	private TextView errorMessageView;
 	private TwDialog dialog;
 
@@ -72,14 +72,18 @@ public abstract class BaseActivity extends Activity {
 		getAPI();
 		onCreate();
 		
-		if(app.getUserProfile()!=null && !app.getAccessToken().equals("0")) {
-			setUserUIControlsLoggedIn(app.getUserProfile());
-			onGettingUserInfo(app.getUserProfile());
-		} else if(!app.getAccessToken().equals("0")) {
-			getUserInfo();
-		} else {
-			showErrorMessege();
+		if (requiresInternet) {
+			if (app.getUserProfile() != null
+					&& !app.getAccessToken().equals("0")) {
+				setUserUIControlsLoggedIn(app.getUserProfile());
+				onGettingUserInfo(app.getUserProfile());
+			} else if (!app.getAccessToken().equals("0")) {
+				getUserInfo();
+			} else {
+				showErrorMessage();
+			}
 		}
+		
 	}
 
 	protected void onGettingUserInfo(UserInfo userInfo) {}  
@@ -88,7 +92,7 @@ public abstract class BaseActivity extends Activity {
 	protected void onShowErrorMessege() {}
 
 	
-	protected void showErrorMessege() {
+	protected void showErrorMessage() {
 		errorMessageView.setVisibility(View.VISIBLE);
 		activityContentLayout.setVisibility(View.GONE);
 		onShowErrorMessege();
@@ -210,7 +214,7 @@ public abstract class BaseActivity extends Activity {
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							showErrorMessege();
+							showErrorMessage();
 							Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
 						}});
 				}
@@ -326,7 +330,7 @@ public abstract class BaseActivity extends Activity {
 			runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					showErrorMessege();
+					showErrorMessage();
 					Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
 					dialog.hide();
 				}});
@@ -335,9 +339,23 @@ public abstract class BaseActivity extends Activity {
         public void onCancel() { 
         	Log.e(TAG,"onCancel"); 
         	}
-
-
     };
+    
+    protected void showToastMessage(final String messageText) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(BaseActivity.this, messageText, Toast.LENGTH_LONG).show();
+			}});
+    }
+    
+    protected void showToastMessage(final int resID) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(BaseActivity.this, resID, Toast.LENGTH_LONG).show();
+			}});
+    }
     
 	public TwitterListApplication getApp() {
 		return app;
@@ -352,6 +370,12 @@ public abstract class BaseActivity extends Activity {
 		return tweeter;
 	}
 
+	public boolean isRequiresInternet() {
+		return requiresInternet;
+	}
 
+	public void setRequiresInternet(boolean requiresInternet) {
+		this.requiresInternet = requiresInternet;
+	}
 
 }

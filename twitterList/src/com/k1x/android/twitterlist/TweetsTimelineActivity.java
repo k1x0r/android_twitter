@@ -1,5 +1,6 @@
 package com.k1x.android.twitterlist;
 
+import java.net.UnknownHostException;
 import java.util.LinkedList;
 
 import com.google.gson.JsonSyntaxException;
@@ -20,7 +21,6 @@ import android.view.Menu;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
@@ -306,9 +306,10 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 			public void run() {
 				Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_SHORT).show();			
 	        }});        
-		}
-		catch (Exception e) {
-		    e.printStackTrace();
+		} catch (UnknownHostException e) {
+			showToastMessage(R.string.unknown_host);
+		} catch (Exception e) {
+			showToastMessage(e.getMessage());
 		}
 	}
 
@@ -356,15 +357,27 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 	}
 	
 	private class TweetTask extends AsyncTask<String, Void, Boolean> {
-
+		
+		
 		@Override
 		protected Boolean doInBackground(String... params) {
-			String tweetText = tweetEditText.getText().toString();
-			String result = getTweeter().tweet(tweetText).getText();
-			System.out.println("tweetText '" + tweetText+ "' result '" + result + "'");
-			if(result!=null) {
-				return result.equals(tweetText);
-			} else {
+			try {
+				String tweetText = tweetEditText.getText().toString();
+				String result;
+				result = getTweeter().tweet(tweetText).getText();
+
+				System.out.println("tweetText '" + tweetText + "' result '"
+						+ result + "'");
+				if (result != null) {
+					return result.equals(tweetText);
+				} else {
+					return false;
+				}
+			} catch (UnknownHostException e) {
+				showToastMessage(R.string.unknown_host);
+				return false;
+			} catch (Exception e) {
+				showToastMessage(e.getMessage());
 				return false;
 			}
 		}

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.net.UnknownHostException;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,7 +25,6 @@ import org.apache.http.params.HttpParams;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -49,19 +47,19 @@ public class TweeterAPI {
 	public static final String TAG = "Trololo";
 	public static final Pattern ID_PATTERN = Pattern.compile(".*?\"id_str\":\"(\\d*)\".*");
 	public static final Pattern SCREEN_NAME_PATTERN = Pattern.compile(".*?\"screen_name\":\"([^\"]*).*");
+
 	private InputStream is;
 
     protected CommonsHttpOAuthConsumer oAuthConsumer;
 
-    public TweeterAPI(String accessToken, String secretToken, Context context) {
+    public TweeterAPI(String accessToken, String secretToken, Context context) {   	
         oAuthConsumer = new CommonsHttpOAuthConsumer(context.getString(R.string.twitter_oauth_consumer_key),
         		context.getString(R.string.twitter_oauth_consumer_secret));
         oAuthConsumer.setTokenWithSecret(accessToken, secretToken);
     }
 
     
-    public TweetData tweet(String message) {
-        try {
+    public TweetData tweet(String message) throws Exception {
             HttpClient httpClient = new DefaultHttpClient();
             Uri.Builder builder = new Uri.Builder();
             builder.appendPath("statuses").appendPath("update.json")
@@ -83,62 +81,53 @@ public class TweeterAPI {
 		    } else {
 		    	return null;
 		    }
-             
-        } catch (Exception e) {
-            Log.e(TAG,"trying to tweet: " + message, e);
-            return null;
-        }
-
     }
     
     
-    public UserList getUserList(int mode, String username, String cursor)
+    public UserList getUserList(int mode, String username, String cursor) throws Exception
     {
-		try {
-			UserList info; 
-			
-		    HttpParams params = new BasicHttpParams();
-		    HttpConnectionParams.setSoTimeout(params, 0);
-		    HttpClient httpClient = new DefaultHttpClient(params);
-            Uri.Builder builder = new Uri.Builder();
+		UserList info;
 
-			if (mode == FOLOWERS) {
-				builder.appendPath("followers");
-			} else if (mode == FOLOWINGS) {
-				builder.appendPath("friends");
-			} else if (mode == BLOCKERS) {
-				builder.appendPath("blocks");
-			}
-            
-            builder.appendPath("list.json");
+		HttpParams params = new BasicHttpParams();
+		HttpConnectionParams.setSoTimeout(params, 0);
+		HttpClient httpClient = new DefaultHttpClient(params);
+		Uri.Builder builder = new Uri.Builder();
 
-            if(cursor!=null) {
-            	builder.appendQueryParameter("cursor", cursor);
-            }
-            if(username!=null && mode!= BLOCKERS) {
-            	builder.appendQueryParameter("screen_name", username);
-            }
-            
-            Uri man = builder.build();
-            
-            System.out.println("https://api.twitter.com/1.1" + man.toString());
-		    HttpGet httpget = new HttpGet("https://api.twitter.com/1.1" + man.toString());
-            oAuthConsumer.sign(httpget);
-
-		    HttpEntity entity = httpClient.execute(httpget).getEntity();
-		    if (entity != null) {
-		    	is = entity.getContent();
-		    	InputStreamReader reader = new InputStreamReader(is);	    	
-		        Gson gson = new GsonBuilder().create();
-		        info = gson.fromJson(reader, UserList.class);
-		        httpClient.getConnectionManager().shutdown();
-		        return info;
-		    }
-		}catch (Exception e) {
-		    e.printStackTrace();
-	        return null;
+		if (mode == FOLOWERS) {
+			builder.appendPath("followers");
+		} else if (mode == FOLOWINGS) {
+			builder.appendPath("friends");
+		} else if (mode == BLOCKERS) {
+			builder.appendPath("blocks");
 		}
-        return null;
+
+		builder.appendPath("list.json");
+
+		if (cursor != null) {
+			builder.appendQueryParameter("cursor", cursor);
+		}
+		if (username != null && mode != BLOCKERS) {
+			builder.appendQueryParameter("screen_name", username);
+		}
+
+		Uri man = builder.build();
+
+		System.out.println("https://api.twitter.com/1.1" + man.toString());
+		HttpGet httpget = new HttpGet("https://api.twitter.com/1.1"
+				+ man.toString());
+		oAuthConsumer.sign(httpget);
+
+		HttpEntity entity = httpClient.execute(httpget).getEntity();
+		if (entity != null) {
+			is = entity.getContent();
+			InputStreamReader reader = new InputStreamReader(is);
+			Gson gson = new GsonBuilder().create();
+			info = gson.fromJson(reader, UserList.class);
+			httpClient.getConnectionManager().shutdown();
+			return info;
+		} else {
+			return null;
+		}
     }
     
     public UserInfo getUserInfo() throws Exception
@@ -168,18 +157,17 @@ public class TweeterAPI {
 
     }
     
-    public UserInfo folowUser(String targetUser, boolean create) {
+    public UserInfo folowUser(String targetUser, boolean create) throws Exception {
     	return folowBlockUser(targetUser, create, "friendships");
     }
     
-    public UserInfo blockUser(String targetUser, boolean create) {
+    public UserInfo blockUser(String targetUser, boolean create) throws Exception {
     	return folowBlockUser(targetUser, create, "blocks");
     }
     
     
-    public UserInfo folowBlockUser(String targetUser,boolean create, String pathString)
+    public UserInfo folowBlockUser(String targetUser,boolean create, String pathString) throws Exception
     {
-		try {
 			UserInfo info; 
 			
 		    HttpParams params = new BasicHttpParams();
@@ -207,13 +195,9 @@ public class TweeterAPI {
 		        httpClient.getConnectionManager().shutdown();
 		        System.out.println(info);
 		        return info;
+		    } else {
+		    	return null;
 		    }
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-        return null;
-
     }
     
     
