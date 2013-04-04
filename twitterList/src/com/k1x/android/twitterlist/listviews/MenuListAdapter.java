@@ -139,7 +139,7 @@ public class MenuListAdapter extends BaseAdapter {
 				getActivity().finish();
 			}}));
     	
-    	list.add(new SlideMenuItem(R.string.about, null, new Runnable() {
+    	list.add(new SlideMenuItem(R.string.about, R.drawable.about, new Runnable() {
 
 			@Override
 			public void run() {

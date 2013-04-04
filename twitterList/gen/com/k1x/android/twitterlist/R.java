@@ -127,26 +127,27 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int slidingmenu_offset=0x7f050000;
     }
     public static final class drawable {
-        public static final int blockers=0x7f020000;
-        public static final int configuration=0x7f020001;
-        public static final int favorites=0x7f020002;
-        public static final int favourite_small=0x7f020003;
-        public static final int folowers=0x7f020004;
-        public static final int folowings=0x7f020005;
-        public static final int ic_launcher=0x7f020006;
-        public static final int icon=0x7f020007;
-        public static final int icon_big=0x7f020008;
-        public static final int login=0x7f020009;
-        public static final int mention=0x7f02000a;
-        public static final int profile=0x7f02000b;
-        public static final int retweet_small=0x7f02000c;
-        public static final int search=0x7f02000d;
-        public static final int shadow=0x7f02000e;
-        public static final int timeline=0x7f02000f;
-        public static final int tweet=0x7f020010;
-        public static final int tweets=0x7f020011;
-        public static final int userview_block=0x7f020012;
-        public static final int userview_follow=0x7f020013;
+        public static final int about=0x7f020000;
+        public static final int blockers=0x7f020001;
+        public static final int configuration=0x7f020002;
+        public static final int favorites=0x7f020003;
+        public static final int favourite_small=0x7f020004;
+        public static final int folowers=0x7f020005;
+        public static final int folowings=0x7f020006;
+        public static final int ic_launcher=0x7f020007;
+        public static final int icon=0x7f020008;
+        public static final int icon_big=0x7f020009;
+        public static final int login=0x7f02000a;
+        public static final int mention=0x7f02000b;
+        public static final int profile=0x7f02000c;
+        public static final int retweet_small=0x7f02000d;
+        public static final int search=0x7f02000e;
+        public static final int shadow=0x7f02000f;
+        public static final int timeline=0x7f020010;
+        public static final int tweet=0x7f020011;
+        public static final int tweets=0x7f020012;
+        public static final int userview_block=0x7f020013;
+        public static final int userview_follow=0x7f020014;
     }
     public static final class id {
         public static final int activity_content=0x7f04000a;

@@ -14,6 +14,7 @@ public class AppInfoActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		setRequiresInternet(false);
 		super.onCreate(savedInstanceState, R.layout.activity_base_about);
 	}
 
