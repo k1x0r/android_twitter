@@ -40,7 +40,7 @@ public class MenuListAdapter extends BaseAdapter {
     	loginItem = new SlideMenuItem(R.string.log_in, R.drawable.login, null);
     	list.add(loginItem);
     	
-    	list.add(new SlideMenuItem(R.string.new_tweet, R.drawable.tweet, new Runnable() {
+    	list.add(new SlideMenuItem(R.string.new_tweet, R.drawable.icon, new Runnable() {
 
 			@Override
 			public void run() {

@@ -144,10 +144,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int search=0x7f02000e;
         public static final int shadow=0x7f02000f;
         public static final int timeline=0x7f020010;
-        public static final int tweet=0x7f020011;
-        public static final int tweets=0x7f020012;
-        public static final int userview_block=0x7f020013;
-        public static final int userview_follow=0x7f020014;
+        public static final int tweets=0x7f020011;
+        public static final int userview_block=0x7f020012;
+        public static final int userview_follow=0x7f020013;
     }
     public static final class id {
         public static final int activity_content=0x7f04000a;
