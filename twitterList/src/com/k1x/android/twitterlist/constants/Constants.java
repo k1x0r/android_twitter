@@ -2,6 +2,9 @@ package com.k1x.android.twitterlist.constants;
 
 public class Constants {
 
+    public static final String CONSUMER_KEY = "rLgj2ZPStx0cFoFv5vM3A";
+    public static final String CONSUMER_SECRET = "1SZJt4hzWqggIzG6CD7is3wHE5vmrrxg2ijDJMpeQ40";
+	
 	public static final String USER_BITMAP = "UserBitmap";
 	public static final String USER_INFO = "UserInfo";
 

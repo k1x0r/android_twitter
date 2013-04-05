@@ -241,56 +241,45 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int profile_popup=0x7f090003;
     }
     public static final class string {
-        public static final int about=0x7f070028;
+        public static final int about=0x7f070026;
         public static final int app_name=0x7f070000;
-        public static final int appinfo=0x7f070026;
-        public static final int block=0x7f07001f;
-        public static final int blockers=0x7f07001b;
-        public static final int enter_tweet_text=0x7f070024;
-        public static final int favourites=0x7f070011;
-        public static final int folow=0x7f07001e;
-        public static final int folowers=0x7f07000b;
-        public static final int folowings=0x7f07000c;
+        public static final int appinfo=0x7f070024;
+        public static final int block=0x7f07001d;
+        public static final int blockers=0x7f070019;
+        public static final int enter_tweet_text=0x7f070022;
+        public static final int favourites=0x7f07000f;
+        public static final int folow=0x7f07001c;
+        public static final int folowers=0x7f070009;
+        public static final int folowings=0x7f07000a;
         public static final int hello_world=0x7f070001;
-        public static final int log_in=0x7f070016;
-        public static final int log_out=0x7f070017;
+        public static final int log_in=0x7f070014;
+        public static final int log_out=0x7f070015;
         public static final int login=0x7f070004;
-        public static final int mentions=0x7f070012;
+        public static final int mentions=0x7f070010;
         public static final int menu_settings=0x7f070002;
-        public static final int new_tweet=0x7f07000d;
-        public static final int not_logged_in=0x7f07001c;
+        public static final int new_tweet=0x7f07000b;
+        public static final int not_logged_in=0x7f07001a;
         public static final int password=0x7f070005;
-        public static final int pin_to_slidebar=0x7f070015;
-        public static final int profile=0x7f07000e;
-        public static final int reload_form=0x7f07001a;
+        public static final int pin_to_slidebar=0x7f070013;
+        public static final int profile=0x7f07000c;
+        public static final int reload_form=0x7f070018;
         public static final int right_arrow=0x7f070007;
         public static final int save_login_data=0x7f070006;
-        public static final int search_by_tweet_text=0x7f070018;
-        public static final int search_by_username=0x7f070019;
-        public static final int something_went_wrong=0x7f070022;
-        public static final int timeline=0x7f070010;
-        public static final int tweet=0x7f070013;
+        public static final int search_by_tweet_text=0x7f070016;
+        public static final int search_by_username=0x7f070017;
+        public static final int something_went_wrong=0x7f070020;
+        public static final int timeline=0x7f07000e;
+        public static final int tweet=0x7f070011;
         public static final int tweetlist=0x7f070003;
-        public static final int tweets=0x7f07000f;
-        public static final int twitter_callback_url=0x7f07000a;
-        /**  
-    <string name="twitter_oauth_consumer_key">rLgj2ZPStx0cFoFv5vM3A</string>
-    <string name="twitter_oauth_consumer_secret">1SZJt4hzWqggIzG6CD7is3wHE5vmrrxg2ijDJMpeQ40</string>
-    
- 
-    <string name="twitter_oauth_consumer_key">rLgj2ZPStx0cFoFv5vM3A</string>
-    <string name="twitter_oauth_consumer_secret">1SZJt4hzWqggIzG6CD7is3wHE5vmrrxg2ijDJMpeQ40</string>
-    
-         */
-        public static final int twitter_oauth_consumer_key=0x7f070008;
-        public static final int twitter_oauth_consumer_secret=0x7f070009;
-        public static final int unblock=0x7f070020;
-        public static final int unfolow=0x7f070021;
-        public static final int unknown_host=0x7f070025;
-        public static final int user_profile=0x7f070014;
-        public static final int view_profile=0x7f07001d;
-        public static final int visit_app_page=0x7f070027;
-        public static final int you_must_log_in_first=0x7f070023;
+        public static final int tweets=0x7f07000d;
+        public static final int twitter_callback_url=0x7f070008;
+        public static final int unblock=0x7f07001e;
+        public static final int unfolow=0x7f07001f;
+        public static final int unknown_host=0x7f070023;
+        public static final int user_profile=0x7f070012;
+        public static final int view_profile=0x7f07001b;
+        public static final int visit_app_page=0x7f070025;
+        public static final int you_must_log_in_first=0x7f070021;
     }
     public static final class style {
         /** 

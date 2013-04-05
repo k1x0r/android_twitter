@@ -30,7 +30,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
-import com.k1x.android.twitterlist.R;
+import com.k1x.android.twitterlist.constants.Constants;
 import com.k1x.android.twitterlist.entities.SearchData;
 import com.k1x.android.twitterlist.entities.TweetData;
 import com.k1x.android.twitterlist.entities.UserInfo;
@@ -53,8 +53,7 @@ public class TweeterAPI {
     protected CommonsHttpOAuthConsumer oAuthConsumer;
 
     public TweeterAPI(String accessToken, String secretToken, Context context) {   	
-        oAuthConsumer = new CommonsHttpOAuthConsumer(context.getString(R.string.twitter_oauth_consumer_key),
-        		context.getString(R.string.twitter_oauth_consumer_secret));
+        oAuthConsumer = new CommonsHttpOAuthConsumer(Constants.CONSUMER_KEY, Constants.CONSUMER_SECRET);
         oAuthConsumer.setTokenWithSecret(accessToken, secretToken);
     }
 

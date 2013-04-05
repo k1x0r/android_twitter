@@ -62,6 +62,7 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
 		super.onCreate(savedInstanceState, R.layout.activity_base_tweetlist);
 	}
 	
@@ -120,9 +121,9 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 				return true;
 			case R.id.menu_share:
 				View menuItemView = findViewById(R.id.menu_share); // SAME ID AS
-																	// MENU ID
+				
 				PopupMenu popupMenu = new PopupMenu(this, menuItemView);
-				popupMenu.inflate(R.menu.options_menu);
+				popupMenu.getMenuInflater().inflate(R.menu.options_menu, popupMenu.getMenu());
 				popupMenu.getMenu().getItem(itemId).setChecked(true);
 				popupMenu.setOnMenuItemClickListener(this);
 				popupMenu.show();

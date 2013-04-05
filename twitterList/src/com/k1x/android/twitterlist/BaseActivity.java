@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
+import com.k1x.android.twitterlist.constants.Constants;
 import com.k1x.android.twitterlist.entities.SlideMenuItem;
 import com.k1x.android.twitterlist.entities.UserInfo;
 import com.k1x.android.twitterlist.httputil.HTTPUtil;
@@ -41,9 +43,12 @@ public abstract class BaseActivity extends Activity {
 
 
 	public static final String TAG = "My Twitter";   
+	
     public static final String TWITTER_OAUTH_REQUEST_TOKEN_ENDPOINT = "https://api.twitter.com/oauth/request_token";
     public static final String TWITTER_OAUTH_ACCESS_TOKEN_ENDPOINT = "https://api.twitter.com/oauth/access_token";
     public static final String TWITTER_OAUTH_AUTHORIZE_ENDPOINT = "https://api.twitter.com/oauth/authorize";
+
+    
     
 	private TweeterAPI tweeter;
 	private TwitterListApplication app;
@@ -63,9 +68,11 @@ public abstract class BaseActivity extends Activity {
 
 	private TextView errorMessageView;
 	private TwDialog dialog;
+	private boolean supportsSDK;
 
 	protected void onCreate(Bundle savedInstanceState, int resLayout) {
 		super.onCreate(savedInstanceState);
+		supportsSDK = android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB;
 		this.resLayout = resLayout;
         app = (TwitterListApplication) getApplication();
 		setUpViews();
@@ -161,6 +168,7 @@ public abstract class BaseActivity extends Activity {
 		});
         
         loginItem.setLongClickAction(new OnLongClickListener() {
+			@SuppressLint("NewApi")
 			@Override
 			public boolean onLongClick(View view) {
 				if (loggedIn) {
@@ -280,8 +288,7 @@ public abstract class BaseActivity extends Activity {
     private void authorizeUser() {
         commonsHttpOAuthProvider = new CommonsHttpOAuthProvider(TWITTER_OAUTH_REQUEST_TOKEN_ENDPOINT,
                 TWITTER_OAUTH_ACCESS_TOKEN_ENDPOINT, TWITTER_OAUTH_AUTHORIZE_ENDPOINT);
-        commonsHttpOAuthConsumer = new CommonsHttpOAuthConsumer(getString(R.string.twitter_oauth_consumer_key),
-                getString(R.string.twitter_oauth_consumer_secret));
+        commonsHttpOAuthConsumer = new CommonsHttpOAuthConsumer(Constants.CONSUMER_KEY, Constants.CONSUMER_SECRET);
         commonsHttpOAuthProvider.setOAuth10a(true);
         dialog = new TwDialog(this, commonsHttpOAuthProvider, commonsHttpOAuthConsumer,
                 dialogListener, R.drawable.login);
@@ -377,5 +384,10 @@ public abstract class BaseActivity extends Activity {
 	public void setRequiresInternet(boolean requiresInternet) {
 		this.requiresInternet = requiresInternet;
 	}
+
+	public boolean isSupportsSDK() {
+		return supportsSDK;
+	}
+
 
 }

@@ -1,6 +1,7 @@
 package com.k1x.android.twitterlist;
 
 import com.k1x.android.twitterlist.R;
+import com.k1x.android.twitterlist.constants.Constants;
 import com.k1x.android.twitterlist.twitter.DialogError;
 import com.k1x.android.twitterlist.twitter.TwDialog;
 import com.k1x.android.twitterlist.twitter.Twitter;
@@ -159,11 +160,8 @@ public class MainActivity extends Activity {
     private void setUpOAuth() {
         commonsHttpOAuthProvider = new CommonsHttpOAuthProvider(TWITTER_OAUTH_REQUEST_TOKEN_ENDPOINT,
                 TWITTER_OAUTH_ACCESS_TOKEN_ENDPOINT, TWITTER_OAUTH_AUTHORIZE_ENDPOINT);
-        commonsHttpOAuthConsumer = new CommonsHttpOAuthConsumer(getString(R.string.twitter_oauth_consumer_key),
-                getString(R.string.twitter_oauth_consumer_secret));
+        commonsHttpOAuthConsumer = new CommonsHttpOAuthConsumer(Constants.CONSUMER_KEY, Constants.CONSUMER_SECRET);
         commonsHttpOAuthProvider.setOAuth10a(true);
-        Log.d("ConsumerKey", getString(R.string.twitter_oauth_consumer_key));
-        Log.d("ConsumerSecret", getString(R.string.twitter_oauth_consumer_secret));
 
         TwDialog dialog = new TwDialog(this, commonsHttpOAuthProvider, commonsHttpOAuthConsumer,
                 dialogListener, R.drawable.ic_launcher);

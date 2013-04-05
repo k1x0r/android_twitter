@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">iТвит</string>
+    <string name="app_name">k1Tweet</string>
     <string name="hello_world">Привет мир!</string>
     <string name="menu_settings">Настройки</string>
     <string name="tweetlist">Список твитов</string>
@@ -9,12 +9,6 @@
     <string name="password">Password</string>
     <string name="save_login_data">Сохранить данные</string>
     <string name="right_arrow">-></string>
-    <!-- 
-    <string name="twitter_oauth_consumer_key">rLgj2ZPStx0cFoFv5vM3A</string>
-    <string name="twitter_oauth_consumer_secret">1SZJt4hzWqggIzG6CD7is3wHE5vmrrxg2ijDJMpeQ40</string>
-    -->
-    <string name="twitter_oauth_consumer_key">F7s1WbLuCCuRupvmntYrFg</string>
-    <string name="twitter_oauth_consumer_secret">PWPIpLzWHGGI24hsVeLwiThLa4OkpxzAyHcGMhBjVs</string>
     <string name="twitter_callback_url">twitter-oauth://callback</string>
     <string name="folowers">Читатели</string>
     <string name="folowings">Читаемые</string>
