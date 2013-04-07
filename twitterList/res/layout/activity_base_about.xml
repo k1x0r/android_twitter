@@ -8,7 +8,7 @@
         android:id="@+id/imageView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/icon_big" />
+        android:src="@drawable/icon_about" />
 
     <TextView
         android:id="@+id/appinfo"

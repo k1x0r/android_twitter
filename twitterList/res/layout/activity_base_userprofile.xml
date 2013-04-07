@@ -79,51 +79,85 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/userProfile_createdAt" >
+        android:layout_below="@+id/userProfile_createdAt"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/userProfile_folowingsBtn"
-            style="?android:attr/buttonStyleSmall"
+        <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/folowings" />
+            android:layout_height="wrap_content" >
 
-        <Button
-            android:id="@+id/userProfile_folowersBtn"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/folowers" />
+            <Button
+                android:id="@+id/userProfile_folowingsBtn"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/folowings" />
 
-        <Button
-            android:id="@+id/userProfile_tweetsBtn"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tweets" />
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="?android:attr/dividerVertical" />
+
+            <Button
+                android:id="@+id/userProfile_folowersBtn"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/folowers" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="?android:attr/dividerVertical" />
+
+            <Button
+                android:id="@+id/userProfile_tweetsBtn"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tweets" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/actionButtonsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="?android:attr/dividerVertical" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal" >
+
+                <Button
+                    android:id="@+id/folow_button"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/folow" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="?android:attr/dividerVertical" />
+
+                <Button
+                    android:id="@+id/block_button"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/block" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/folow_button"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/linearLayout2"
-        android:text="@string/folow" />
-
-    <Button
-        android:id="@+id/block_button"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/folow_button"
-        android:layout_alignBottom="@+id/folow_button"
-        android:layout_toRightOf="@+id/folow_button"
-        android:text="@string/block" />
 
 </RelativeLayout>

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.k1x.android.twitterlist.constants.Constants;
@@ -25,12 +26,13 @@ public class UserProfileActivity extends BaseActivity {
 	private Button userFolowingsButton;
 	private Button userFolowersButton;
 	private Button userTweetButton;
-	private boolean userInfoSet;
+	private boolean itsNotMe;
 	private UserInfo userInfo;
 	private Button userFolowButton;
 	private Button userBlockButton;
 	private ImageView userFolowingIcon;
 	private ImageView userBlockedIcon;
+	private LinearLayout actionButtonsLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class UserProfileActivity extends BaseActivity {
 	@Override
 	protected void onCreate() {
 		userInfo = (UserInfo) getIntent().getParcelableExtra(Constants.USER_INFO);
-		userInfoSet = userInfo!=null;
+		itsNotMe = userInfo!=null;
 		setUpViews();
 	}
 
@@ -50,7 +52,7 @@ public class UserProfileActivity extends BaseActivity {
 
 	@Override
 	protected void onGettingUserInfo(UserInfo userInfo) {
-		if(!userInfoSet) {
+		if(!itsNotMe) {
 			this.userInfo = userInfo;
 		} 
 		fillForm();
@@ -70,6 +72,7 @@ public class UserProfileActivity extends BaseActivity {
 		userBlockButton = (Button) findViewById(R.id.block_button);
 		userFolowingIcon = (ImageView)findViewById(R.id.userinfo_folowing);
 		userBlockedIcon = (ImageView)findViewById(R.id.userinfo_blocked);
+		actionButtonsLayout = (LinearLayout)findViewById(R.id.actionButtonsLayout);
 		
 		userFolowersButton.setOnClickListener(new OnClickListener() {
 			
@@ -103,8 +106,10 @@ public class UserProfileActivity extends BaseActivity {
 			}
 		});
 		
-		if(userInfoSet) {
+		if(itsNotMe) {
 			fillForm();
+		} else {
+			actionButtonsLayout.setVisibility(View.GONE);
 		}
 	}
 

@@ -1,5 +1,7 @@
 package com.k1x.android.twitterlist.util;
 
+import android.net.Uri;
+
 public class StringUtil {
 	
 	public static String removeTags(String str) {
@@ -35,4 +37,19 @@ public class StringUtil {
 		//
 		return out.toString().trim();
 	}
+	
+	public static String encodeURI(String encoded){
+	    encoded = encoded.replace("(", "%28");
+	    encoded = encoded.replace(")", "%29");
+	    encoded = encoded.replace("!", "%21");
+	    encoded = encoded.replace("\'", "%27");
+	    encoded = encoded.replace("*", "%2A");
+	    return encoded;
+	}
+	
+	public static String encode(String base){
+	    String encoded = Uri.encode(base);
+	    return encodeURI(encoded);
+	}
+
 }

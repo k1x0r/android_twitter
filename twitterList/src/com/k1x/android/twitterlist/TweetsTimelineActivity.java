@@ -58,7 +58,6 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 	private SearchView searchView;
 	private boolean menuEnabled;
 	private EditText tweetEditText;
-	private InputMethodManager inputManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,12 +81,20 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 	    
 	    searchView.setOnQueryTextListener(new OnQueryTextListener() {
 			
+	    	private void hideSearchViewKeyboard() {
+				InputMethodManager imm = (InputMethodManager) getApplicationContext()
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+	    	}
+	    	
 			@Override
 			public boolean onQueryTextSubmit(String query) {
 				if (menuEnabled) {
+					hideSearchViewKeyboard();
 					searchTweets(query);
 					return true;
 				} else {
+					hideSearchViewKeyboard();
 					Toast.makeText(getApplicationContext(), R.string.you_must_log_in_first, Toast.LENGTH_SHORT).show();			
 					return true;
 				}
@@ -190,19 +197,20 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 	private void setUpViews() {
 		
 		tweetEditText = (EditText) findViewById(R.id.tweetText);
-		inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
 		tweetEditText.setOnEditorActionListener(new OnEditorActionListener() {
 			
 			@Override
-		    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				if (actionId == 0) {
-					new TweetTask().execute(v.getText().toString());
-					inputManager.hideSoftInputFromWindow(tweetEditText.getWindowToken(), 0);
-					tweetEditText.setText(null);
-					return false;
-				}
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				new TweetTask().execute(v.getText().toString());
+				hideTweetKeyboard();
+				tweetEditText.setText(null);
 				return false;
+			}
+
+			private void hideTweetKeyboard() {
+				InputMethodManager imm = (InputMethodManager) getApplicationContext()
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(tweetEditText.getWindowToken(), 0);
 			}
 		});
 		
@@ -248,6 +256,9 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 		searchMode = false;
 		clearIDs();
 		listAdapter.clear();
+		if (tweetData != null) {
+			tweetData.clear();
+		}
 		text = getUserLogin();
 		loadTweetsTask(text);
 	}
@@ -256,7 +267,9 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 		searchMode = true;
 		clearIDs();
 		listAdapter.clear();
-		tweetData.clear();
+		if (tweetData != null) {
+			tweetData.clear();
+		}
 		this.text = text;
 		loadTweetsTask(text);
 	}
@@ -367,10 +380,8 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 				String result;
 				result = getTweeter().tweet(tweetText).getText();
 
-				System.out.println("tweetText '" + tweetText + "' result '"
-						+ result + "'");
 				if (result != null) {
-					return result.equals(tweetText);
+					return true;
 				} else {
 					return false;
 				}

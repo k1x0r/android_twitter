@@ -37,7 +37,7 @@
     <string name="you_must_log_in_first">You must log in first</string>
     <string name="enter_tweet_text">Enter tweet text</string>
     <string name="unknown_host">Unable to resolve host "api.twitter.com"</string>
-    <string name="appinfo">\nAndTwitter Version 1.0 \nDeveloped by Sergey Surkov\nIf you want to donate here is my WebMoney purses: Z1111, R1111, U1111\nAll rights reserved.\n</string>
+    <string name="appinfo">\niSparrow Version: 13041 \nDeveloped by: k1x\nDonate to support iSparrow\nWebMoney:\nZ204423794294\nR417164244057\nU334448697068\n</string>
     <string name="visit_app_page">Visit app page on Play Store</string>
     <string name="about">About</string>
 </resources>

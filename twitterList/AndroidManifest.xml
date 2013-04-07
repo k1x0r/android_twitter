@@ -13,7 +13,7 @@
  	<application
         android:allowBackup="true"
         android:name="com.k1x.android.twitterlist.TwitterListApplication"
-        android:icon="@drawable/icon"
+        android:icon="@drawable/icon_big"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity

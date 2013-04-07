@@ -35,6 +35,7 @@ import com.k1x.android.twitterlist.entities.SearchData;
 import com.k1x.android.twitterlist.entities.TweetData;
 import com.k1x.android.twitterlist.entities.UserInfo;
 import com.k1x.android.twitterlist.entities.UserList;
+import com.k1x.android.twitterlist.util.StringUtil;
 
 
 public class TweeterAPI {
@@ -64,7 +65,8 @@ public class TweeterAPI {
             builder.appendPath("statuses").appendPath("update.json")
                     .appendQueryParameter("status", message);
             Uri man = builder.build();
-            HttpPost post = new HttpPost("https://api.twitter.com/1.1" + man.toString());
+           
+            HttpPost post = new HttpPost("https://api.twitter.com/1.1" + StringUtil.encodeURI(man.toString()));
             System.out.println(man.toString());
             
             oAuthConsumer.sign(post);
@@ -123,6 +125,7 @@ public class TweeterAPI {
 			Gson gson = new GsonBuilder().create();
 			info = gson.fromJson(reader, UserList.class);
 			httpClient.getConnectionManager().shutdown();
+			System.out.println("Got user list " + info);
 			return info;
 		} else {
 			return null;
@@ -190,7 +193,6 @@ public class TweeterAPI {
 		    	InputStreamReader reader = new InputStreamReader(is);
 		        Gson gson = new GsonBuilder().create();
 		        info = gson.fromJson(reader, UserInfo.class);
-		        System.out.println(info);
 		        httpClient.getConnectionManager().shutdown();
 		        System.out.println(info);
 		        return info;

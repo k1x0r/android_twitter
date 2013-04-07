@@ -23,13 +23,4 @@
         android:layout_below="@+id/t_tweetEditText"
         android:text="@string/tweet" />
 
-    <TextView
-        android:id="@+id/t_statusTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/t_tweetButton"
-        android:text="TextView" />
-
 </RelativeLayout>
