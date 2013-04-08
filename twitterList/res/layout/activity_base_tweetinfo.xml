@@ -9,7 +9,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
         android:orientation="horizontal" >
 
         <ImageView
@@ -27,16 +26,16 @@
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/tweetI_tweet_icon"
             android:text="Full name"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:id="@+id/tweetI_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/tweetI_tweet_icon"
-            android:layout_alignRight="@+id/tweetI_fullname"
+            android:layout_alignLeft="@+id/tweetI_fullname"
             android:text="Screen name"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </RelativeLayout>
 
@@ -65,7 +64,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/tweetI_created"
         android:text="Source:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <Button
         android:id="@+id/tweetI_userProfileButton"
