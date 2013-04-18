@@ -87,9 +87,13 @@ public abstract class BaseActivity extends Activity {
 			} else if (!app.getAccessToken().equals("0")) {
 				getUserInfo();
 			} else {
+				if (!app.isStarted()) {
+					menu.toggle();
+				}
 				showErrorMessage();
 			}
 		}
+		app.setStarted(true);
 		
 	}
 
@@ -233,7 +237,7 @@ public abstract class BaseActivity extends Activity {
 				if(uinfo!=null)
 				{ 
 				try {
-					int destSize = 72; 
+					int destSize = (int) pxFromDp(48); 
 					Bitmap avatarFromTwitter =  HTTPUtil.getImage(uinfo.getProfile_image_url());			
 					userAvatarImage = Bitmap.createScaledBitmap(avatarFromTwitter, destSize, destSize, true);
 				} catch (IOException e) {
@@ -273,6 +277,11 @@ public abstract class BaseActivity extends Activity {
 		hideErrorMessege();
 	}
    
+	public float pxFromDp(float dp)
+	{
+	    return dp * getResources().getDisplayMetrics().density;
+	}
+	
 	private void setLoggedIn(boolean loggedIn)
 	{
 		this.loggedIn = loggedIn;
@@ -389,5 +398,6 @@ public abstract class BaseActivity extends Activity {
 		return supportsSDK;
 	}
 
+	
 
 }

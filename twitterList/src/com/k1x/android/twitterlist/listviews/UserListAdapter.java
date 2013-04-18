@@ -32,7 +32,7 @@ public class UserListAdapter extends BaseAdapter implements IPostDataChange {
 	public void add(UserInfo data)
     {
     	list.add(data);
-    	UserImageDownloader downloader = new UserImageDownloader(data, this);
+    	UserImageDownloader downloader = new UserImageDownloader(activity, data, this);
     	downloader.start();
     }
 	

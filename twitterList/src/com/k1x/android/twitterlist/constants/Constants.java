@@ -26,7 +26,7 @@ public class Constants {
 	public static final int MODE_FOLOWERS = 1;
 	public static final int MODE_BLOCKERS = 2;
 
-	public static final int PREFFED_USER_AVATAR_SIZE = 75;
+	public static final int PREFFED_USER_AVATAR_SIZE = 48;
 	public static final int MODE_USERTIMELINE = 0;
 	public static final int MODE_HOMETIMELINE = 1;
 	public static final int MODE_FAVOURITES = 2;

@@ -69,7 +69,7 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 	protected void onCreate() {
         app = (TwitterListApplication) getApplication();
 		userLogin = (String) getIntent().getStringExtra(Constants.KEY_USER_LOGIN);
-		activityMode = getIntent().getIntExtra(Constants.TWEETLIST_MODE, 0);
+		activityMode = getIntent().getIntExtra(Constants.TWEETLIST_MODE, Constants.MODE_HOMETIMELINE);
 		setUpViews();
 	}
 	

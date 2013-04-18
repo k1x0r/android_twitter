@@ -27,11 +27,10 @@ public class TwitterListApplication extends Application {
 
     private SharedPreferences prefs;
 	private Editor prefsEditor;
-	
 	private UserInfo userProfile;
-	
 	private TweeterAPI twitterAPI;
     
+	private boolean started = false;
 
 	@Override
 	public void onCreate() {
@@ -90,13 +89,20 @@ public class TwitterListApplication extends Application {
         return context;
     } 
     
-
 	public UserInfo getUserProfile() {
 		return userProfile;
 	}
 
 	public void setUserProfile(UserInfo userProfile) {
 		this.userProfile = userProfile;
+	}
+	
+	public boolean isStarted() {
+		return started;
+	}
+
+	public void setStarted(boolean started) {
+		this.started = started;
 	}
 	
 	public TweeterAPI getAPI() {
@@ -107,6 +113,8 @@ public class TwitterListApplication extends Application {
 
 		}
 	}
+
+
 
 
 }

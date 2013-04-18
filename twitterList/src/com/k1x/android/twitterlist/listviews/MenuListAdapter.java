@@ -100,7 +100,6 @@ public class MenuListAdapter extends BaseAdapter {
 				getActivity().getMenu().toggle();
 				Intent I = new Intent(getActivity(), TweetsTimelineActivity.class);
 				I.putExtra(Constants.TWEETLIST_MODE, Constants.MODE_USERTIMELINE);
-
 				getActivity().startActivity(I);
 				getActivity().finish();
 			}}));		

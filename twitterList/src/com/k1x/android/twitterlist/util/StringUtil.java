@@ -51,5 +51,7 @@ public class StringUtil {
 	    String encoded = Uri.encode(base);
 	    return encodeURI(encoded);
 	}
+	
+	
 
 }

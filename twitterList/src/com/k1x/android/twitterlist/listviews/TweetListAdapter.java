@@ -38,7 +38,7 @@ public class TweetListAdapter extends BaseAdapter implements IPostDataChange {
     	} 
     	
     	list.add(data);
-    	UserImageDownloader downloader = new UserImageDownloader(data.getUser(), this);
+    	UserImageDownloader downloader = new UserImageDownloader(activity, data.getUser(), this);
     	downloader.start();
     }
         
