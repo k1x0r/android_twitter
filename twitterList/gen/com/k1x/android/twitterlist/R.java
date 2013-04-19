@@ -237,8 +237,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     public static final class menu {
         public static final int activity_main=0x7f090000;
         public static final int options=0x7f090001;
-        public static final int options_menu=0x7f090002;
-        public static final int profile_popup=0x7f090003;
+        public static final int options8=0x7f090002;
+        public static final int options_menu=0x7f090003;
+        public static final int profile_popup=0x7f090004;
     }
     public static final class string {
         public static final int about=0x7f070026;

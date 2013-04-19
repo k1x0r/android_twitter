@@ -6,7 +6,9 @@ import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -176,15 +178,11 @@ public abstract class BaseActivity extends Activity {
 			@Override
 			public boolean onLongClick(View view) {
 				if (loggedIn) {
-					PopupMenu popupMenu = new PopupMenu(BaseActivity.this, view);
-					popupMenu.inflate(R.menu.profile_popup);
-					popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-								@Override
-								public boolean onMenuItemClick(MenuItem item) {
-									return onProfilePopupItemClick(item);
-								}
-							});
-					popupMenu.show();
+					if (app.isSupportsHoneyComb()) {
+						showProfilePopup(view);
+					} else {
+						showProfileDialog();
+					}
 					return true;
 				} else {
 					return false;
@@ -194,7 +192,54 @@ public abstract class BaseActivity extends Activity {
         
 
 	}
+	
+	@SuppressLint("NewApi")
+	private void showProfilePopup(View view) {
+		PopupMenu popupMenu = new PopupMenu(BaseActivity.this,
+				view);
+		popupMenu.inflate(R.menu.profile_popup);
+		popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+					@Override
+					public boolean onMenuItemClick(MenuItem item) {
+						return onProfilePopupItemClick(item);
+					}
+				});
+		popupMenu.show();
+	}
 
+	private void showProfileDialog() {
+		AlertDialog.Builder alert = new AlertDialog.Builder(BaseActivity.this);
+		alert.setTitle("Choose:");
+		alert.setItems(new String[] {
+						getResources().getString(
+								R.string.view_profile),
+						getResources().getString(
+								R.string.log_out) },
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,	int item) {
+						switch (item) {
+							case 0:
+								showUserProfile();
+								break;
+							case 1:
+								logOut();
+								break;
+						}
+					}
+				});
+
+
+		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		});
+
+		AlertDialog ad = alert.create();
+		ad.show();
+	}
+	
 	public boolean onProfilePopupItemClick(MenuItem item) {
 		switch(item.getItemId()) {
 			case R.id.popup_view_profile:

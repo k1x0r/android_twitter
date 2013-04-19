@@ -12,6 +12,7 @@ import com.k1x.android.twitterlist.entities.UserInfo;
 import com.k1x.android.twitterlist.layouts.TweetListItem;
 import com.k1x.android.twitterlist.listviews.TweetListAdapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -28,6 +29,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.SearchView.OnQueryTextListener;
@@ -35,7 +37,9 @@ import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener {
+@SuppressLint("NewApi")
+public class TweetsTimelineActivity extends BaseActivity  
+{
 	
 	private LinkedList<TweetData> tweetData;
 	private TweetListAdapter listAdapter;
@@ -61,7 +65,6 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
 		super.onCreate(savedInstanceState, R.layout.activity_base_tweetlist);
 	}
 	
@@ -75,10 +78,23 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    getMenuInflater().inflate(R.menu.options, menu);
+	   if(getApp().isSupportsHoneyComb()) {
+		   onCreateMenuHoneyComb(menu);
+	   } else {
+		   onCreateMenuOld(menu);
+	   }
+
+	    return super.onCreateOptionsMenu(menu);
+	}
+	
+	private void onCreateMenuOld(Menu menu) {
+		getMenuInflater().inflate(R.menu.options8, menu);	
+	}
+
+	private void onCreateMenuHoneyComb(Menu menu) {
+		getMenuInflater().inflate(R.menu.options, menu);
 	    
 	    searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-	    
 	    searchView.setOnQueryTextListener(new OnQueryTextListener() {
 			
 	    	private void hideSearchViewKeyboard() {
@@ -106,9 +122,7 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 			}
 		});
 
-	    return super.onCreateOptionsMenu(menu);
 	}
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (menuEnabled) {
@@ -132,7 +146,12 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 				PopupMenu popupMenu = new PopupMenu(this, menuItemView);
 				popupMenu.getMenuInflater().inflate(R.menu.options_menu, popupMenu.getMenu());
 				popupMenu.getMenu().getItem(itemId).setChecked(true);
-				popupMenu.setOnMenuItemClickListener(this);
+				popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+					@Override
+					public boolean onMenuItemClick(MenuItem item) {
+						return onMenuItemClick(item);
+					}
+				});
 				popupMenu.show();
 				return true;
 			default:
@@ -144,7 +163,6 @@ public class TweetsTimelineActivity extends BaseActivity implements PopupMenu.On
 		}
 	}
 	
-	@Override
 	public boolean onMenuItemClick(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_search_tweet_text:
