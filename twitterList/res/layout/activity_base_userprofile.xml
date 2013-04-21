@@ -61,34 +61,31 @@
 
             <Button
                 android:id="@+id/userProfile_folowingsBtn"
-                style="?android:attr/borderlessButtonStyle"
+                style="@style/userProfileButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:text="@string/folowings" />
 
             <View
-                android:layout_width="1px"
-                android:layout_height="match_parent"
-                android:background="?android:attr/dividerVertical" />
+               style="@style/divider_vertical" />
 
             <Button
                 android:id="@+id/userProfile_folowersBtn"
-                style="?android:attr/borderlessButtonStyle"
+                style="@style/userProfileButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:text="@string/folowers" />
 
             <View
-                android:layout_width="1px"
-                android:layout_height="match_parent"
-                android:background="?android:attr/dividerVertical" />
+               style="@style/divider_vertical" />
 
             <Button
                 android:id="@+id/userProfile_tweetsBtn"
-                style="?android:attr/borderlessButtonStyle"
+                style="@style/userProfileButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:text="@string/tweets" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -98,33 +95,30 @@
             android:orientation="vertical" >
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="?android:attr/dividerVertical" />
+               style="@style/divider_horizontal" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal" >
 
                 <Button
                     android:id="@+id/folow_button"
-                    style="?android:attr/borderlessButtonStyle"
+                    style="@style/userProfileButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:text="@string/folow" />
 
-                <View
-                    android:layout_width="1px"
-                    android:layout_height="match_parent"
-                    android:background="?android:attr/dividerVertical" />
+            <View
+               style="@style/divider_vertical" />
 
                 <Button
                     android:id="@+id/block_button"
-                    style="?android:attr/borderlessButtonStyle"
+                    style="@style/userProfileButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:text="@string/block" />
+
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

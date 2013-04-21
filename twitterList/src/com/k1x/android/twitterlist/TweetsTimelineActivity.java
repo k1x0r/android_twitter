@@ -3,6 +3,11 @@ package com.k1x.android.twitterlist;
 import java.net.UnknownHostException;
 import java.util.LinkedList;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.widget.SearchView;
+import com.actionbarsherlock.widget.SearchView.OnQueryTextListener;
+
 import com.google.gson.JsonSyntaxException;
 import com.k1x.android.twitterlist.R;
 import com.k1x.android.twitterlist.constants.Constants;
@@ -13,14 +18,14 @@ import com.k1x.android.twitterlist.layouts.TweetListItem;
 import com.k1x.android.twitterlist.listviews.TweetListAdapter;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
 
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
@@ -30,9 +35,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
-import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -53,10 +56,10 @@ public class TweetsTimelineActivity extends BaseActivity
 	private boolean isLoading = false;
 	private int activityMode = 0;
 
-	private CharSequence[] items = { Constants.SEARCH_MODE_TEXT_TWEETS,
-			Constants.SEARCH_MODE_USERS_TWEETS };
+	private int[] items = { R.string.search_by_tweet_text,
+			R.string.search_by_username };
 	private int itemId = 0;
-	private String mode = Constants.SEARCH_MODE_TEXT_TWEETS;
+	private int mode = R.string.search_by_tweet_text;
 	private boolean searchMode = false;
 	private UserInfo userInfo;
 	private SearchView searchView;
@@ -78,31 +81,17 @@ public class TweetsTimelineActivity extends BaseActivity
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	   if(getApp().isSupportsHoneyComb()) {
-		   onCreateMenuHoneyComb(menu);
-	   } else {
-		   onCreateMenuOld(menu);
-	   }
+		getSupportMenuInflater().inflate(R.menu.options, menu);
 
-	    return super.onCreateOptionsMenu(menu);
-	}
-	
-	private void onCreateMenuOld(Menu menu) {
-		getMenuInflater().inflate(R.menu.options8, menu);	
-	}
+		searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+		searchView.setOnQueryTextListener(new OnQueryTextListener() {
 
-	private void onCreateMenuHoneyComb(Menu menu) {
-		getMenuInflater().inflate(R.menu.options, menu);
-	    
-	    searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-	    searchView.setOnQueryTextListener(new OnQueryTextListener() {
-			
-	    	private void hideSearchViewKeyboard() {
+			private void hideSearchViewKeyboard() {
 				InputMethodManager imm = (InputMethodManager) getApplicationContext()
 						.getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
-	    	}
-	    	
+			}
+
 			@Override
 			public boolean onQueryTextSubmit(String query) {
 				if (menuEnabled) {
@@ -111,7 +100,9 @@ public class TweetsTimelineActivity extends BaseActivity
 					return true;
 				} else {
 					hideSearchViewKeyboard();
-					Toast.makeText(getApplicationContext(), R.string.you_must_log_in_first, Toast.LENGTH_SHORT).show();			
+					Toast.makeText(getApplicationContext(),
+							R.string.you_must_log_in_first, Toast.LENGTH_SHORT)
+							.show();
 					return true;
 				}
 			}
@@ -121,20 +112,22 @@ public class TweetsTimelineActivity extends BaseActivity
 				return false;
 			}
 		});
-
+		return super.onCreateOptionsMenu(menu);
 	}
+
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (menuEnabled) {
 			switch (item.getItemId()) {
 			case R.id.menu_search_tweet_text:
 				itemId = 0;
-				mode = (String) items[itemId];
+				mode = items[itemId];
 				item.setChecked(true);
 				return true;
 			case R.id.menu_search_username:
 				itemId = 1;
-				mode = (String) items[itemId];
+				mode = items[itemId];
 				item.setChecked(true);
 				return true;
 			case R.id.menu_reload_form:
@@ -142,17 +135,11 @@ public class TweetsTimelineActivity extends BaseActivity
 				return true;
 			case R.id.menu_share:
 				View menuItemView = findViewById(R.id.menu_share); // SAME ID AS
-				
-				PopupMenu popupMenu = new PopupMenu(this, menuItemView);
-				popupMenu.getMenuInflater().inflate(R.menu.options_menu, popupMenu.getMenu());
-				popupMenu.getMenu().getItem(itemId).setChecked(true);
-				popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-					@Override
-					public boolean onMenuItemClick(MenuItem item) {
-						return onMenuItemClick(item);
-					}
-				});
-				popupMenu.show();
+				if(getApp().isSupportsHoneyComb()) {
+					popupMenuChooseSearchMode(menuItemView);
+				} else {
+					alertDialogChooseSearchMode();
+				}
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -162,20 +149,31 @@ public class TweetsTimelineActivity extends BaseActivity
 			return false;
 		}
 	}
-	
-	public boolean onMenuItemClick(MenuItem item) {
+
+	private void popupMenuChooseSearchMode(View menuItemView) {
+		PopupMenu popupMenu = new PopupMenu(this, menuItemView);
+		popupMenu.getMenuInflater().inflate(R.menu.options_menu, popupMenu.getMenu());
+		popupMenu.getMenu().getItem(itemId).setChecked(true);
+		popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(android.view.MenuItem item) {
+				return onPopupItemClick(item);
+			}
+		});
+		popupMenu.show();
+	}
+
+	public boolean onPopupItemClick(android.view.MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_search_tweet_text:
 				itemId = 0;
-				mode = (String) items[itemId];
-	            if (item.isChecked()) item.setChecked(false);
-	            else item.setChecked(true);
+				mode = items[itemId];
+	            item.setChecked(!item.isChecked());
 	            return true;
 			case R.id.menu_search_username:
 				itemId = 1;
-				mode = (String) items[itemId];
-	            if (item.isChecked()) item.setChecked(false);
-	            else item.setChecked(true);
+				mode = items[itemId];
+	            item.setChecked(!item.isChecked());
 	            return true;
 			case R.id.menu_reload_form:
 				reloadActivity();
@@ -184,6 +182,40 @@ public class TweetsTimelineActivity extends BaseActivity
 				return super.onOptionsItemSelected(item);
 			}
 	}
+	private void alertDialogChooseSearchMode() {
+		String[] itemsString = new String[items.length];
+		for(int i = 0; i<items.length; i++ ) {
+			itemsString[i] = getResources().getString(items[i]);
+		}
+		
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		alert.setTitle(R.string.choose_search_mode);
+		alert.setSingleChoiceItems(itemsString, itemId,	new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int item) {
+						TweetsTimelineActivity.this.itemId = item;
+					}
+				});
+		alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				mode =  items[itemId];
+			}
+		});
+		alert.setNeutralButton(R.string.no, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		});
+		alert.setNegativeButton(R.string.refresh, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				reloadActivity();
+				dialog.cancel();
+			}
+		});
+		AlertDialog ad = alert.create();
+		ad.show(); 
+	}
+	
+
 	
 	@Override
 	protected void onGettingUserInfo(UserInfo userInfo) {
@@ -307,10 +339,10 @@ public class TweetsTimelineActivity extends BaseActivity
 	{
 		try {
 			isLoading = true;
-			if (mode.equals(Constants.SEARCH_MODE_TEXT_TWEETS) && searchMode) {
+			if (mode == R.string.search_by_tweet_text && searchMode) {
 				SearchData searchData = getTweeter().searchTweets(tweetParam, searchSinceId);
 				addSearchDataToAdapter(searchData);
-			} else if (mode.equals(Constants.SEARCH_MODE_USERS_TWEETS) && searchMode) {
+			} else if (mode == R.string.search_by_username && searchMode) {
 				tweetData = getTweeter().getUserTimeline(tweetParam, maxId);
 				addDataToAdapter();
 			} else if (activityMode == Constants.MODE_HOMETIMELINE) {
@@ -373,6 +405,9 @@ public class TweetsTimelineActivity extends BaseActivity
     	searchSinceId = String.valueOf(searchData.getSearchData().getSinceId() + 1);
 	}
 	
+
+	
+
 	private class LoadTweetsTask extends AsyncTask<String, Void, Void> {
 
 		@Override
@@ -423,36 +458,7 @@ public class TweetsTimelineActivity extends BaseActivity
 
 	}
 	
-	/*	
-	private void alertDialogChooseSearchMode() {
 
-		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		alert.setTitle("Choose search mode:");
-		
-		alert.setSingleChoiceItems(items, itemId,	new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int item) {
-						UserHomeTimelineActivity.this.itemId = item;
-					}
-				});
-		
-		alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
-			public void onClick(DialogInterface dialog, int id) {
-				mode = (String) items[itemId];
-			}
-		});
-
-		alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.cancel();
-			}
-		});
-
-		AlertDialog ad = alert.create();
-		ad.show();
-
-	}
-*/
 
 }

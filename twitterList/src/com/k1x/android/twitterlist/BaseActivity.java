@@ -5,7 +5,6 @@ import java.io.IOException;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,6 +27,8 @@ import android.widget.Toast;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuInflater;
 import com.k1x.android.twitterlist.constants.Constants;
 import com.k1x.android.twitterlist.entities.SlideMenuItem;
 import com.k1x.android.twitterlist.entities.UserInfo;
@@ -41,7 +42,7 @@ import com.k1x.android.twitterlist.twitter.TwitterError;
 import com.k1x.android.twitterlist.twitterutil.TweeterAPI;
 import com.slidingmenu.lib.SlidingMenu;
 
-public abstract class BaseActivity extends Activity {
+public abstract class BaseActivity extends SherlockActivity {
 
 
 	public static final String TAG = "My Twitter";   
@@ -209,7 +210,6 @@ public abstract class BaseActivity extends Activity {
 
 	private void showProfileDialog() {
 		AlertDialog.Builder alert = new AlertDialog.Builder(BaseActivity.this);
-		alert.setTitle("Choose:");
 		alert.setItems(new String[] {
 						getResources().getString(
 								R.string.view_profile),
@@ -229,7 +229,7 @@ public abstract class BaseActivity extends Activity {
 				});
 
 
-		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
@@ -387,7 +387,8 @@ public abstract class BaseActivity extends Activity {
         	Log.e(TAG,"onTwitterError called for TwitterDialog", new Exception(e));
         	}
 
-        public void onError(final DialogError e) { 
+        public void onError(final DialogError e) {
+        	e.printStackTrace();
 			runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
@@ -442,7 +443,9 @@ public abstract class BaseActivity extends Activity {
 	public boolean isSupportsSDK() {
 		return supportsSDK;
 	}
-
 	
+	public MenuInflater gerSupportMenuInflater() {
+		return getSupportMenuInflater();
+	}
 
 }
